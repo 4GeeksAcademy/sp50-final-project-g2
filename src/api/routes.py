@@ -45,8 +45,29 @@ def signup():
 def login():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
+    is_influencer =  request.json.get("is_influencer", None)
     user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password)).scalar()
     if not user:
         return jsonify({"message": "Bad email or password"}), 401
-    access_token = create_access_token(identity=[email, True])
+    access_token = create_access_token(identity=[email, "is influencer", is_influencer ])
     return jsonify(access_token=access_token)
+
+@api.route('/profile', methods=['GET', 'POST', 'PUT'])
+@jwt_required()
+def profile():
+    # Access the identity of the current user with get_jwt_identity
+    if request.method == "GET":
+        current_user = get_jwt_identity()
+        if not current_user:
+            return jsonify({"message": "Access denied"}), 401
+        if current_user[2]: 
+            response_body = {}
+            response_body["message"] = "Perfil del usuario"
+            response_body["results"] = current_user
+            return response_body, 200
+        else:
+            response_body = {}
+            response_body["message"] = "Perfil del Empresario"
+            response_body["results"] = current_user
+            return response_body, 200
+
