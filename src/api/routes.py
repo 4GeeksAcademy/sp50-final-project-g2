@@ -52,7 +52,7 @@ def login():
     access_token = create_access_token(identity=[email, "is influencer", is_influencer ])
     return jsonify(access_token=access_token)
 
-@api.route('/profile', methods=['GET', 'POST', 'PUT'])
+@api.route('/profile/influencer', methods=['GET', 'POST', 'PUT'])
 @jwt_required()
 def profile():
     # Access the identity of the current user with get_jwt_identity
@@ -60,14 +60,100 @@ def profile():
         current_user = get_jwt_identity()
         if not current_user:
             return jsonify({"message": "Access denied"}), 401
-        if current_user[2]: 
+        if current_user[1]: 
             response_body = {}
             response_body["message"] = "Perfil del usuario"
             response_body["results"] = current_user
             return response_body, 200
-        else:
-            response_body = {}
-            response_body["message"] = "Perfil del Empresario"
-            response_body["results"] = current_user
-            return response_body, 200
+            
+    if request.method == 'PUT':
+        current_user = get_jwt_identity()
+        response_body = {}
+        results = {}
+        data = request.json
+        users_influencers = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == current_user)).scalar()
+        if not users_influencers:
+            return jsonify({"message:" "Usuario no encontrado"}), 404
+        
+        users_influencers.first_name = data.get('first_name')
+        users_influencers.last_name = data.get('last_name')
+        users_influencers.date_birth = data.get('date_birth')
+        users_influencers.gender = data.get('gender') 
+        users_influencers.telephone = data.get('telephone')
+        users_influencers.country = data.get('country')
+        users_influencers.zip_code = data.get('zip_code')
+        users_influencers.profile_img = data.get('profile_img')
+        users_influencers.headline = data.get('headline')
+        users_influencers.description = data.get('description')
+        users_influencers.social_networks = data.get('social_networks')
+      
+        db.session.commit()
+        results['User: '] = users_influencers.serialize()
+        response_body['Message: '] = 'El usuario ha sido modificado'
+        response_body['Resultado: '] = results
+        return response_body, 200
 
+    if request.method == "POST":
+        response_body = {}
+        data = request.json
+        new_influencer = UsersInfluencers(first_name = data.get('first_name'),
+                                      last_name = data.get('last_name'),
+                                      date_birth = data.get('date_birth'),
+                                      gender = data.get('gender'),
+                                      telephone = data.get('telephone'),
+                                      country = data.get('country'),
+                                      zip_code = data.get('zip_code'),
+                                      profile_img = data.get('profile_img'),
+                                      headline = data.get('headline'),
+                                      description = data.get('description'),
+                                      social_networks = data.get('social_networks'),
+                                      )
+        db.session.add(new_influencer)
+        db.session.commit()
+        response_body['Nuevo Influencer: '] = new_influencer.serialize()
+        return response_body,200       
+    
+@api.route('/profile/company', methods=['GET', 'POST', 'PUT'])
+@jwt_required()
+def company_profile():
+    if request.method == "GET":
+        current_user = get_jwt_identity()
+        if not current_user:
+            return jsonify({"message": "Access denied"}), 401
+        if current_user: 
+                response_body = {}
+                response_body["message"] = "Perfil del usuario (Empresa)"
+                response_body["results"] = current_user
+                return response_body, 200
+    
+    if request.method == "PUT":
+        current_user = get_jwt_identity()
+        response_body = {}
+        results = {}
+        data = request.json
+        users_company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == current_user)).scalar()
+        if not users_company:
+            return jsonify({"message:" "Empresa no encontrada"}), 404
+        
+        users_company.name = data.get('name')
+        users_company.cif = data.get('cif')
+        users_company.country = data.get('country')
+        users_company.zip_code = data.get('zip_code') 
+        users_company.telephone = data.get('telephone')
+        users_company.telephone = data.get('headline')
+        users_company.description = data.get('description')
+        users_company.industry = data.get('industry')
+        users_company.profile_img = data.get('profile_img')
+        users_company.website = data.get('website')
+        users_company.id_user = data.get('id_user')
+        
+      
+        db.session.commit()
+        results['User: '] = users_company.serialize()
+        response_body['Message: '] = 'Los datos de la empresa han sido modificados'
+        response_body['Resultado: '] = results
+        return response_body, 200
+
+    
+        
+        
