@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 from flask_cors import CORS
-from api.models import db, Users, UsersCompany, UsersInfluencers
+from api.models import db, Users, UsersCompany, UsersInfluencers, Offers
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -53,7 +53,7 @@ def login():
     access_token = create_access_token(identity=[user.serialize()])
     return jsonify(access_token=access_token)
 
-@api.route('/private', methods=['GET', 'PUT'])
+@api.route('/private', methods=['GET', 'PUT', 'DELETE'])
 @jwt_required()
 def private():
     if request.method == "GET":
@@ -62,7 +62,7 @@ def private():
             return jsonify({"message": "Access denied"}), 401
         if current_user[0]['is_influencer'] == True: 
             response_body = {}
-            response_body["message"] = "Perfil del usuario"
+            response_body["message"] = "Perfil del influencer"
             response_body["results"] = current_user
             return response_body, 200
         if current_user[0]['is_influencer'] == False:
@@ -84,9 +84,30 @@ def private():
         response_body['message'] = 'Usuario modificado'
         response_body['results'] = results
         return response_body, 200
+    if request.method == "DELETE":
+        current_user = get_jwt_identity()
+        response_body = {}
+        user = db.session.execute(db.select(Users).where(Users.id == current_user[0]["id"])).scalar()
+        if not user:
+            response_body['message'] = 'Usuario inexistente'
+            return response_body, 400
+        if current_user[0]['is_influencer'] == True:
+            user_profile = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == current_user[0]["id"])).scalar()
+            db.session.delete(user)
+            db.session.delete(user_profile)
+            db.session.commit()
+            response_body['message'] = 'Usuario eliminado'
+            return response_body, 200
+        if current_user[0]['is_influencer'] == False:
+            user_profile = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == current_user[0]["id"])).scalar()
+            db.session.delete(user)
+            db.session.delete(user_profile)
+            db.session.commit()
+            response_body['message'] = 'Usuario eliminado'
+            return response_body, 200
 
 
-@api.route('/profile', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@api.route('/profile', methods=['GET', 'POST', 'PUT'])
 @jwt_required()
 def profile():
     if request.method == "GET":
@@ -96,7 +117,7 @@ def profile():
             return jsonify({"message": "Bad email or password"}), 401
         if current_user[0]['is_influencer'] == True: 
             user = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == current_user[0]["id"])).scalar()
-            response_body["message"] = "Perfil del usuario"
+            response_body["message"] = "Perfil del influencer"
             if not user:
                 response_body["results"] = user
                 return response_body, 200
@@ -153,4 +174,59 @@ def profile():
             response_body['user'] = user.serialize()
             return response_body, 200
     if request.method == "PUT":
-        pass
+        current_user = get_jwt_identity()
+        response_body = {}
+        if not current_user:
+            return jsonify({"message": "Bad email or password"}), 401
+        if current_user[0]['is_influencer'] == True: 
+            data = request.json
+            users_influencers = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == current_user[0]["id"])).scalar()
+            if not users_influencers:
+                return jsonify({"message:" "Usuario no encontrado"}), 404
+            users_influencers.first_name = data.get('first_name')
+            users_influencers.last_name = data.get('last_name')
+            ## users_influencers.date_birth = data.get('date_birth')
+            users_influencers.gender = data.get('gender') 
+            users_influencers.telephone = data.get('telephone')
+            users_influencers.country = data.get('country')
+            users_influencers.zip_code = data.get('zip_code')
+            users_influencers.profile_img = data.get('profile_img')
+            users_influencers.headline = data.get('headline')
+            users_influencers.description = data.get('description')
+            users_influencers.social_networks = data.get('social_networks')
+            db.session.commit()
+            response_body['user'] = users_influencers.serialize()
+            response_body['message'] = 'El usuario ha sido modificado'
+            return response_body, 200
+        if current_user[0]['is_influencer'] == False:
+            data = request.json
+            users_company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == current_user[0]["id"])).scalar()
+            if not users_company:
+                return jsonify({"message:" "Empresa no encontrada"}), 404
+            users_company.name = data.get('name')
+            users_company.country = data.get('country')
+            users_company.zip_code = data.get('zip_code') 
+            users_company.telephone = data.get('telephone')
+            users_company.headline = data.get('headline')
+            users_company.description = data.get('description')
+            users_company.industry = data.get('industry')
+            users_company.profile_img = data.get('profile_img')
+            users_company.website = data.get('website')
+            db.session.commit()
+            response_body['user'] = users_company.serialize()
+            response_body['message'] = 'Los datos de la empresa han sido modificados'
+            return response_body, 200
+
+
+@api.route('/offers', methods=['GET'])
+def offers():
+    response_body = {}
+    results = {}
+    offers = db.session.execute(db.select(Offers)).scalars()
+    list_offers = []
+    for row in offers:
+        list_offers.append(row.serialize())
+    results['offers'] = list_offers
+    response_body['message'] = 'Listado de ofertas'
+    response_body['results'] = results
+    return response_body, 200
