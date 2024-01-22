@@ -44,14 +44,24 @@ def signup():
 
 @api.route('/login', methods=["POST"])
 def login():
+    response_body = {}
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     is_influencer =  request.json.get("is_influencer", None)
-    user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password)).scalar()
+    user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password, Users.is_active == True)).scalar()
     if not user:
         return jsonify({"message": "Bad email or password"}), 401
-    access_token = create_access_token(identity=[user.serialize()])
-    return jsonify(access_token=access_token)
+    if user.is_influencer:
+        user_influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == user.serialize()["id"])).scalar()
+        data_serialize = user_influencer.serialize()
+    else:
+        user_company = db.session.execute(db.select(UsersCompany).where(UsersInfluencers.id_user == user.serialize()["id"])).scalar()
+        data_serialize = user_company.serialize()
+    access_token = create_access_token(identity=[user.serialize(), data_serialize])
+    response_body["message"] = "Login"
+    response_body["results"] = {"user": user.serialize(), "profile": data_serialize}
+    response_body["access_token"] = access_token
+    return response_body, 200
 
 @api.route('/private', methods=['GET', 'PUT', 'DELETE'])
 @jwt_required()
