@@ -204,17 +204,17 @@ def profile():
             response_body['user'] = user.serialize()
             return response_body, 200       
     
-@api.route('/offers/private', methods=['GET', 'POST',])  # SOLO PARA USERS_COMPANY
+@api.route('/offers/private/', methods=['GET', 'POST',])  # SOLO PARA USERS_COMPANY QUE LAS EMPRESAS VEAN LAS OFERTAS. PODEMOS VERLAS Y CREARLAS.
 @jwt_required()
 def private_offers():
     if request.method == 'GET':
-        current_user = jwt_required()
+        current_user = get_jwt_identity()
         response_body = {}
         results = {}
         if not current_user:
             return jsonify({"message": "Access denied"}), 401
-        if current_user[0]['is_influencer'] == False:
-            offers = db.session.execute(db.select(Offers)).where(Offers.id_company == current_user).scalars()  #ENTIENDO QUE ES LA LISTA OFERTAS DE X EMPRESA
+        if current_user[0]['is_influencer'] == False:  # SI SOY UNA EMPRESA:
+            offers = db.session.execute(db.select(Offers)).where(Offers.id_company == current_user[0][id_user]).scalars()  #ENTIENDO QUE ES LA LISTA OFERTAS DE X EMPRESA
             offers_list = []
             for row in offers:
                 offers_list.append(row.serialize())
@@ -250,9 +250,9 @@ def private_offers():
             return response_body,200
 
     
-@api.route('/offers/private/<int:offer_id', methods=['PUT', 'DELETE'])  # SOLO PARA USERS_COMPANY
+@api.route('/offers/<int:id_user_company>/<int:offers_id>', methods=['PUT', 'DELETE'])  # SOLO PARA USERS/COMPANY
 @jwt_required()
-def private_offer_singular():
+def private_offer_singular(offers_id):
     if request.method == 'DELETE':
         current_user = jwt_required
         response_body = {}
