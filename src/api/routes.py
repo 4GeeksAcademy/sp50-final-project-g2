@@ -49,7 +49,7 @@ def login():
     user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password)).scalar()
     if not user:
         return jsonify({"message": "Bad email or password"}), 401
-    access_token = create_access_token(identity=[email, "is influencer", is_influencer ])
+    access_token = create_access_token(identity=[user.serialize()])
     return jsonify(access_token=access_token)
 
 
@@ -104,7 +104,7 @@ def profile():
             return response_body,200
         if current_user[0]['is influencer'] == False:
             user = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == current_user[0]["id"])).scalar()
-            response_body["Mensaje: "] = "PErfil del Empresario"
+            response_body["Mensaje: "] = "Perfil del Empresario"
             if not user:
                 response_body["Results: "] = user
                 return response_body, 200
@@ -117,27 +117,50 @@ def profile():
         response_body = {}
         results = {}
         data = request.json
-        users_influencers = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == current_user)).scalar()
-        if not users_influencers:
-            return jsonify({"message:" "Usuario no encontrado"}), 404
+        if current_user[0]['is influencer'] == True:
+            user = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == current_user)).scalar()
+        if not user:
+            return jsonify({"message:": "Usuario no encontrado"}), 404
         
-        users_influencers.first_name = data.get('first_name')
-        users_influencers.last_name = data.get('last_name')
-        users_influencers.date_birth = data.get('date_birth')
-        users_influencers.gender = data.get('gender') 
-        users_influencers.telephone = data.get('telephone')
-        users_influencers.country = data.get('country')
-        users_influencers.zip_code = data.get('zip_code')
-        users_influencers.profile_img = data.get('profile_img')
-        users_influencers.headline = data.get('headline')
-        users_influencers.description = data.get('description')
-        users_influencers.social_networks = data.get('social_networks')
+        user.first_name = data.get('first_name')
+        user.last_name = data.get('last_name')
+        user.date_birth = data.get('date_birth')
+        user.gender = data.get('gender') 
+        user.telephone = data.get('telephone')
+        user.country = data.get('country')
+        user.zip_code = data.get('zip_code')
+        user.profile_img = data.get('profile_img')
+        user.headline = data.get('headline')
+        user.description = data.get('description')
+        user.social_networks = data.get('social_networks')
       
         db.session.commit()
-        results['User: '] = users_influencers.serialize()
+        results['User: '] = user.serialize()
         response_body['Message: '] = 'El usuario ha sido modificado'
         response_body['Resultado: '] = results
         return response_body, 200
+
+        if current_user[0]['is_influencer'] == False:  #Si es falso, es por lo tanto una empresa
+            user = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == current_user)).scalar()
+        if not user:
+            return jsonify({"message:": "Usuario no encontrado"})
+        user.name = data.get('name')
+        user.cif = data.get('cif')
+        user.country = data.get('country')
+        user.zip_code = data.get('zip_code')
+        user.telephone = data.get('telephone')
+        user.headline = data.get('headline')
+        user.description = data.get('description')
+        user.industry = data.get('industry')
+        user.profile_img = data.get('profile_img')
+        user.website = data.get('website')
+        user.id_user = data.get('id_user')
+
+        db.session.commit()
+        results['User: '] = user.serialize()
+        response_body['Resultado: '] = results
+        return response_body,200        
+
     # MÉTODO POST
     if request.method == "POST":
         current_user = get_jwt_identity()
@@ -146,7 +169,7 @@ def profile():
         response_body = {}
         if current_user[0]['is_influencer'] == True:
             data = request.json
-            new_influencer = UsersInfluencers(first_name = data.get('first_name'),
+            user = UsersInfluencers(first_name = data.get('first_name'),
                                         last_name = data.get('last_name'),
                                         date_birth = data.get('date_birth'),
                                         gender = data.get('gender'),
@@ -158,13 +181,13 @@ def profile():
                                         description = data.get('description'),
                                         social_networks = data.get('social_networks'),
                                         )
-            db.session.add(new_influencer)
+            db.session.add(user)
             db.session.commit()
-            response_body['Nuevo Influencer: '] = new_influencer.serialize()
+            response_body['Nuevo Influencer: '] = user.serialize()
             return response_body,200
         if current_user[0]['is_influencer'] == False:
             data = request.json
-            new_company = UsersCompany(name = data.get('name'),
+            user = UsersCompany(name = data.get('name'),
                                 cif = data.get('cif'),
                                 country = data.get('country'),
                                 zip_code = data.get('zip_code'),
@@ -181,47 +204,96 @@ def profile():
             response_body['user'] = user.serialize()
             return response_body, 200       
     
-@api.route('/profile/company', methods=['GET', 'POST', 'PUT'])
+@api.route('/offers/private', methods=['GET', 'POST',])  # SOLO PARA USERS_COMPANY
 @jwt_required()
-def company_profile():
-    if request.method == "GET":
-        current_user = get_jwt_identity()
-        if not current_user:
-            return jsonify({"message": "Access denied"}), 401
-        if current_user: 
-                response_body = {}
-                response_body["message"] = "Perfil del usuario (Empresa)"
-                response_body["results"] = current_user
-                return response_body, 200
-    
-    if request.method == "PUT":
-        current_user = get_jwt_identity()
+def private_offers():
+    if request.method == 'GET':
+        current_user = jwt_required()
         response_body = {}
         results = {}
-        data = request.json
-        users_company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == current_user)).scalar()
-        if not users_company:
-            return jsonify({"message:" "Empresa no encontrada"}), 404
-        
-        users_company.name = data.get('name')
-        users_company.cif = data.get('cif')
-        users_company.country = data.get('country')
-        users_company.zip_code = data.get('zip_code') 
-        users_company.telephone = data.get('telephone')
-        users_company.telephone = data.get('headline')
-        users_company.description = data.get('description')
-        users_company.industry = data.get('industry')
-        users_company.profile_img = data.get('profile_img')
-        users_company.website = data.get('website')
-        users_company.id_user = data.get('id_user')
-        
-      
-        db.session.commit()
-        results['User: '] = users_company.serialize()
-        response_body['Message: '] = 'Los datos de la empresa han sido modificados'
-        response_body['Resultado: '] = results
-        return response_body, 200
+        if not current_user:
+            return jsonify({"message": "Access denied"}), 401
+        if current_user[0]['is_influencer'] == False:
+            offers = db.session.execute(db.select(Offers)).where(Offers.id_company == current_user).scalars()  #ENTIENDO QUE ES LA LISTA OFERTAS DE X EMPRESA
+            offers_list = []
+            for row in offers:
+                offers_list.append(row.serialize())
+            
+            results['Offers: '] = offers_list
+            response_body['Message: '] = "Ofertas"            
+            response_body['Resultados: '] = results
+            return response_body,200
+    
+    if request.method == 'POST':
+        current_user = jwt_required()
+        if not current_user:
+            return jsonify({"message": "Access denied"}), 401
+        if current_user[0]['is_influencer'] == False:
+            response_body= {}
+            data = request.json
+            offer = Offers(id = data.get('id'),
+                            title = data.get('title'),
+                            post = data.get('post'),
+                            date_post = data.get('date_post'),
+                            status = data.get('status'),
+                            salary_range = data.get('salary_range'),
+                            min_followers = data.get('min_followers'),
+                            duration = data.get('duration_in_weeks'),
+                            location = data.get('location'),
+                            industry = data.get('industry'),
+                            id_company = data.get('id_company'),
+                            )
+                            
+            db.session.add(offer)
+            db.session.commit()
+            response_body['Nueva Oferta: '] = offer.serialize()
+            return response_body,200
 
     
-        
-        
+@api.route('/offers/private/<int:offer_id', methods=['PUT', 'DELETE'])  # SOLO PARA USERS_COMPANY
+@jwt_required()
+def private_offer_singular():
+    if request.method == 'DELETE':
+        current_user = jwt_required
+        response_body = {}
+        if current_user[0]['is_influencer'] == False:
+            user_offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]["id"])).scalar()
+            db.session.delete(user_offer)
+            db.session.commit()
+            response_body['message'] = 'Oferta eliminada'
+            return response_body, 200
+
+    if request.method == 'PUT':
+        current_user = jwt_required()
+        if not current_user:
+            return jsonify({"message": "Access denied"}), 401
+        if current_user[0]['is_influencer'] == False:
+             data = request.json
+        user_offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]["id"])).scalar()
+        if not user_offers:
+                return jsonify({"message:" "No se han encontrado ofertas"}), 404
+
+        user_offer.title = data.get('title') 
+        user_offer.post = data.get('post')
+        user_offer.date_publish = data.get('date_publish')
+        user_offer.status = data.get('status')
+        user_offer.salary_range = data.get('salary_range')
+        user_offer.min_followers = data.get('min_followers')
+        user_offer.duration_in_weeks = data.get('duration_in_weeks')
+        user_offer.location = data.get('location') 
+        user_offer.industry = data.get('industry')
+
+        db.session.commit()
+        response_body['offer: '] = user_offer.serialize()
+        response_body['message'] = 'Los datos de la oferta han sido modificados'
+        return response_body, 200  
+         
+
+           
+
+
+
+
+             
+
+    
