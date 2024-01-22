@@ -50,7 +50,7 @@ def login():
     is_influencer =  request.json.get("is_influencer", None)
     user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password, Users.is_active == True)).scalar()
     if not user:
-        return jsonify({"message": "Bad email or password"}), 401
+        return jsonify({"message": "Bad email or password"})
     if user.is_influencer:
         user_influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == user.serialize()["id"])).scalar()
         data_serialize = user_influencer.serialize()
@@ -62,6 +62,7 @@ def login():
     response_body["results"] = {"user": user.serialize(), "profile": data_serialize}
     response_body["access_token"] = access_token
     return response_body, 200
+  
 
 @api.route('/private', methods=['GET', 'PUT', 'DELETE'])
 @jwt_required()
@@ -240,3 +241,49 @@ def offers():
     response_body['message'] = 'Listado de ofertas'
     response_body['results'] = results
     return response_body, 200
+
+    
+@api.route('/offers/<int:id_user_company>/<int:offers_id>', methods=['PUT', 'DELETE'])  # SOLO PARA USERS/COMPANY
+@jwt_required()
+def private_offer_singular(offers_id):
+    if request.method == 'DELETE':
+        current_user = jwt_required
+        response_body = {}
+        if current_user[0]['is_influencer'] == False:
+            user_offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]["id"])).scalar()
+            db.session.delete(user_offer)
+            db.session.commit()
+            response_body['message'] = 'Oferta eliminada'
+            return response_body, 200
+    if request.method == 'PUT':
+        current_user = jwt_required()
+        if not current_user:
+            return jsonify({"message": "Access denied"}), 401
+        if current_user[0]['is_influencer'] == False:
+             data = request.json
+        user_offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]["id"])).scalar()
+        if not user_offers:
+                return jsonify({"message:" "No se han encontrado ofertas"}), 404
+        user_offer.title = data.get('title') 
+        user_offer.post = data.get('post')
+        user_offer.date_publish = data.get('date_publish')
+        user_offer.status = data.get('status')
+        user_offer.salary_range = data.get('salary_range')
+        user_offer.min_followers = data.get('min_followers')
+        user_offer.duration_in_weeks = data.get('duration_in_weeks')
+        user_offer.location = data.get('location') 
+        user_offer.industry = data.get('industry')
+        db.session.commit()
+        response_body['offer: '] = user_offer.serialize()
+        response_body['message'] = 'Los datos de la oferta han sido modificados'
+        return response_body, 200  
+         
+
+           
+
+
+
+
+             
+
+    
