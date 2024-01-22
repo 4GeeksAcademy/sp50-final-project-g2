@@ -99,7 +99,7 @@ class Offers(db.Model):
     title = db.Column(db.String(200), unique=False, nullable=False)
     post = db.Column(db.String(2000), unique=False, nullable=False)
     date_post = db.Column(db.Date, nullable=False)
-    status = db.Column(db.String(), nullable=False)
+    status = db.Column(db.Enum('opened', 'cancelled', 'closed', name='status'), nullable=False)
     salary_range = db.Column(db.String())
     min_followers = db.Column(db.Integer())
     duration_in_weeks = db.Column(db.Integer)
@@ -127,8 +127,8 @@ class Offers(db.Model):
 class OffersCandidates(db.Model):
     __tablename__ = 'offers_candidates'
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.String(), nullable=False)
-    status_influencer = db.Column(db.String(), nullable=False)
+    status = db.Column(db.Enum('pending', 'accepted', 'refused', name='status'), nullable=False)
+    status_influencer = db.Column(db.Enum('active', 'inactive', name='status_influencer'), nullable=False)
     cover_letter = db.Column(db.String(500), nullable=False)
     social_network_url = db.Column(db.String(), nullable=False)
     followers = db.Column(db.Integer(), nullable=False)
