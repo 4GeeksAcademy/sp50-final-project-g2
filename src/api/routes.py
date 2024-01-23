@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 from flask_cors import CORS
-from api.models import db, Users, UsersCompany, UsersInfluencers, Offers
+from api.models import db, Users, UsersCompany, UsersInfluencers, Offers, OffersCandidates, SocialNetworks
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -307,7 +307,7 @@ def offer_candidates():
 
 
 @api.route('/offer-candidates/<int:id>', methods=['GET', 'DELETE'])
-@jwt_required
+@jwt_required()
 def offer_candidates_id(id):
     response_body = results = {}
     response_body["results"] = results
@@ -341,7 +341,7 @@ def offer_candidates_id(id):
 
 
 @api.route('/influencers/<int:id>/offer-candidates', methods=['GET'])
-@jwt_required
+@jwt_required()
 def offer_candidates_by_influencer(id):
     response_body = results = {}
     response_body["results"] = results
