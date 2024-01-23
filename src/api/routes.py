@@ -285,26 +285,20 @@ def offer_candidates():
     response_body = results = {}
     if request.method == 'POST':
         current_user = get_jwt_identity()
-        if not current_user:
-            response_body['message'] = 'Access denied'
-            return response_body, 401
         if current_user[0]['is_influencer'] == False: 
             response_body["message"] = "Acceso denegado, no tiene perfil de influencer"
             response_body["results"] = current_user
             return response_body, 401
         # Aqui debo hacer la logica para que un influencer aplique a una oferta.
         if current_user[0]['is_influencer'] == True:
-            response_body = {}
             data = request.json
-            offer_register = OffersCandidates(status = data.get('status'),
-                                            status_influencer = data.get('status_influencer'),
-                                            cover_letter = data.get('cover_letter'),
-                                            social_network_url = data.get('social_network_url'),
-                                            followers = data.get('followers'),
-                                            id_offer = data.get('id_offer'),
-                                            offer = data.get('offer'),
-                                            id_influencer = data.get('id_influencer'),
-                                            influencer = data.get('influencer'))
+            offer_register = OffersCandidates(status = "pending", 
+                                              status_influencer = "active",
+                                              cover_letter = data.get('cover_letter'),
+                                              social_network_url = data.get('social_network_url'),
+                                              followers = data.get('followers'),
+                                              id_offer = data.get('id_offer'),
+                                              id_influencer = current_user[1]['id'])
         db.session.add(offer_register)
         db.session.commit()
         response_body['Registrado: '] = offer_register.serialize()                 
@@ -313,32 +307,60 @@ def offer_candidates():
 
 
 @api.route('/offer-candidates/<int:id>', methods=['GET', 'DELETE'])
+@jwt_required
 def offer_candidates_id(id):
     response_body = results = {}
+    response_body["results"] = results
     # Buscamos en la base si esa oferta existe
+    offer_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id == id)).scalar()
     # Si no existe, hacemos un return devolviendo el error al front
+    if not offer_candidates:
+        response_body["message"] = "No existe la oferta solicitada"
+        return response_body, 404
+    current_user = get_jwt_identity()
+    if current_user[0]['is_influencer'] == False:
+        response_body["message"] = "Acceso denegado, no tiene perfil de influencer" 
+        return response_body, 403
+    if current_user[1]['id'] != offer_candidates.serialize()['id_influencer']:
+        response_body["message"] = "Esta publicacion no corresponde al perfil"
+        return response_body, 404
     if request.method == 'GET':
-        current_user = get_jwt_identity()
-        # Ver las ofertas ID de ese candidato
-        response_body = results = {}
-        if current_user[0]['is_influencer'] == True:
-            offers = db.session.execute(db.select(OfferCandidates)).scalars
-            offers_list = []
-            for row in offers:
-                offers_list.append(row.serialize())
-        results['Offers: '] = offers_list
-        response_body['Message: '] = "Ofertas"            
-        response_body['Resultados: '] = results
+        # TODO: una compañia podra ver este endpoint?
+        response_body['message: '] = "Datos de la postulacion"  
+        results = offer_candidates.serialize()         
+        response_body['results'] = results
         return response_body, 200
     if request.method == 'DELETE':
         # Eliminar la oferta de ese ID
+        offer_candidates["status_influencer"] = 'inactive'
+        db.session.commit()
+        response_body['message: '] = "Oferta anulada"  
+        results = offer_candidates.serialize()          
+        response_body['results'] = results
         return response_body, 200
 
 
 @api.route('/influencers/<int:id>/offer-candidates', methods=['GET'])
+@jwt_required
 def offer_candidates_by_influencer(id):
     response_body = results = {}
+    response_body["results"] = results
     if request.method == 'GET':
         # Muestro todas las ofertas que se postulo el influencer.
+        current_user = get_jwt_identity()
+        # Ver las ofertas ID de ese candidato  
+        if current_user[0]['is_influencer'] == False:
+            response_body["message"] = "Acceso denegado, no tiene perfil de influencer" 
+            return response_body, 403
+        if current_user[1]['id'] != id:
+            response_body["message"] = "Acceso denegado, no tiene perfil de influencer" 
+            return response_body, 403
+        offers = db.session.execute(db.select(OfferCandidates).where(OffersCandidates.id_influencer == id)).scalars()
+        offers_list = []
+        for row in offers:
+            offers_list.append(row.serialize())
+        results['offers'] = offers_list
+        response_body['message'] = "Ofertas"            
+        response_body['results'] = results
         return response_body, 200
 
