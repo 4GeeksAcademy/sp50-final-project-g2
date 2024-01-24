@@ -24,7 +24,7 @@ class Users(db.Model):
 
 
 class UsersInfluencers(db.Model):
-    __tablename__ = 'users_influencers'
+    __tablename__ = 'usersinfluencers'
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(20), unique=False, nullable=False)
     last_name = db.Column(db.String(20), unique=False, nullable=False)
@@ -60,7 +60,7 @@ class UsersInfluencers(db.Model):
 
 
 class UsersCompany(db.Model):
-    __tablename__ = 'users_company'
+    __tablename__ = 'userscompany'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=False, nullable=False)
     cif = db.Column(db.String(20), unique=True, nullable=False)
@@ -105,7 +105,7 @@ class Offers(db.Model):
     duration_in_weeks = db.Column(db.Integer)
     location = db.Column(db.String())
     industry = db.Column(db.String(20))
-    id_company = db.Column(db.Integer, db.ForeignKey('users_company.id'))
+    id_company = db.Column(db.Integer, db.ForeignKey('userscompany.id'))
     user = db.relationship(UsersCompany)
 
     def __repr__(self):
@@ -125,7 +125,7 @@ class Offers(db.Model):
                 'id_company': self.id_company}
 
 class OffersCandidates(db.Model):
-    __tablename__ = 'offers_candidates'
+    __tablename__ = 'offerscandidates'
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Enum('pending', 'accepted', 'refused', name='status'), nullable=False)
     status_influencer = db.Column(db.Enum('active', 'inactive', name='status_influencer'), nullable=False)
@@ -134,7 +134,7 @@ class OffersCandidates(db.Model):
     followers = db.Column(db.Integer(), nullable=False)
     id_offer = db.Column(db.Integer, db.ForeignKey('offers.id'))
     offer = db.relationship(Offers)
-    id_influencer = db.Column(db.Integer, db.ForeignKey('users_influencers.id'))
+    id_influencer = db.Column(db.Integer, db.ForeignKey('usersinfluencers.id'))
     influencer = db.relationship(UsersInfluencers)
 
     def __repr__(self):
@@ -152,12 +152,12 @@ class OffersCandidates(db.Model):
 
 
 class SocialNetworks(db.Model):
-    __tablename__ = 'social_networks'
+    __tablename__ = 'socialnetworks'
     id = db.Column(db.Integer, primary_key=True)
     social_network = db.Column(db.String(), nullable=False)
     social_network_url = db.Column(db.String(), nullable=False)
     followers = db.Column(db.Integer(), nullable=False)
-    id_influencer = db.Column(db.Integer, db.ForeignKey('users_influencers.id'))
+    id_influencer = db.Column(db.Integer, db.ForeignKey('usersinfluencers.id'))
     influencer = db.relationship(UsersInfluencers)
 
     def __repr__(self):
