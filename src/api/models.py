@@ -26,17 +26,17 @@ class Users(db.Model):
 class UsersInfluencers(db.Model):
     __tablename__ = 'usersinfluencers'
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(20), unique=False, nullable=False)
-    last_name = db.Column(db.String(20), unique=False, nullable=False)
-    date_birth = db.Column(db.Date(), nullable=False)
+    first_name = db.Column(db.String(20))
+    last_name = db.Column(db.String(20))
+    date_birth = db.Column(db.Date())
     gender = db.Column(db.String())
-    telephone = db.Column(db.Integer, nullable=False)
-    country = db.Column(db.String(20), nullable=False)
-    zip_code = db.Column(db.Integer, nullable=False)
-    profile_img = db.Column(db.String(), nullable=False)
-    headline = db.Column(db.String(100), nullable=False)
+    telephone = db.Column(db.Integer)
+    country = db.Column(db.String(20))
+    zip_code = db.Column(db.Integer)
+    profile_img = db.Column(db.String())
+    headline = db.Column(db.String(100))
     description = db.Column(db.String(1000))
-    social_networks = db.Column(db.String(), nullable=False)
+    social_networks = db.Column(db.String())
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship(Users)
 
@@ -62,16 +62,16 @@ class UsersInfluencers(db.Model):
 class UsersCompany(db.Model):
     __tablename__ = 'userscompany'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), unique=False, nullable=False)
-    cif = db.Column(db.String(20), unique=True, nullable=False)
-    country = db.Column(db.String(20), nullable=False)
-    zip_code = db.Column(db.Integer, nullable=False)
-    telephone = db.Column(db.Integer, nullable=False)
-    headline = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(20)),
+    cif = db.Column(db.String(20)),
+    country = db.Column(db.String(20)),
+    zip_code = db.Column(db.Integer),
+    telephone = db.Column(db.Integer),
+    headline = db.Column(db.String(100)),
     description = db.Column(db.String(1000))
-    industry =db.Column(db.String(), nullable=False)
-    profile_img = db.Column(db.String(), nullable=False)
-    website = db.Column(db.String(), nullable=False)
+    industry =db.Column(db.String())
+    profile_img = db.Column(db.String())
+    website = db.Column(db.String())
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship(Users)
 
