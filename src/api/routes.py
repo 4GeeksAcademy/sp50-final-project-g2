@@ -229,7 +229,7 @@ def offers():
 
 
     
-@api.route('/offers', methods=['GET','POST'])  # Quitar el GET
+@api.route('/offers', methods=['POST'])  # Quitar el GET
 @jwt_required()
 def company_offer():
     if request.method == 'POST':
@@ -257,7 +257,7 @@ def company_offer():
 @jwt_required()
 def private_offer_singular(offers_id):
     if request.method == 'DELETE':
-        current_user = jwt_required
+        current_user = jwt_required()
         response_body = {}
         if current_user[0]['is_influencer'] == False:
             user_offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]["id"])).scalar()
@@ -333,14 +333,14 @@ def offer_candidates_id(id):
         return response_body, 404
     if request.method == 'GET':
         # TODO: una compañia podra ver este endpoint?
-        response_body['message: '] = "Datos para postularse"  
+        response_body['message'] = "Datos para postularse"  
         results = offer_candidates.serialize()         
         response_body['results'] = results
         return response_body, 200
     if request.method == 'DELETE':
         offer_candidates["status_influencer"] = 'inactive'
         db.session.commit()
-        response_body['message: '] = "Oferta anulada"  
+        response_body['message'] = "Oferta anulada"  
         results = offer_candidates.serialize()          
         response_body['results'] = results
         return response_body, 200
