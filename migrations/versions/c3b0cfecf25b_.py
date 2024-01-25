@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 8637691c68d7
+Revision ID: c3b0cfecf25b
 Revises: 
-Create Date: 2024-01-24 20:08:55.565828
+Create Date: 2024-01-25 10:48:53.537941
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8637691c68d7'
+revision = 'c3b0cfecf25b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,34 +29,33 @@ def upgrade():
     )
     op.create_table('userscompany',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=20), nullable=False),
-    sa.Column('cif', sa.String(length=20), nullable=False),
-    sa.Column('country', sa.String(length=20), nullable=False),
-    sa.Column('zip_code', sa.Integer(), nullable=False),
-    sa.Column('telephone', sa.Integer(), nullable=False),
-    sa.Column('headline', sa.String(length=100), nullable=False),
+    sa.Column('name', sa.String(length=40), nullable=True),
+    sa.Column('cif', sa.String(length=20), nullable=True),
+    sa.Column('country', sa.String(length=20), nullable=True),
+    sa.Column('zip_code', sa.Integer(), nullable=True),
+    sa.Column('telephone', sa.Integer(), nullable=True),
+    sa.Column('headline', sa.String(length=100), nullable=True),
     sa.Column('description', sa.String(length=1000), nullable=True),
-    sa.Column('industry', sa.String(), nullable=False),
-    sa.Column('profile_img', sa.String(), nullable=False),
-    sa.Column('website', sa.String(), nullable=False),
+    sa.Column('industry', sa.String(), nullable=True),
+    sa.Column('profile_img', sa.String(), nullable=True),
+    sa.Column('website', sa.String(), nullable=True),
     sa.Column('id_user', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['id_user'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('cif')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('usersinfluencers',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('first_name', sa.String(length=20), nullable=False),
-    sa.Column('last_name', sa.String(length=20), nullable=False),
-    sa.Column('date_birth', sa.Date(), nullable=False),
+    sa.Column('first_name', sa.String(length=20), nullable=True),
+    sa.Column('last_name', sa.String(length=20), nullable=True),
+    sa.Column('date_birth', sa.Date(), nullable=True),
     sa.Column('gender', sa.String(), nullable=True),
-    sa.Column('telephone', sa.Integer(), nullable=False),
-    sa.Column('country', sa.String(length=20), nullable=False),
-    sa.Column('zip_code', sa.Integer(), nullable=False),
-    sa.Column('profile_img', sa.String(), nullable=False),
-    sa.Column('headline', sa.String(length=100), nullable=False),
+    sa.Column('telephone', sa.Integer(), nullable=True),
+    sa.Column('country', sa.String(length=20), nullable=True),
+    sa.Column('zip_code', sa.Integer(), nullable=True),
+    sa.Column('profile_img', sa.String(), nullable=True),
+    sa.Column('headline', sa.String(length=100), nullable=True),
     sa.Column('description', sa.String(length=1000), nullable=True),
-    sa.Column('social_networks', sa.String(), nullable=False),
+    sa.Column('social_networks', sa.String(), nullable=True),
     sa.Column('id_user', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['id_user'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -87,7 +86,7 @@ def upgrade():
     )
     op.create_table('offerscandidates',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('status', sa.Enum('pending', 'accepted', 'refused', name='status'), nullable=False),
+    sa.Column('status_candidate', sa.Enum('pending', 'accepted', 'refused', name='status_candidate'), nullable=False),
     sa.Column('status_influencer', sa.Enum('active', 'inactive', name='status_influencer'), nullable=False),
     sa.Column('cover_letter', sa.String(length=500), nullable=False),
     sa.Column('social_network_url', sa.String(), nullable=False),

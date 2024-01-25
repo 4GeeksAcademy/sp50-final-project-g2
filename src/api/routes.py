@@ -214,7 +214,7 @@ def profile():
             return response_body, 200
 
 
-@api.route('/offers-public', methods=['GET'])
+@api.route('/offers-public', methods=['GET']) # Cambiar el endpoint en offers
 def offers():
     response_body = {}
     results = {}
@@ -229,7 +229,7 @@ def offers():
 
 
     
-@api.route('/offers', methods=['GET','POST'])  
+@api.route('/offers', methods=['GET','POST'])  # Quitar el GET
 @jwt_required()
 def company_offer():
     if request.method == 'POST':
@@ -302,8 +302,8 @@ def offer_candidates():
             return response_body, 401
         if current_user[0]['is_influencer'] == True:
             data = request.json
-            offer_register = OffersCandidates(status = "pending", 
-                                              status_influencer = "active",
+            offer_register = OffersCandidates(status_candidate = data.get('status_candidate'), 
+                                              status_influencer = data.get('status_influencer'),
                                               cover_letter = data.get('cover_letter'),
                                               social_network_url = data.get('social_network_url'),
                                               followers = data.get('followers'),
@@ -320,7 +320,7 @@ def offer_candidates():
 def offer_candidates_id(id):
     response_body = results = {}
     response_body["results"] = results
-    offer_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == id)).scalar()
+    offer_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_offer == id)).scalar()
     if not offer_candidates:
         response_body["message"] = "No existe la oferta solicitada"
         return response_body, 404
@@ -333,7 +333,7 @@ def offer_candidates_id(id):
         return response_body, 404
     if request.method == 'GET':
         # TODO: una compañia podra ver este endpoint?
-        response_body['message: '] = "Datos de la postulacion"  
+        response_body['message: '] = "Datos para postularse"  
         results = offer_candidates.serialize()         
         response_body['results'] = results
         return response_body, 200
@@ -350,7 +350,6 @@ def offer_candidates_id(id):
 @jwt_required()
 def offer_candidates_by_influencer(id):
     response_body = results = {}
-    response_body["results"] = results
     if request.method == 'GET':
         current_user = get_jwt_identity()
         if current_user[0]['is_influencer'] == False:
@@ -359,30 +358,32 @@ def offer_candidates_by_influencer(id):
         if current_user[1]['id'] != id:
             response_body["message"] = "Acceso denegado, no tiene perfil de influencer" 
             return response_body, 403
-        offers = db.session.execute(db.select(OfferCandidates).where(OffersCandidates.id_influencer == id)).scalars()
+        offers = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == id)).scalars()
         offers_list = []
         for row in offers:
-            offers_list.append(row.serialize())
-        results['offers'] = offers_list
-        response_body['message'] = "Ofertas"            
-        response_body['results'] = results
+            offers_list.append(row.serialize())   
+        results['offers'] = offers_list 
+        response_body['message'] = "Ofertas" 
+        # response_body['results'] = results  # daba error circular
         return response_body, 200
 
 
-@api.route('/influencer/social_networks', methods =['GET', 'POST', 'PUT'])
+@api.route('/social-networks', methods =['GET', 'POST'])  
 @jwt_required()
 def social_networks():
     response_body = results = {}
+    if request.method == "GET":
+        response_body["message"] = "Visualizar todas las redes sociales de los influencer lo puede hacer solo un administrador."
+        return response_body, 403
     if request.method == "POST":
         current_user = get_jwt_identity
         data = request.json
         social_networks = SocialNetworks(social_network = data.get('social_network'),
                                          social_network_url = data.get('social_network_url'),
                                          followers = data.get('followers'),
-                                         id_influencer = current_user[1]['id'],
-                                         influencer = data.get('influencer'))
+                                         id_influencer = current_user[1]['id'])
         db.session.add(social_networks)
         db.session.commit()
-        response_body['social networks'] = social_networks.serialize()
+        response_body['social_networks'] = social_networks.serialize()
         return response_body, 200
-        pass
+        
