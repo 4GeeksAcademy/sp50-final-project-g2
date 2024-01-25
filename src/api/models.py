@@ -62,12 +62,12 @@ class UsersInfluencers(db.Model):
 class UsersCompany(db.Model):
     __tablename__ = 'userscompany'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20)),
-    cif = db.Column(db.String(20)),
-    country = db.Column(db.String(20)),
-    zip_code = db.Column(db.Integer),
-    telephone = db.Column(db.Integer),
-    headline = db.Column(db.String(100)),
+    name = db.Column(db.String(40))
+    cif = db.Column(db.String(20))
+    country = db.Column(db.String(20))
+    zip_code = db.Column(db.Integer)
+    telephone = db.Column(db.Integer)
+    headline = db.Column(db.String(100))
     description = db.Column(db.String(1000))
     industry =db.Column(db.String())
     profile_img = db.Column(db.String())
