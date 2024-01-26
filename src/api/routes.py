@@ -214,7 +214,7 @@ def profile():
             return response_body, 200
 
 
-@api.route('/offers-public', methods=['GET'])
+@api.route('/offers', methods=['GET'])
 def offers():
     response_body = {}
     results = {}
@@ -227,7 +227,7 @@ def offers():
     response_body['results'] = results
     return response_body, 200
 
-@api.route('/offers', methods=['GET','POST'])  
+@api.route('/offers-company', methods=['GET','POST'])  
 @jwt_required()
 def company_offer():
     if request.method == 'POST':
