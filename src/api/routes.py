@@ -35,9 +35,22 @@ def signup():
         return jsonify({"message": "Usuario existente"}), 401
     db.session.add(user)
     db.session.commit()
-    response_body['results'] = user.serialize()
+    if user.serialize()["is_influencer"] == True:
+        user_influencer = UsersInfluencers(first_name = data.get('email'),
+                                            id_user = user.serialize()["id"])
+        db.session.add(user_influencer)
+        db.session.commit()
+        data_serialize = user_influencer.serialize()
+    if user.serialize()["is_influencer"] == False:
+        user_company = UsersCompany(name = data.get('email'),
+                                    id_user = user.serialize()["id"]
+                                    )
+        db.session.add(user_company)
+        db.session.commit()
+        data_serialize = user_company.serialize()
+    response_body['results'] = {"user": user.serialize(), "profile": data_serialize}
     response_body['message'] = "Usuario creado"
-    access_token = create_access_token(identity=[user.serialize()])
+    access_token = create_access_token(identity=[user.serialize(), data_serialize])
     response_body['access_token'] = access_token
     return response_body, 200
 
@@ -51,12 +64,18 @@ def login():
     user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password, Users.is_active == True)).scalar()
     if not user:
         return jsonify({"message": "Bad email or password"})
-    if user.is_influencer:
+    if user.serialize()["is_influencer"] == True:
         user_influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == user.serialize()["id"])).scalar()
-        data_serialize = user_influencer.serialize()
+        if not user_influencer:
+            data_serialize = user_influencer
+        else:
+            data_serialize = user_influencer.serialize()
     else:
-        user_company = db.session.execute(db.select(UsersCompany).where(UsersInfluencers.id_user == user.serialize()["id"])).scalar()
-        data_serialize = user_company.serialize()
+        user_company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == user.serialize()["id"])).scalar()
+        if not user_company:
+            data_serialize = user_company
+        else:
+            data_serialize = user_company.serialize()
     access_token = create_access_token(identity=[user.serialize(), data_serialize])
     response_body["message"] = "Login"
     response_body["results"] = {"user": user.serialize(), "profile": data_serialize}
@@ -104,21 +123,27 @@ def private():
             return response_body, 400
         if current_user[0]['is_influencer'] == True:
             user_profile = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == current_user[0]["id"])).scalar()
+            offer_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == current_user[1]["id"])).scalar()
+            social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == current_user[1]["id"])).scalar()
             db.session.delete(user)
             db.session.delete(user_profile)
+            db.session.delete(offer_candidates)
+            db.session.delete(social_networks)
             db.session.commit()
             response_body['message'] = 'Usuario eliminado'
             return response_body, 200
         if current_user[0]['is_influencer'] == False:
             user_profile = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == current_user[0]["id"])).scalar()
+            offers = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"])).scalar()
             db.session.delete(user)
             db.session.delete(user_profile)
+            db.session.delete(offers)
             db.session.commit()
             response_body['message'] = 'Usuario eliminado'
             return response_body, 200
 
 
-@api.route('/profile', methods=['GET', 'POST', 'PUT'])
+@api.route('/profile', methods=['GET', 'PUT'])
 @jwt_required()
 def profile():
     if request.method == "GET":
@@ -142,48 +167,6 @@ def profile():
                 return response_body, 200
             response_body["results"] = user.serialize()
             return response_body, 200
-    if request.method == "POST":
-        current_user = get_jwt_identity()
-        response_body = {}
-        if not current_user:
-            return jsonify({"message": "Bad email or password"}), 401
-        if current_user[0]['is_influencer'] == True: 
-            data = request.json
-            user = UsersInfluencers(first_name = data.get('first_name'),
-                                    last_name = data.get('last_name'),
-                                    date_birth = datetime.now(), ## Esto no supe como agregar la fecha de nacimiento, asique puse para que tire la fecha actual, hay que revisarlo
-                                    gender = data.get('gender'),
-                                    telephone = data.get('telephone'),
-                                    country = data.get('country'),
-                                    zip_code = data.get('zip_code'),
-                                    profile_img = data.get('profile_img'),
-                                    headline = data.get('headline'),
-                                    description = data.get('description'),
-                                    social_networks = data.get('social_networks'),
-                                    id_user = current_user[0]['id']
-                                    )
-            db.session.add(user)
-            db.session.commit()
-            response_body['user'] = user.serialize()
-            return response_body, 200
-        if current_user[0]['is_influencer'] == False:
-            data = request.json
-            user = UsersCompany(name = data.get('name'),
-                                cif = data.get('cif'),
-                                country = data.get('country'),
-                                zip_code = data.get('zip_code'),
-                                telephone = data.get('telephone'),
-                                headline = data.get('headline'),
-                                description = data.get('description'),
-                                industry = data.get('industry'),
-                                profile_img = data.get('profile_img'),
-                                website = data.get('website'),
-                                id_user = current_user[0]['id']
-                                )
-            db.session.add(user)
-            db.session.commit()
-            response_body['user'] = user.serialize()
-            return response_body, 200
     if request.method == "PUT":
         current_user = get_jwt_identity()
         response_body = {}
@@ -191,12 +174,13 @@ def profile():
             return jsonify({"message": "Bad email or password"}), 401
         if current_user[0]['is_influencer'] == True: 
             data = request.json
-            users_influencers = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == current_user[0]["id"])).scalar()
+            format_data = "%d/%m/%Y"
+            users_influencers = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id == current_user[1]["id"])).scalar()
             if not users_influencers:
                 return jsonify({"message:" "Usuario no encontrado"}), 404
             users_influencers.first_name = data.get('first_name')
             users_influencers.last_name = data.get('last_name')
-            ## users_influencers.date_birth = data.get('date_birth')
+            users_influencers.date_birth = datetime.strptime(data.get('date_birth'), format_data), 
             users_influencers.gender = data.get('gender') 
             users_influencers.telephone = data.get('telephone')
             users_influencers.country = data.get('country')
@@ -207,14 +191,15 @@ def profile():
             users_influencers.social_networks = data.get('social_networks')
             db.session.commit()
             response_body['user'] = users_influencers.serialize()
-            response_body['message'] = 'El usuario ha sido modificado'
+            response_body['message'] = 'El perfil del usuario influencer ha sido modificado'
             return response_body, 200
         if current_user[0]['is_influencer'] == False:
             data = request.json
-            users_company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == current_user[0]["id"])).scalar()
+            users_company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id == current_user[1]["id"])).scalar()
             if not users_company:
                 return jsonify({"message:" "Empresa no encontrada"}), 404
             users_company.name = data.get('name')
+            users_company.cif = data.get('cif'),
             users_company.country = data.get('country')
             users_company.zip_code = data.get('zip_code') 
             users_company.telephone = data.get('telephone')
@@ -224,8 +209,8 @@ def profile():
             users_company.profile_img = data.get('profile_img')
             users_company.website = data.get('website')
             db.session.commit()
-            response_body['user'] = users_company.serialize()
-            response_body['message'] = 'Los datos de la empresa han sido modificados'
+            response_body['results'] = users_company.serialize()
+            response_body['message'] = 'El perfil del usuario empresa ha sido modificado'
             return response_body, 200
 
 
@@ -242,7 +227,30 @@ def offers():
     response_body['results'] = results
     return response_body, 200
 
-    
+@api.route('/offers-company', methods=['GET','POST'])  
+@jwt_required()
+def company_offer():
+    if request.method == 'POST':
+        current_user = get_jwt_identity()
+        response_body = {}
+        data = request.json
+        new_offer = Offers(title = data.get('title'),
+                           post = data.get('post'),
+                           date_post = datetime.now(), 
+                           status = data.get('status'),
+                           salary_range = data.get('salary_range'),
+                           min_followers = data.get('min_followers'),
+                           industry = data.get('industry'),
+                           duration_in_weeks = data.get('duration_in_weeks'),
+                           location = data.get('location'),
+                           id_company = current_user[1]['id'])
+        db.session.add(new_offer)
+        db.session.commit()
+        response_body["message"] = "Oferta creada"
+        response_body["results"] = new_offer.serialize()
+        return response_body,200
+
+
 @api.route('/offers/<int:id_user_company>/<int:offers_id>', methods=['PUT', 'DELETE'])  # SOLO PARA USERS/COMPANY
 @jwt_required()
 def private_offer_singular(offers_id):
