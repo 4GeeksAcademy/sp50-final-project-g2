@@ -228,7 +228,7 @@ def offers():
     return response_body, 200
 
 
-    
+   
 @api.route('/offers', methods=['POST'])  # Quitar el GET
 @jwt_required()
 def company_offer():

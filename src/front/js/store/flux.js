@@ -13,7 +13,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			isLoggedIn: false,
+			mailValidated: false,
+			isInfluencer: false
 		},
 		actions: {
 			exampleFunction: () => {
@@ -38,6 +41,47 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return element;
 				});
 				setStore({demo: demo});  // Reset the global store
+			},
+			validMail: async (email) => {
+					const url = process.env.API_MAIL + email + process.env.API_MAIL2;
+					const options = {
+						method: 'GET'
+					};
+					const response = await fetch(url, options);
+					if (response.ok){
+						const data = await response.json();
+						const results= data.data.status;
+						if (results == "valid") setStore({mailValidated: true});
+						console.log(JSON.stringify(results));
+						console.log(getStore().mailValidated);
+						return JSON.stringify(results)
+					} else {
+						console.log('Error: ', response.status, response.statusText)
+					}
+			},
+			login: (token) =>{
+				if (!token){
+					setStore({isLoggedIn: false})
+				} else {
+					setStore({isLoggedIn: true});
+					localStorage.setItem("token", token);
+				}
+			},
+			logout: () =>{
+				setStore({isLoggedIn: false});
+				localStorage.removeItem("token")
+			},
+			isLogged: () => {
+				if (localStorage.getItem("token")){
+					setStore({isLoggedIn: true})
+				} 
+				else {
+					setStore({isLoggedIn: false})
+				}
+			},
+			handleInfluencer: (value) =>{
+				if (value == true){setStore({isInfluencer: true})}
+				else {setStore({isInfluencer: false})}
 			}
 		}
 	};
