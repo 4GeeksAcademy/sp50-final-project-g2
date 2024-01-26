@@ -214,7 +214,7 @@ def profile():
             return response_body, 200
 
 
-@api.route('/offers', methods=['GET'])
+@api.route('/offers-public', methods=['GET']) # Cambiar el endpoint en offers
 def offers():
     response_body = {}
     results = {}
@@ -227,7 +227,9 @@ def offers():
     response_body['results'] = results
     return response_body, 200
 
-@api.route('/offers-company', methods=['GET','POST'])  
+
+   
+@api.route('/offers', methods=['POST'])  # Quitar el GET
 @jwt_required()
 def company_offer():
     if request.method == 'POST':
@@ -255,7 +257,7 @@ def company_offer():
 @jwt_required()
 def private_offer_singular(offers_id):
     if request.method == 'DELETE':
-        current_user = jwt_required
+        current_user = jwt_required()
         response_body = {}
         if current_user[0]['is_influencer'] == False:
             user_offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]["id"])).scalar()
@@ -287,7 +289,8 @@ def private_offer_singular(offers_id):
         return response_body, 200  
          
 
-@api.route('/offer-candidates', methods=['GET', 'POST'])
+# Endpoint para aplicar una oferta como influencer.
+@api.route('/offer-candidates', methods=['POST'])
 @jwt_required()
 def offer_candidates():
     response_body = results = {}
@@ -297,11 +300,10 @@ def offer_candidates():
             response_body["message"] = "Acceso denegado, no tiene perfil de influencer"
             response_body["results"] = current_user
             return response_body, 401
-        # Aqui debo hacer la logica para que un influencer aplique a una oferta.
         if current_user[0]['is_influencer'] == True:
             data = request.json
-            offer_register = OffersCandidates(status = "pending", 
-                                              status_influencer = "active",
+            offer_register = OffersCandidates(status_candidate = data.get('status_candidate'), 
+                                              status_influencer = data.get('status_influencer'),
                                               cover_letter = data.get('cover_letter'),
                                               social_network_url = data.get('social_network_url'),
                                               followers = data.get('followers'),
@@ -310,18 +312,15 @@ def offer_candidates():
         db.session.add(offer_register)
         db.session.commit()
         response_body['Registrado: '] = offer_register.serialize()                 
-        # Obtener los datos del json de lo que me estan enviando
         return response_body, 200
 
-
+# Endpoint para ver las ofertas y borrar candidatura.
 @api.route('/offer-candidates/<int:id>', methods=['GET', 'DELETE'])
 @jwt_required()
 def offer_candidates_id(id):
     response_body = results = {}
     response_body["results"] = results
-    # Buscamos en la base si esa oferta existe
-    offer_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id == id)).scalar()
-    # Si no existe, hacemos un return devolviendo el error al front
+    offer_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_offer == id)).scalar()
     if not offer_candidates:
         response_body["message"] = "No existe la oferta solicitada"
         return response_body, 404
@@ -334,41 +333,57 @@ def offer_candidates_id(id):
         return response_body, 404
     if request.method == 'GET':
         # TODO: una compañia podra ver este endpoint?
-        response_body['message: '] = "Datos de la postulacion"  
+        response_body['message'] = "Datos para postularse"  
         results = offer_candidates.serialize()         
         response_body['results'] = results
         return response_body, 200
     if request.method == 'DELETE':
-        # Eliminar la oferta de ese ID
         offer_candidates["status_influencer"] = 'inactive'
         db.session.commit()
-        response_body['message: '] = "Oferta anulada"  
+        response_body['message'] = "Oferta anulada"  
         results = offer_candidates.serialize()          
         response_body['results'] = results
         return response_body, 200
 
-
+# Endpoint para ver el registro de ofertas como influencer.
 @api.route('/influencers/<int:id>/offer-candidates', methods=['GET'])
 @jwt_required()
 def offer_candidates_by_influencer(id):
     response_body = results = {}
-    response_body["results"] = results
     if request.method == 'GET':
-        # Muestro todas las ofertas que se postulo el influencer.
         current_user = get_jwt_identity()
-        # Ver las ofertas ID de ese candidato  
         if current_user[0]['is_influencer'] == False:
             response_body["message"] = "Acceso denegado, no tiene perfil de influencer" 
             return response_body, 403
         if current_user[1]['id'] != id:
             response_body["message"] = "Acceso denegado, no tiene perfil de influencer" 
             return response_body, 403
-        offers = db.session.execute(db.select(OfferCandidates).where(OffersCandidates.id_influencer == id)).scalars()
+        offers = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == id)).scalars()
         offers_list = []
         for row in offers:
-            offers_list.append(row.serialize())
-        results['offers'] = offers_list
-        response_body['message'] = "Ofertas"            
-        response_body['results'] = results
+            offers_list.append(row.serialize())   
+        results['offers'] = offers_list 
+        response_body['message'] = "Ofertas" 
+        # response_body['results'] = results  # daba error circular
         return response_body, 200
 
+
+@api.route('/social-networks', methods =['GET', 'POST'])  
+@jwt_required()
+def social_networks():
+    response_body = results = {}
+    if request.method == "GET":
+        response_body["message"] = "Visualizar todas las redes sociales de los influencer lo puede hacer solo un administrador."
+        return response_body, 403
+    if request.method == "POST":
+        current_user = get_jwt_identity
+        data = request.json
+        social_networks = SocialNetworks(social_network = data.get('social_network'),
+                                         social_network_url = data.get('social_network_url'),
+                                         followers = data.get('followers'),
+                                         id_influencer = current_user[1]['id'])
+        db.session.add(social_networks)
+        db.session.commit()
+        response_body['social_networks'] = social_networks.serialize()
+        return response_body, 200
+        
