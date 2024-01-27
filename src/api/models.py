@@ -62,7 +62,7 @@ class UsersInfluencers(db.Model):
 class UsersCompany(db.Model):
     __tablename__ = 'userscompany'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(40))
+    name = db.Column(db.String(200))
     cif = db.Column(db.String(20))
     country = db.Column(db.String(20))
     zip_code = db.Column(db.Integer)
@@ -103,8 +103,8 @@ class Offers(db.Model):
     salary_range = db.Column(db.String())
     min_followers = db.Column(db.Integer())
     duration_in_weeks = db.Column(db.Integer)
-    location = db.Column(db.String())
-    industry = db.Column(db.String(20))
+    location = db.Column(db.String(200))
+    industry = db.Column(db.String(200))
     id_company = db.Column(db.Integer, db.ForeignKey('userscompany.id'))
     user = db.relationship(UsersCompany)
 
