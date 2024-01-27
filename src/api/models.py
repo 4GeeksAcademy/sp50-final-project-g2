@@ -62,7 +62,7 @@ class UsersInfluencers(db.Model):
 class UsersCompany(db.Model):
     __tablename__ = 'userscompany'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(40))
+    name = db.Column(db.String(200))
     cif = db.Column(db.String(20))
     country = db.Column(db.String(20))
     zip_code = db.Column(db.Integer)
@@ -103,8 +103,8 @@ class Offers(db.Model):
     salary_range = db.Column(db.String())
     min_followers = db.Column(db.Integer())
     duration_in_weeks = db.Column(db.Integer)
-    location = db.Column(db.String())
-    industry = db.Column(db.String(20))
+    location = db.Column(db.String(200))
+    industry = db.Column(db.String(200))
     id_company = db.Column(db.Integer, db.ForeignKey('userscompany.id'))
     user = db.relationship(UsersCompany)
 
@@ -127,7 +127,7 @@ class Offers(db.Model):
 class OffersCandidates(db.Model):
     __tablename__ = 'offerscandidates'
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.Enum('pending', 'accepted', 'refused', name='status'), nullable=False)
+    status_candidate = db.Column(db.Enum('pending', 'accepted', 'refused', name='status'), nullable=False)
     status_influencer = db.Column(db.Enum('active', 'inactive', name='status_influencer'), nullable=False)
     cover_letter = db.Column(db.String(500), nullable=False)
     social_network_url = db.Column(db.String(), nullable=False)
