@@ -27,7 +27,8 @@ export const Login = () =>{
         actions.login(data.access_token);
         actions.handleInfluencer(data.results.user.is_influencer);
         console.log(data);
-        console.log(response)
+        console.log(response);
+        console.log("hola")
     }
 
     return(
