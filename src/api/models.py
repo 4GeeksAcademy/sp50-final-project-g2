@@ -127,7 +127,7 @@ class Offers(db.Model):
 class OffersCandidates(db.Model):
     __tablename__ = 'offerscandidates'
     id = db.Column(db.Integer, primary_key=True)
-    status_candidate = db.Column(db.Enum('pending', 'accepted', 'refused', name='status'), nullable=False)
+    status_candidate = db.Column(db.Enum('pending', 'accepted', 'refused', name='status_candidate'), nullable=False)
     status_influencer = db.Column(db.Enum('active', 'inactive', name='status_influencer'), nullable=False)
     cover_letter = db.Column(db.String(500), nullable=False)
     social_network_url = db.Column(db.String(), nullable=False)
@@ -138,11 +138,11 @@ class OffersCandidates(db.Model):
     influencer = db.relationship(UsersInfluencers)
 
     def __repr__(self):
-        return f'<Offers candidates: {self.status}>'
+        return f'<Offers candidates: {self.status_candidate}>'
 
     def serialize(self):
         return {'id': self.id,
-                'status': self.status,
+                'status_candidate': self.status_candidate,
                 'status_influencer': self.status_influencer,
                 'cover_letter': self.cover_letter,
                 'social_network_url': self.social_network_url,
@@ -169,4 +169,3 @@ class SocialNetworks(db.Model):
                 'social_network_url': self.social_network_url,
                 'followers': self.followers,
                 'id_influencer': self.id_influencer}
-
