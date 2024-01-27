@@ -16,7 +16,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 			isLoggedIn: false,
 			mailValidated: false,
-			isInfluencer: false
+			isInfluencer: null,
+			user: {}
 		},
 		actions: {
 			exampleFunction: () => {
@@ -51,12 +52,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (response.ok){
 						const data = await response.json();
 						const results= data.data.status;
-						if (results == "valid") setStore({mailValidated: true});
-						console.log(JSON.stringify(results));
-						console.log(getStore().mailValidated);
-						return JSON.stringify(results)
+						if (results == "valid") {
+							setStore({mailValidated: true});
+							console.log(JSON.stringify(results));
+							console.log(getStore().mailValidated);
+							return JSON.stringify(results)
+						} else {
+							setStore({mailValidated: false});
+							console.log(JSON.stringify(results));
+							console.log(getStore().mailValidated);
+							return JSON.stringify(results)
+						}
 					} else {
-						console.log('Error: ', response.status, response.statusText)
+						console.log('Error: ', response.status, response.statusText);
+						setStore({mailValidated: false});
 					}
 			},
 			login: (token) =>{
@@ -69,7 +78,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			logout: () =>{
 				setStore({isLoggedIn: false});
-				localStorage.removeItem("token")
+				localStorage.removeItem("token");
+				setStore({user: {}});
+				setStore({isInfluencer: null})
 			},
 			isLogged: () => {
 				if (localStorage.getItem("token")){
@@ -82,6 +93,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			handleInfluencer: (value) =>{
 				if (value == true){setStore({isInfluencer: true})}
 				else {setStore({isInfluencer: false})}
+			},
+			handleUser: (data) =>{
+				setStore({user: data})
 			}
 		}
 	};

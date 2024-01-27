@@ -229,7 +229,7 @@ def offers():
    
 @api.route('/offers', methods=['POST'])  # Quitar el GET
 @jwt_required()
-def company_offer():
+def publish_offer():
     if request.method == 'POST':
         current_user = get_jwt_identity()
         response_body = {}
@@ -259,7 +259,6 @@ def private_offer_singular(id_company, offer_id):
         results = {}
         if current_user[0]['is_influencer'] == False:
             offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]['id'])).scalar()
-
             results['Offer: '] = offer.serialize()
             response_body['Message: '] = 'Oferta:'
             response_body['results: '] = results
@@ -320,7 +319,6 @@ def company_offer(id_user_company):
         response_body['message'] = 'Listado de ofertas de la compañía'
         response_body['results'] = results
         return response_body, 200
-
     if request.method == 'POST':
         current_user = get_jwt_identity()
         response_body = {}
@@ -387,7 +385,7 @@ def offer_candidates_id(id):
         response_body["message"] = "Esta publicacion no corresponde al perfil"
         return response_body, 404
     if request.method == 'GET':
-        # TODO: una compañia podra ver este endpoint?
+        ## TODO: una compañia podra ver este endpoint?
         response_body['message'] = "Datos para postularse"  
         results = offer_candidates.serialize()         
         response_body['results'] = results

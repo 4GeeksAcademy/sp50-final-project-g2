@@ -12,7 +12,7 @@ export const Home = () => {
 	const handleOnSubmit = (event) => {
 		event.preventDefault();
 		handleSignUp();  
-		actions.handleInfluencer(isChecked)
+		actions.handleInfluencer(isChecked);
 	}
 
 	const handleMail = () => {
@@ -38,7 +38,8 @@ export const Home = () => {
 			console.log(email, password)
 		}
 		const data = await response.json();
-		actions.login(data.access_token)
+		actions.login(data.access_token);
+		actions.handleUser(data.results);
 		console.log(data)
 	}
 

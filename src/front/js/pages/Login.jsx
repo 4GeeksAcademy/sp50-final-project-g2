@@ -25,10 +25,13 @@ export const Login = () =>{
         }
         const data = await response.json();
         actions.login(data.access_token);
-        actions.handleInfluencer(data.results.user.is_influencer);
+        const is_influencer = data.results.user.is_influencer
+        const data_user = data.results
+        console.log(data_user);
+        actions.handleInfluencer(is_influencer);
+        actions.handleUser(data_user);
         console.log(data);
         console.log(response);
-        console.log("hola")
     }
 
     return(

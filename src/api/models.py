@@ -26,7 +26,7 @@ class Users(db.Model):
 class UsersInfluencers(db.Model):
     __tablename__ = 'usersinfluencers'
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(20))
+    first_name = db.Column(db.String(200))
     last_name = db.Column(db.String(20))
     date_birth = db.Column(db.Date())
     gender = db.Column(db.String())
