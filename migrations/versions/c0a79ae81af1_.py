@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: cbcbb9871018
+Revision ID: c0a79ae81af1
 Revises: 
-Create Date: 2024-01-24 20:21:28.070856
+Create Date: 2024-01-27 11:30:42.133420
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'cbcbb9871018'
+revision = 'c0a79ae81af1'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,6 +29,12 @@ def upgrade():
     )
     op.create_table('userscompany',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=200), nullable=True),
+    sa.Column('cif', sa.String(length=20), nullable=True),
+    sa.Column('country', sa.String(length=20), nullable=True),
+    sa.Column('zip_code', sa.Integer(), nullable=True),
+    sa.Column('telephone', sa.Integer(), nullable=True),
+    sa.Column('headline', sa.String(length=100), nullable=True),
     sa.Column('description', sa.String(length=1000), nullable=True),
     sa.Column('industry', sa.String(), nullable=True),
     sa.Column('profile_img', sa.String(), nullable=True),
@@ -63,8 +69,8 @@ def upgrade():
     sa.Column('salary_range', sa.String(), nullable=True),
     sa.Column('min_followers', sa.Integer(), nullable=True),
     sa.Column('duration_in_weeks', sa.Integer(), nullable=True),
-    sa.Column('location', sa.String(), nullable=True),
-    sa.Column('industry', sa.String(length=20), nullable=True),
+    sa.Column('location', sa.String(length=200), nullable=True),
+    sa.Column('industry', sa.String(length=200), nullable=True),
     sa.Column('id_company', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['id_company'], ['userscompany.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -80,7 +86,7 @@ def upgrade():
     )
     op.create_table('offerscandidates',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('status', sa.Enum('pending', 'accepted', 'refused', name='status'), nullable=False),
+    sa.Column('status_candidate', sa.Enum('pending', 'accepted', 'refused', name='status_candidate'), nullable=False),
     sa.Column('status_influencer', sa.Enum('active', 'inactive', name='status_influencer'), nullable=False),
     sa.Column('cover_letter', sa.String(length=500), nullable=False),
     sa.Column('social_network_url', sa.String(), nullable=False),
