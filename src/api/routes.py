@@ -466,31 +466,33 @@ def edit_social_networks(id_influencer):
                 return response_body, 200
     if request.method == 'PUT':
         current_user = get_jwt_identity()  
-        social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()             
-        if current_user[1]['id'] == social_networks.id_influencer:               
-            data = request.json
-        if not social_networks:
-                return jsonify({"message:" "No se han encontrado redes"}), 404
-        social_networks.social_network = data.get('social_network') 
-        social_networks.social_network_url = data.get('social_network_url')
-        social_networks.followers = data.get('followers')        
-        db.session.commit()
-        response_body['results'] = social_networks.serialize()
-        response_body['message'] = 'Los datos de las redes han sido modificados'
-        return response_body, 200
+        social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()
+        if current_user[0]["is_influencer"] == True:         
+            if current_user[1]['id'] == social_networks.id_influencer:               
+                data = request.json
+                social_networks.social_network = data.get('social_network') 
+                social_networks.social_network_url = data.get('social_network_url')
+                social_networks.followers = data.get('followers')        
+                db.session.commit()            
+                response_body['results'] = social_networks.serialize()
+                response_body['message'] = 'Los datos de las redes han sido modificados'
+                return response_body, 200
+        response_body['message'] = 'No es el usuario de la cuenta'
+        return response_body, 404
     if request.method == 'DELETE':
         current_user = get_jwt_identity()
         social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()
         if not social_networks:
             response_body['message'] = 'Usuario no correspondiente'
             return response_body, 400
-        if current_user[1]['id'] == social_networks.id_influencer:
-            db.session.delete(social_network)
-            db.session.delete(social_network_url)
-            db.session.delete(followers)
-            db.session.commit()
-            response_body['message'] = 'Datos eliminados'
-            return response_body, 200
+        if current_user[0]["is_influencer"] == True:    
+            if current_user[1]['id'] == social_networks.id_influencer:
+                db.session.delete(social_networks)      
+                db.session.commit()
+                response_body['message'] = 'Datos eliminados'
+                return response_body, 200
+        response_body['message'] = 'No tiene permisos para eliminar los datos'
+        return response_body, 403
 
 
 @api.route('/company/offers/<int:offer_id>/influencers', methods=['GET'])
@@ -511,21 +513,22 @@ def offered_influencers(offer_id):
             response_body['results'] = results
             return response_body, 200
 
-@api.route('company/<int:offer_id>/offer-candidates/<int:influencer_id', methods=['PUT'])  # PUT de la compañía para cambiar status de influencer en su oferta
+@api.route('company/<int:offer_id>/offer-candidates/<int:influencer_id>', methods=['PUT'])  # PUT de la compañía para cambiar status de influencer en su oferta
 @jwt_required()
 def change_status_candidate(offer_id, influencer_id):
     if request.method == 'PUT':
         current_user = get_jwt_identity()
         response_body = {}
         offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id)).scalar()
-        if current_user[1]['id'] == offer.id_company:
-            data = request.json
-            candidate = db.select(OffersCandidates).where(OffersCandidates.id_influencer == influencer_id).scalar()
-            candidate.status = data.get('status')
-            db.session.commit()
-            response_body['candidate: '] = candidate.serialize()
-            response_body['message'] = 'El estatus del candidato ha sido cambiado'
-            return response_body, 200
+        if current_user[0]["is_influencer"] == False:
+            if current_user[1]['id'] == offer.id_company:
+                data = request.json
+                candidate = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == influencer_id)).scalar()
+                candidate.status_candidate = data.get('status_candidate')
+                db.session.commit()
+                response_body['candidate: '] = candidate.serialize()
+                response_body['message'] = 'El estatus del candidato ha sido cambiado'
+                return response_body, 200
         if not current_user:
             response_body['message'] = 'No tiene permisos para editar los candidatos'
             return response_body, 403
