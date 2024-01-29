@@ -21,14 +21,15 @@ export const Login = () =>{
         const response = await fetch(url, options);
         if (!response.ok){
             console.log(response.status, response.statusText);
-            console.log(email, password)
+            console.log(email, password);
+            return
         }
         const data = await response.json();
         const is_influencer = data.results.user.is_influencer
         const data_user = data.results
-        actions.login(data.access_token);
+        actions.login(data.access_token, is_influencer, data.results.user, data.results.profile);
         actions.handleInfluencer(is_influencer);
-        actions.handleUser(data_user);
+        actions.handleUser(data.results.user, data.results.profile);
         console.log(data_user);
         console.log(data);
         console.log(response);
