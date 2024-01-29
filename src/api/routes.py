@@ -387,7 +387,6 @@ def offer_candidates_id(id):
         response_body["message"] = "Esta publicacion no corresponde al perfil"
         return response_body, 404
     if request.method == 'GET':
-        # TODO: una compañia podra ver este endpoint?
         response_body['message'] = "Datos para postularse"  
         results = offer_candidates.serialize()         
         response_body['results'] = results
