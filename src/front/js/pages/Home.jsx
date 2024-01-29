@@ -12,7 +12,7 @@ export const Home = () => {
 	const handleOnSubmit = (event) => {
 		event.preventDefault();
 		handleSignUp();  
-		actions.handleInfluencer(isChecked)
+		actions.handleInfluencer(isChecked);
 	}
 
 	const handleMail = () => {
@@ -35,10 +35,10 @@ export const Home = () => {
 		const response = await fetch(url, options);
 		if (!response.ok){
 			console.log(response.status, response.statusText);
-			console.log(email, password)
 		}
 		const data = await response.json();
-		actions.login(data.access_token)
+		actions.login(data.access_token, isChecked, data.results.user, data.results.profile);
+		actions.handleUser(data.results.user, data.results.profile);
 		console.log(data)
 	}
 
