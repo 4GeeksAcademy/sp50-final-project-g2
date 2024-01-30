@@ -23,10 +23,12 @@ export const UpdateProfile = () => {
     const [ industry, setIndustry ] = useState(store.profile.industry);
     const [ website, setWebsite ] = useState(store.profile.website);
 
+    const navigate = useNavigate();
+
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-        if (store.isInfluencer == true){
+        if (store.isInfluencer == "true"){
             const profile = {
                 first_name: firstName,
                 last_name: lastName,
@@ -37,21 +39,37 @@ export const UpdateProfile = () => {
                 zip_code: zip,
                 headline: headline,
                 description: description,
-                social_networks: socialNetwork
+                social_networks: socialNetwork,
+                profile_img: store.imageProfile
             }
-            handleInfluencer(profile)
+            handleProfile(profile);
+            navigate('/profile')
         } else {
-
+            const profile = {
+                name: name,
+                cif: cif,
+                country: country,
+                zip_code: zip,
+                telephone: telephone,
+                headline: headline,
+                description: description,
+                industry: industry,
+                profile_img: store.imageProfile,
+                website: website
+            }
+            handleProfile(profile);
+            navigate('/profile')
         }
     }
 
-    const handleInfluencer = async (profile) => {
+    const handleProfile = async (profile) => {
         const url = process.env.BACKEND_URL + "/api/profile";
         const options = {
             method: "PUT",
-            body: JSON.stringify({profile}),
+            body: JSON.stringify(profile),
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization" : "Bearer " + localStorage.getItem("token")
             },   
         };
         const response = await fetch(url, options);
@@ -60,7 +78,8 @@ export const UpdateProfile = () => {
             return
         }
         const data = await response.json();
-        console.log(data)
+        console.log(data);
+        actions.updateProfile(data.results)
     }
 
     return (
@@ -94,45 +113,45 @@ export const UpdateProfile = () => {
                         <div className="mb-3 text-start col-6 mx-2">
     			            <label htmlFor="exampleInputDate" className="form-label">Fecha de nacimiento</label>
     			            <input type="date" className="form-control" id="exampleInputDate" aria-describedby="emailHelp"
-				            value={dateBirth} onChange={(e) => setDateBirth(e.target.value)} ></input>
+				            value={dateBirth ? dateBirth : ""} onChange={(e) => setDateBirth(e.target.value)} ></input>
   			            </div>
                         <div className="mb-3 text-start col-6 mx-2">
     			            <label htmlFor="exampleInputGender" className="form-label">Género</label>
     			            <input type="text" className="form-control" id="exampleInputGender" aria-describedby="emailHelp"
-				            value={gender} onChange={(e) => setGender(e.target.value)} placeholder="Escribe tu género"></input>
+				            value={gender ? gender : ""} onChange={(e) => setGender(e.target.value)} placeholder="Escribe tu género"></input>
   			            </div>
                         </div>
                         <div className="col-6 mb-3 text-start mx-2">
     			            <label htmlFor="exampleInputTel" className="form-label">Teléfono</label>
     			            <input type="text" className="form-control" id="exampleInputTel" aria-describedby="emailHelp"
-				            value={telephone} onChange={(e) => setTelephone(e.target.value)} placeholder="Escribe tu teléfono"></input>
+				            value={telephone ? telephone : ""} onChange={(e) => setTelephone(e.target.value)} placeholder="Escribe tu teléfono"></input>
   			            </div>
                           <div className="container d-flex justify-content-center">
                         <div className="mb-3 text-start col-6 mx-2">
     			            <label htmlFor="exampleInputCountry" className="form-label">País</label>
     			            <input type="text" className="form-control" id="exampleInputCountry" aria-describedby="emailHelp"
-				            value={country} onChange={(e) => setCountry(e.target.value)} placeholder="Escribe tu país de residencia"></input>
+				            value={country ? country : ""} onChange={(e) => setCountry(e.target.value)} placeholder="Escribe tu país de residencia"></input>
   			            </div>
                         <div className="mb-3 text-start col-6 mx-2">
     			            <label htmlFor="exampleInputzip" className="form-label">Código postal</label>
     			            <input type="text" className="form-control" id="exampleInputzip" aria-describedby="emailHelp"
-				            value={zip} onChange={(e) => setZip(e.target.value)} placeholder="Escribe tu código postal"></input>
+				            value={zip ? zip : ""} onChange={(e) => setZip(e.target.value)} placeholder="Escribe tu código postal"></input>
   			            </div>
                         </div>
                         <div className="col-6 mb-3 text-start mx-2">
     			            <label htmlFor="exampleInputTel" className="form-label">Red social</label>
     			            <input type="text" className="form-control" id="exampleInputTel" aria-describedby="emailHelp"
-				            value={socialNetwork} onChange={(e) => setSocialNetwork(e.target.value)} placeholder="Escribe tu red social más utilizada"></input>
+				            value={socialNetwork ? socialNetwork : ""} onChange={(e) => setSocialNetwork(e.target.value)} placeholder="Escribe tu red social más utilizada"></input>
   			            </div>
                         <div className="mb-3 text-start mx-2">
     			            <label htmlFor="exampleInputHeadline" className="form-label">Headline</label>
     			            <input type="text" className="form-control" id="exampleInputHeadline" aria-describedby="emailHelp"
-				            value={headline} onChange={(e) => setHeadline(e.target.value)} placeholder="Escribe tu encabezado de perfil, lo que primero verán las empresas"></input>
+				            value={headline ? headline : ""} onChange={(e) => setHeadline(e.target.value)} placeholder="Escribe tu encabezado de perfil, lo que primero verán las empresas"></input>
   			            </div>
                         <div class="mb-3 text-start mx-2">
                             <label htmlFor="exampleFormControlTextarea1" class="form-label">Descripción</label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
+                            value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
                         </div>
                         <button type="submit" className="btn btn-success btn-lg">Submit</button>
                         </form>
@@ -153,55 +172,56 @@ export const UpdateProfile = () => {
                 <h2>Empresa</h2>
                 <div className="d-flex justify-content-center">
                     <div className="m-5 col-8 background_form p-2 rounded">
+                        <UploadImage />
                         <form onSubmit={handleOnSubmit}>
                         <div className="container d-flex justify-content-center">
                         <div className="mb-3 text-start col-6 mx-2">
     			            <label htmlFor="exampleInputEmail1" className="form-label">Nombre</label>
     			            <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-				            value={name} onChange={(e) => setName(e.target.value)} placeholder="Escribe el nombre de la empresa"></input>
+				            value={name ? name : ""} onChange={(e) => setName(e.target.value)} placeholder="Escribe el nombre de la empresa"></input>
   			            </div>
                         <div className="mb-3 text-start col-6 mx-2">
     			            <label htmlFor="exampleInputLastName" className="form-label">CIF</label>
     			            <input type="text" className="form-control" id="exampleInputLastName" aria-describedby="emailHelp"
-				            value={cif} onChange={(e) => setCif(e.target.value)} placeholder="Escribe el CIF/NIF"></input>
+				            value={cif ? cif : ""} onChange={(e) => setCif(e.target.value)} placeholder="Escribe el CIF/NIF"></input>
   			            </div>
                         </div>
                         <div className="col-6 mb-3 text-start mx-2">
     			            <label htmlFor="exampleInputTel" className="form-label">Teléfono</label>
     			            <input type="text" className="form-control" id="exampleInputTel" aria-describedby="emailHelp"
-				            value={telephone} onChange={(e) => setTelephone(e.target.value)} placeholder="Escribe un teléfono"></input>
+				            value={telephone ? telephone : ""} onChange={(e) => setTelephone(e.target.value)} placeholder="Escribe un teléfono"></input>
   			            </div>
                         <div className="container d-flex justify-content-center">
                         <div className="mb-3 text-start col-6 mx-2">
     			            <label htmlFor="exampleInputCountry" className="form-label">País</label>
     			            <input type="text" className="form-control" id="exampleInputCountry" aria-describedby="emailHelp"
-				            value={country} onChange={(e) => setCountry(e.target.value)} placeholder="Escribe tu país de residencia"></input>
+				            value={country ? country : ""} onChange={(e) => setCountry(e.target.value)} placeholder="Escribe tu país de residencia"></input>
   			            </div>
                         <div className="mb-3 text-start col-6 mx-2">
     			            <label htmlFor="exampleInputzip" className="form-label">Código postal</label>
     			            <input type="text" className="form-control" id="exampleInputzip" aria-describedby="emailHelp"
-				            value={zip} onChange={(e) => setZip(e.target.value)} placeholder="Escribe tu código postal"></input>
+				            value={zip ? zip : ""} onChange={(e) => setZip(e.target.value)} placeholder="Escribe tu código postal"></input>
   			            </div>
                         </div>
                         <div className="col-6 mb-3 text-start mx-2">
     			            <label htmlFor="exampleInputTel" className="form-label">Industria</label>
     			            <input type="text" className="form-control" id="exampleInputTel" aria-describedby="emailHelp"
-				            value={industry} onChange={(e) => setIndustry(e.target.value)} placeholder="Describe el área/industria de la empresa"></input>
+				            value={industry ? industry : ""} onChange={(e) => setIndustry(e.target.value)} placeholder="Describe el área/industria de la empresa"></input>
   			            </div>
                           <div className="col-6 mb-3 text-start mx-2">
     			            <label htmlFor="exampleInputTel" className="form-label">Página web</label>
     			            <input type="text" className="form-control" id="exampleInputTel" aria-describedby="emailHelp"
-				            value={website} onChange={(e) => setWebsite(e.target.value)}></input>
+				            value={website ? website : ""} onChange={(e) => setWebsite(e.target.value)}></input>
   			            </div>
                         <div className="mb-3 text-start mx-2">
     			            <label htmlFor="exampleInputHeadline" className="form-label">Headline</label>
     			            <input type="text" className="form-control" id="exampleInputHeadline" aria-describedby="emailHelp"
-				            value={headline} onChange={(e) => setHeadline(e.target.value)} placeholder="Escribe el encabezado de perfil"></input>
+				            value={headline ? headline : ""} onChange={(e) => setHeadline(e.target.value)} placeholder="Escribe el encabezado de perfil"></input>
   			            </div>
                         <div class="mb-3 text-start mx-2">
                             <label htmlFor="exampleFormControlTextarea1" class="form-label">Descripción</label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                            value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
+                            value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
                         </div>
                         <button type="submit" className="btn btn-success btn-lg">Submit</button>
                         </form>

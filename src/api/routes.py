@@ -202,7 +202,7 @@ def profile():
             return jsonify({"message": "Bad email or password"}), 401
         if current_user[0]['is_influencer'] == True: 
             data = request.json
-            format_data = "%d/%m/%Y"
+            format_data = "%Y-%m-%d"
             users_influencers = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id == current_user[1]["id"])).scalar()
             if not users_influencers:
                 return jsonify({"message:" "Usuario no encontrado"}), 404
@@ -218,7 +218,7 @@ def profile():
             users_influencers.description = data.get('description')
             users_influencers.social_networks = data.get('social_networks')
             db.session.commit()
-            response_body['user'] = users_influencers.serialize()
+            response_body['results'] = users_influencers.serialize()
             response_body['message'] = 'El perfil del usuario influencer ha sido modificado'
             return response_body, 200
         if current_user[0]['is_influencer'] == False:

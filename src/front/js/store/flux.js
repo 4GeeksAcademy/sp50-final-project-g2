@@ -18,7 +18,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			mailValidated: false,
 			isInfluencer: null,
 			user: null,
-			profile: null
+			profile: null,
+			imageProfile: null
 		},
 		actions: {
 			exampleFunction: () => {
@@ -111,6 +112,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({profile: profile});
 				getActions().isLogged(user, profile)
 			},
+			updateProfile: (profile) => {
+				setStore({profile: profile});
+			},
 			uploadFile: async (fileToUpload) => {
 				const data = new FormData();
 				data.append("image", fileToUpload);
@@ -125,7 +129,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const response = await fetch(url, options)
 				if (response.ok) {
 				  const data = await response.json();
-				  console.log(data)  // data contiene la url de la imagen
+				  console.log(data);  // data contiene la url de la imagen
+				  setStore({imageProfile: data.results})
 				  return data;
 				} else {
 				  console.log('error', response.status, response.text)

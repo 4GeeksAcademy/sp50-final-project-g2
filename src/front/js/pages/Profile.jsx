@@ -28,8 +28,8 @@ export const Profile = () => {
                 </Link>
                 <div className="container-fluid d-flex mt-3">
                     <div className="col-4">
-                        <img src="https://social.webestica.com/assets/images/avatar/07.jpg" className="avatar-img rounded-circle border border-white border-3"></img>
-                        <h3 className="m-2">Headline</h3>
+                        <img src={store.profile.profile_img} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
+                        <h3 className="m-2">{store.profile.headline}</h3>
                         <h4 className="m-2">Principal red social: <strong> {store.profile.social_networks} </strong></h4>
                     </div>
                     <div className="col-8 d-grid background_form rounded justify-content-center">
@@ -68,7 +68,7 @@ export const Profile = () => {
             : 
             <div className="text-center">
                 { !store.user || !store.profile ? 
-                <p>Cargando datos...</p>
+                <Spinner />
                 :
                 <div>
                 <h2>Empresa</h2>
@@ -77,8 +77,8 @@ export const Profile = () => {
                 </Link>
                 <div className="container-fluid d-flex mt-3">
                     <div className="col-4">
-                        <img src="https://social.webestica.com/assets/images/avatar/07.jpg" className="avatar-img rounded-circle border border-white border-3"></img>
-                        <h3 className="m-2">Headline</h3>
+                        <img src={store.profile.profile_img} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
+                        <h3 className="m-2">{store.profile.headline}</h3>
                     </div>
                     <div className="col-8 d-grid background_form rounded justify-content-center">
                         <h4 className="m-2">Datos </h4>
