@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
+import { Spinner } from "../component/Spinner.jsx";
 
 export const Profile = () => {
     const { store, actions } = useContext(Context);
@@ -15,11 +16,10 @@ export const Profile = () => {
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
             <h1 className="text-center">MI PERFIL</h1>
-            { store.isInfluencer ? 
-            
+            { store.isInfluencer == "true" ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
-                <p>Cargando datos...</p>
+                <Spinner />
                 :
                 <div>
                 <h2>Influencer</h2>

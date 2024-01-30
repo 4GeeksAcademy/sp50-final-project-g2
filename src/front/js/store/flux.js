@@ -85,8 +85,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({isLoggedIn: false});
 				localStorage.removeItem("token");
 				localStorage.removeItem("is_influencer");
-				//localStorage.removeItem("user");
-				//localStorage.removeItem("profile");
+				localStorage.removeItem("user");
+				localStorage.removeItem("profile");
 				setStore({user: null});
 				setStore({isInfluencer: null});
 				setStore({profile: null})
@@ -95,8 +95,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (localStorage.getItem("token")){
 					setStore({isLoggedIn: true});
 					setStore({isInfluencer: localStorage.getItem("is_influencer")});
-					//setStore({user: user});
-					//setStore({profile: profile})
+					setStore({user: user});
+					setStore({profile: profile})
 				} 
 				else {
 					setStore({isLoggedIn: false})
