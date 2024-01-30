@@ -2,28 +2,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			],
 			isLoggedIn: false,
 			mailValidated: false,
 			isInfluencer: null,
 			user: null,
-			profile: null
+			profile: null,
+			offersPublic: []
 		},
+
 		actions: {
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");  // Use getActions to call a function within a fuction
+
+			getOffers: async () => {
+				const url = "https://opulent-doodle-9pqp5wqjvgx2p6x5-3001.app.github.dev/api/offers-public";
+				const token = localStorage.getItem("token")
+				const options = {
+					method: 'GET'
+				};
+				const response = await fetch (url, options)
+				if (response.ok) {
+					const data = await response.json();
+					console.log(data);
+					setStore ({offersPublic : data.results})
+				} else {
+					console.log('Error', response.status, response.statusText)
+					}				
 			},
+		
 			getMessage: async () => {
 				try {
 					// Fetching data from the backend
@@ -35,15 +39,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			changeColor: (index, color) => {
-				const store = getStore();  // Get the store
-				// We have to loop the entire demo array to look for the respective index and change its color
-				const demo = store.demo.map((element, i) => {
-					if (i === index) element.background = color;
-					return element;
-				});
-				setStore({demo: demo});  // Reset the global store
-			},
+			
 			validMail: async (email) => {
 					const url = process.env.API_MAIL + email + process.env.API_MAIL2;
 					const options = {

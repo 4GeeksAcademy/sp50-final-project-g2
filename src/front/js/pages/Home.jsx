@@ -44,8 +44,8 @@ export const Home = () => {
 
 	return (
 		store.isLoggedIn ? <Navigate to={"/profile"} /> :
-		<div className="text-center mt-5">
-			<div className="container-fluid d-flex">
+		<div className="text-center mt-5 bg-warning-subtle">
+			<div className="container-fluid d-flex col-10 ">
 				<div className="col"> 
 					<h1 className="m-2">¡Te damos la bienvenida a tu comunidad profesional!</h1>
 					<form onSubmit={handleOnSubmit}>
@@ -65,14 +65,14 @@ export const Home = () => {
   					  <input type="checkbox" className="form-check-input" id="exampleCheck1" checked={isChecked} onChange={handleOnChange}></input>
   					  <label className="form-check-label" htmlFor="exampleCheck1">Por favor, si eres influencer haz click aquí.</label>
   					</div>
-  					<button type="submit" className={store.mailValidated ? "btn btn-success btn-lg" : "btn btn-success btn-lg disabled" }>Submit</button>
+  					<button type="submit" className={store.mailValidated ? "btn btn-info btn-lg" : "btn btn-info btn-lg disabled" }>Continuar</button>
 					</form>
 					<div className="mt-2 text-center d-flex justify-content-center border-top border-secondary">
                     <p className="m-1">¿Ya tienes una cuenta?</p>
                     <Link className="text-dark m-1" to="/login"> Inicia sesión aquí.</Link>
                 </div>
 				</div>
-				<div className="col">
+				<div className="container col">
 					<img src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4"></img>
 				</div>
 			</div>
