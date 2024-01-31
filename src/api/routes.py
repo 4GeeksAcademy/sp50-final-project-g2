@@ -155,8 +155,8 @@ def private():
             social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == current_user[1]["id"])).scalar()
             db.session.delete(user)
             db.session.delete(user_profile)
-            db.session.delete(offer_candidates)
-            db.session.delete(social_networks)
+            if offer_candidates: db.session.delete(offer_candidates)
+            if social_networks: db.session.delete(social_networks)
             db.session.commit()
             response_body['message'] = 'Usuario eliminado'
             return response_body, 200
@@ -165,7 +165,7 @@ def private():
             offers = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"])).scalar()
             db.session.delete(user)
             db.session.delete(user_profile)
-            db.session.delete(offers)
+            if offers: db.session.delete(offers)
             db.session.commit()
             response_body['message'] = 'Usuario eliminado'
             return response_body, 200
@@ -208,7 +208,7 @@ def profile():
                 return jsonify({"message:" "Usuario no encontrado"}), 404
             users_influencers.first_name = data.get('first_name')
             users_influencers.last_name = data.get('last_name')
-            users_influencers.date_birth = datetime.strptime(data.get('date_birth'), format_data), 
+            users_influencers.date_birth = (datetime.strptime(data.get('date_birth'), format_data)).strftime(format_data), 
             users_influencers.gender = data.get('gender') 
             users_influencers.telephone = data.get('telephone')
             users_influencers.country = data.get('country')

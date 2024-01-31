@@ -82,6 +82,25 @@ export const UpdateProfile = () => {
         actions.updateProfile(data.results)
     }
 
+    const handleDelete = async () =>{
+        const url = process.env.BACKEND_URL + "/api/private";
+        const options = {
+            method: "DELETE",
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization" : "Bearer " + localStorage.getItem("token")
+            },   
+        };
+        const response = await fetch(url, options);
+        if (!response.ok){
+            console.log(response.status, response.statusText);
+            return
+        }
+        const data = await response.json();
+        console.log(data);
+        actions.logout();
+    }
+
     return (
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
@@ -160,6 +179,17 @@ export const UpdateProfile = () => {
                         </Link>
                     </div>
                 </div>
+                <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Eliminar cuenta.</button>
+                <div class="offcanvas offcanvas-bottom bg-secondary" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                    <div class="offcanvas-header text-center">
+                    <h5 class="offcanvas-title text-center fs-2" id="offcanvasBottomLabel">¿Está seguro que desea eliminar su cuenta?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        Al eliminar su cuenta, se borrarán de forma permanente sus datos de perfil, y demás datos relacionados.
+                    </div>
+                    <button className="btn btn-danger mb-3" onClick={handleDelete}>Eliminar cuenta.</button>
+                </div>
                 </div>
                 }
             </div>
@@ -229,6 +259,17 @@ export const UpdateProfile = () => {
                             <p className="text-end m-1 me-3">O vuelve al perfil.</p>
                         </Link>
                     </div>
+                </div>
+                <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Eliminar cuenta.</button>
+                <div class="offcanvas offcanvas-bottom bg-secondary" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                    <div class="offcanvas-header text-center">
+                    <h5 class="offcanvas-title text-center fs-2" id="offcanvasBottomLabel">¿Está seguro que desea eliminar su cuenta?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        Al eliminar su cuenta, se borrarán de forma permanente sus datos de perfil, y demás datos relacionados.
+                    </div>
+                    <button className="btn btn-danger mb-3" onClick={handleDelete}>Eliminar cuenta.</button>
                 </div>
                 </div>
                 }

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext.js";
 import "../../styles/home.css";
 import { Link, Navigate } from "react-router-dom";
-import 'bootswatch/dist/sketchy/bootstrap.min.css';
+import 'bootswatch/dist/sandstone/bootstrap.min.css';
 
 export const Login = () =>{
     const { store, actions } = useContext(Context);
