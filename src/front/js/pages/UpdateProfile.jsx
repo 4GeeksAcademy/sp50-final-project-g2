@@ -11,7 +11,7 @@ export const UpdateProfile = () => {
     const [ lastName, setLastName ] = useState(store.profile.last_name);
     const [ headline, setHeadline ] = useState(store.profile.headline);
     const [ socialNetwork, setSocialNetwork] = useState(store.profile.social_networks);
-    const [ dateBirth, setDateBirth ] = useState(store.profile.date_birth);
+    const [ dateBirth, setDateBirth ] = useState(((new Date(store.profile.date_birth)).toLocaleDateString('ko-KR')).replaceAll(". ","-"));
     const [ gender, setGender ] = useState(store.profile.gender);
     const [ telephone, setTelephone ] = useState(store.profile.telephone);
     const [ country, setCountry ] = useState(store.profile.country);
@@ -167,9 +167,9 @@ export const UpdateProfile = () => {
     			            <input type="text" className="form-control" id="exampleInputHeadline" aria-describedby="emailHelp"
 				            value={headline ? headline : ""} onChange={(e) => setHeadline(e.target.value)} placeholder="Escribe tu encabezado de perfil, lo que primero verán las empresas"></input>
   			            </div>
-                        <div class="mb-3 text-start mx-2">
-                            <label htmlFor="exampleFormControlTextarea1" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                        <div className="mb-3 text-start mx-2">
+                            <label htmlFor="exampleFormControlTextarea1" className="form-label">Descripción</label>
+                            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
                             value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
                         </div>
                         <button type="submit" className="btn btn-success btn-lg">Submit</button>
@@ -179,13 +179,13 @@ export const UpdateProfile = () => {
                         </Link>
                     </div>
                 </div>
-                <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Eliminar cuenta.</button>
-                <div class="offcanvas offcanvas-bottom bg-secondary" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
-                    <div class="offcanvas-header text-center">
-                    <h5 class="offcanvas-title text-center fs-2" id="offcanvasBottomLabel">¿Está seguro que desea eliminar su cuenta?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <button className="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Eliminar cuenta.</button>
+                <div className="offcanvas offcanvas-bottom bg-secondary" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                    <div className="offcanvas-header text-center">
+                    <h5 className="offcanvas-title text-center fs-2" id="offcanvasBottomLabel">¿Está seguro que desea eliminar su cuenta?</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                    <div class="offcanvas-body">
+                    <div className="offcanvas-body">
                         Al eliminar su cuenta, se borrarán de forma permanente sus datos de perfil, y demás datos relacionados.
                     </div>
                     <button className="btn btn-danger mb-3" onClick={handleDelete}>Eliminar cuenta.</button>
@@ -248,9 +248,9 @@ export const UpdateProfile = () => {
     			            <input type="text" className="form-control" id="exampleInputHeadline" aria-describedby="emailHelp"
 				            value={headline ? headline : ""} onChange={(e) => setHeadline(e.target.value)} placeholder="Escribe el encabezado de perfil"></input>
   			            </div>
-                        <div class="mb-3 text-start mx-2">
-                            <label htmlFor="exampleFormControlTextarea1" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                        <div className="mb-3 text-start mx-2">
+                            <label htmlFor="exampleFormControlTextarea1" className="form-label">Descripción</label>
+                            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
                             value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
                         </div>
                         <button type="submit" className="btn btn-success btn-lg">Submit</button>
@@ -260,13 +260,13 @@ export const UpdateProfile = () => {
                         </Link>
                     </div>
                 </div>
-                <button class="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Eliminar cuenta.</button>
-                <div class="offcanvas offcanvas-bottom bg-secondary" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
-                    <div class="offcanvas-header text-center">
-                    <h5 class="offcanvas-title text-center fs-2" id="offcanvasBottomLabel">¿Está seguro que desea eliminar su cuenta?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <button className="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Eliminar cuenta.</button>
+                <div className="offcanvas offcanvas-bottom bg-secondary" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                    <div className="offcanvas-header text-center">
+                    <h5 className="offcanvas-title text-center fs-2" id="offcanvasBottomLabel">¿Está seguro que desea eliminar su cuenta?</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                    <div class="offcanvas-body">
+                    <div className="offcanvas-body">
                         Al eliminar su cuenta, se borrarán de forma permanente sus datos de perfil, y demás datos relacionados.
                     </div>
                     <button className="btn btn-danger mb-3" onClick={handleDelete}>Eliminar cuenta.</button>

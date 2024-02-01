@@ -208,7 +208,7 @@ def profile():
                 return jsonify({"message:" "Usuario no encontrado"}), 404
             users_influencers.first_name = data.get('first_name')
             users_influencers.last_name = data.get('last_name')
-            users_influencers.date_birth = (datetime.strptime(data.get('date_birth'), format_data)).strftime(format_data), 
+            users_influencers.date_birth = (datetime.strptime(data.get('date_birth'), format_data))
             users_influencers.gender = data.get('gender') 
             users_influencers.telephone = data.get('telephone')
             users_influencers.country = data.get('country')
@@ -462,7 +462,8 @@ def social_networks():
             data = request.json
             social_networks = SocialNetworks(social_network = data.get('social_network'),
                                             social_network_url = data.get('social_network_url'),
-                                            followers = data.get('followers'))
+                                            followers = data.get('followers'),
+                                            id_influencer = current_user[1]['id'])
             db.session.add(social_networks)
             db.session.commit()
             response_body['social_networks'] = social_networks.serialize()
@@ -481,38 +482,51 @@ def edit_social_networks(id_influencer):
             response_body['results'] = social_network.serialize()
             return response_body, 200
         if current_user[0]['is_influencer'] == True:
-            social_network = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()
-            if current_user[1]['id'] != social_network.id_influencer:
+            social_network = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalars()
+            social_network_list = []
+            for row in social_network:
+                social_network_list.append(row.serialize())
+            if current_user[1]['id'] != id_influencer:
                 response_body['message'] = 'No tienes acceso a esta cuenta'
                 return response_body, 400
-            if current_user[1]['id'] == social_network.id_influencer:
+            if current_user[1]['id'] == id_influencer:
                 response_body['message'] = 'Redes'
-                response_body['results'] = social_network.serialize()
+                response_body['results'] = social_network_list
                 return response_body, 200
+
+
+@api.route('/social-networks/current/<int:id_socialnetwork>', methods=['PUT', 'DELETE'])#PUT y DELETE
+@jwt_required()
+def handle_social_networks(id_socialnetwork):
     if request.method == 'PUT':
+        response_body = {}
         current_user = get_jwt_identity()  
-        social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()
+        socialnetwork = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id == id_socialnetwork)).scalar()
+        if not socialnetwork:
+            response_body['message'] = 'Red social no encontrada'
+            return response_body, 404
         if current_user[0]["is_influencer"] == True:         
-            if current_user[1]['id'] == social_networks.id_influencer:               
+            if current_user[1]['id'] == socialnetwork.id_influencer:               
                 data = request.json
-                social_networks.social_network = data.get('social_network') 
-                social_networks.social_network_url = data.get('social_network_url')
-                social_networks.followers = data.get('followers')        
+                socialnetwork.social_network = data.get('social_network') 
+                socialnetwork.social_network_url = data.get('social_network_url')
+                socialnetwork.followers = data.get('followers')        
                 db.session.commit()            
-                response_body['results'] = social_networks.serialize()
+                response_body['results'] = socialnetwork.serialize()
                 response_body['message'] = 'Los datos de las redes han sido modificados'
                 return response_body, 200
         response_body['message'] = 'No es el usuario de la cuenta'
         return response_body, 404
     if request.method == 'DELETE':
+        response_body = {}
         current_user = get_jwt_identity()
-        social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()
-        if not social_networks:
-            response_body['message'] = 'Usuario no correspondiente'
+        socialnetwork = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id == id_socialnetwork)).scalar()
+        if not socialnetwork:
+            response_body['message'] = 'Red social no encontrada'
             return response_body, 400
         if current_user[0]["is_influencer"] == True:    
-            if current_user[1]['id'] == social_networks.id_influencer:
-                db.session.delete(social_networks)      
+            if current_user[1]['id'] == socialnetwork.id_influencer:
+                db.session.delete(socialnetwork)      
                 db.session.commit()
                 response_body['message'] = 'Datos eliminados'
                 return response_body, 200

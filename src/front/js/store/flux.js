@@ -19,7 +19,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isInfluencer: null,
 			user: null,
 			profile: null,
-			imageProfile: null
+			imageProfile: null,
+			socialNetworks: null,
+			currentSocialNetwork: null
 		},
 		actions: {
 			exampleFunction: () => {
@@ -78,8 +80,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({isInfluencer: influencer});
 					localStorage.setItem("token", token);
 					localStorage.setItem("is_influencer", influencer);
-					localStorage.setItem("user", user);
-					localStorage.setItem("profile", profile)
+					localStorage.setItem("user", JSON.stringify(user));
+					localStorage.setItem("profile", JSON.stringify(profile))
 				}
 			},
 			logout: () =>{
@@ -96,8 +98,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (localStorage.getItem("token")){
 					setStore({isLoggedIn: true});
 					setStore({isInfluencer: localStorage.getItem("is_influencer")});
-					setStore({user: user});
-					setStore({profile: profile})
+					setStore({user: JSON.parse(localStorage.getItem("user"))});
+					setStore({profile: JSON.parse(localStorage.getItem("profile"))});
+					if (localStorage.getItem("is_influencer") == "false"){
+						return 
+					} else {
+						getActions().handleSocialNetworks();
+					}
 				} 
 				else {
 					setStore({isLoggedIn: false})
@@ -114,6 +121,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			updateProfile: (profile) => {
 				setStore({profile: profile});
+			},
+			handleSocialNetworks: async () =>{
+				const url = process.env.BACKEND_URL + "/api/social-networks/" + getStore().profile.id;
+        		const options = {
+            		method: "GET",
+            		headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		},   
+        		};
+        		const response = await fetch(url, options);
+        		if (!response.ok){
+        		    console.log(response.status, response.statusText);
+        		    return
+        		}
+        		const data = await response.json();
+        		console.log(data);
+				setStore({socialNetworks: data.results})
+			},
+			handleCurrentSocialNetwork: (obj) =>{
+				setStore({currentSocialNetwork: obj})
 			},
 			uploadFile: async (fileToUpload) => {
 				const data = new FormData();

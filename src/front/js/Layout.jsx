@@ -13,6 +13,8 @@ import { Footer } from "./component/Footer.jsx";
 import { Login } from "./pages/Login.jsx";
 import { Profile } from "./pages/Profile.jsx";
 import { UpdateProfile } from "./pages/UpdateProfile.jsx";
+import { AddSocialNetwork } from "./pages/AddSocialNetwork.jsx";
+import { UpdateSocialNetwork } from "./pages/UpdateSocialNetwork.jsx";
 
 
 // Create your first component
@@ -32,6 +34,8 @@ const Layout = () => {
                         <Route element={<Login />} path="/login"/>
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<UpdateProfile />} path="/update-profile" />
+                        <Route element={<AddSocialNetwork />} path="/add-socialnetwork" />
+                        <Route element={<UpdateSocialNetwork />} path="/update-socialnetwork/:idsocialnetwork" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} path="*"/>
