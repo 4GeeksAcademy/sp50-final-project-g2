@@ -41,7 +41,7 @@ class UsersInfluencers(db.Model):
     user = db.relationship(Users)
 
     def __repr__(self):
-        return f'<User influencer: {self.first_name}>'
+        return f'<User influencer: {self.id} - {self.first_name}>'
 
     def serialize(self):
         return {'id': self.id,
@@ -109,7 +109,7 @@ class Offers(db.Model):
     user = db.relationship(UsersCompany)
 
     def __repr__(self):
-        return f'<Offers: {self.title}>'
+        return f'<Offers: {self.id} - {self.title}>'
 
     def serialize(self):
         return {'id': self.id,

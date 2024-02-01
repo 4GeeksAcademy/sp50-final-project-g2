@@ -18,7 +18,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			mailValidated: false,
 			isInfluencer: null,
 			user: null,
-			profile: null
+			profile: null,
+			candidates: [],
+			offer: []
 		},
 		actions: {
 			exampleFunction: () => {
@@ -131,10 +133,63 @@ const getState = ({ getStore, getActions, setStore }) => {
 				  console.log('error', response.status, response.text)
 				  return "No image url"
 				}
+			},
+			getCandidates: async(offer_id) =>{
+				const url = process.env.BACKEND_URL + `/api/company/offers/${offer_id}/influencers`
+				console.log('Url', url)
+				const token = localStorage.getItem("token")
+				const options = {
+					method : 'GET',
+					headers:{
+						'Authorization': `Bearer ${token}`
+					},										
+				};
+				const response = await fetch(url, options)
+				if (!response.ok){
+					console.log('Error, no consigue conectar', response.status, response.text)
+				};
+				const data = await response.json()
+				console.log(data) //Debería tener los datos de los postulantes
+				setStore({candidates: data.results.offers});
+				console.log('Datos guardados en la store')
+			},
+			acceptCandidate: async(offer_id, influencer_id) =>{				
+				const url = process.env.BACKEND_URL + `/api/company/${offer_id}/offer-candidates/${influencer_id}`
+				const options = {
+					method: 'PUT',
+					body: JSON.stringify({"status_candidate": "accepted" }),
+					headers:{
+						"Content-Type": "application/json",
+                		"Authorization" : "Bearer " + localStorage.getItem("token")
+					}
+				}
+				const response = await fetch(url,options)
+				if(!response.ok){
+					console.log('Error', response.status, response.statusText )
+				};
+				const data = await response.json()
+				console.log(data)
+			},
+			refuseCandidate: async(offer_id, influencer_id) =>{
+				const url = process.env.BACKEND_URL + `/api/company/${offer_id}/offer-candidates/${influencer_id}`
+				const options = {
+					method: 'PUT',
+					body: JSON.stringify({"status_candidate": "refused" }),
+					headers:{
+						"Content-Type": "application/json",
+                		"Authorization" : "Bearer " + localStorage.getItem("token")
+					}
+				}
+				const response = await fetch(url,options)
+				if(!response.ok){
+					console.log('Error', response.status, response.statusText )
+				};
+				const data = await response.json()
+				console.log(data)
+			},
 			}
 		}
 	};
-};
 
 
 export default getState;

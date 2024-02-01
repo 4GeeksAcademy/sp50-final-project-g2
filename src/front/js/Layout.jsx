@@ -13,6 +13,7 @@ import { Footer } from "./component/Footer.jsx";
 import { Login } from "./pages/Login.jsx";
 import { Profile } from "./pages/Profile.jsx";
 import { UpdateProfile } from "./pages/UpdateProfile.jsx";
+import { SeeCandidates } from "./pages/SeeCandidates.jsx";
 
 
 // Create your first component
@@ -35,6 +36,7 @@ const Layout = () => {
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} path="*"/>
+                        <Route element={<SeeCandidates />} path="/see-candidates/:offer_id/influencers" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>
