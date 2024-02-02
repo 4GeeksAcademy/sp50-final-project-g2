@@ -7,6 +7,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isInfluencer: null,
 			user: null,
 			profile: null,
+			candidates: [],
+			offer: [],
+			myOffers: [],
 			offersPublic: null,
 			oneOffer: null
 		},
@@ -172,10 +175,114 @@ const getState = ({ getStore, getActions, setStore }) => {
 				  console.log('error', response.status, response.text)
 				  return "No image url"
 				}
+			},
+			getCandidates: async(offer_id) =>{
+				const url = process.env.BACKEND_URL + `/api/company/offers/${offer_id}/influencers`
+				console.log('Url', url)
+				const token = localStorage.getItem("token")
+				const options = {
+					method : 'GET',
+					headers:{
+						'Authorization': `Bearer ${token}`
+					},										
+				};
+				const response = await fetch(url, options)
+				if (!response.ok){
+					console.log('Error, no consigue conectar', response.status, response.text)
+				};
+				const data = await response.json()
+				console.log(data) //Debería tener los datos de los postulantes
+				setStore({candidates: data.results.offers});
+				console.log('Datos guardados en la store')
+			},
+			acceptCandidate: async(offer_id, influencer_id) =>{				
+				const url = process.env.BACKEND_URL + `/api/company/${offer_id}/offer-candidates/${influencer_id}`
+				const options = {
+					method: 'PUT',
+					body: JSON.stringify({"status_candidate": "accepted" }),
+					headers:{
+						"Content-Type": "application/json",
+                		"Authorization" : "Bearer " + localStorage.getItem("token")
+					}
+				}
+				const response = await fetch(url,options)
+				if(!response.ok){
+					console.log('Error', response.status, response.statusText )
+				};
+				const data = await response.json()
+				console.log(data)
+			},
+			refuseCandidate: async(offer_id, influencer_id) =>{
+				const url = process.env.BACKEND_URL + `/api/company/${offer_id}/offer-candidates/${influencer_id}`
+				const options = {
+					method: 'PUT',
+					body: JSON.stringify({"status_candidate": "refused" }),
+					headers:{
+						"Content-Type": "application/json",
+                		"Authorization" : "Bearer " + localStorage.getItem("token")
+					}
+				}
+				const response = await fetch(url,options)
+				if(!response.ok){
+					console.log('Error', response.status, response.statusText )
+				};
+				const data = await response.json()
+				console.log(data)
+			},
+			// getMyOffers: async(id_user_company) =>{
+			// 	const url = `https://super-duper-rotary-phone-7v9wrwrxrpx53xjwj-3001.app.github.dev/api/offers/${id_user_company}`
+			// 	console.log('Url', url)
+			// 	const token = localStorage.getItem("token")
+			// 	const options = {
+			// 		method: 'GET',
+			// 		headers: {
+			// 			'Authorization' : `Bearer ${token}`
+			// 		},					
+			// 	};
+			// 	const response = await fetch(url, options)
+			// 	if (!response.ok){
+			// 		console.log('Error, no recibe respuesta')
+			// 	};
+			// 	const data = await response.json()
+			// 	console.log('getOffers:', data.results)
+			// 	setStore({myOffers: data.results.offers})
+			// 	console.log('Los datos se han guardado')
+			// },
+			handleOffersCompany: async() =>{
+                const url = process.env.BACKEND_URL + "/api/offer/" + getStore().profile.id;
+                const options = {
+                    method: "GET",
+                    headers:{
+                        "Content-Type": "application/json",
+                        "Authorization" : "Bearer " + localStorage.getItem("token")
+                    },
+                };
+                const response = await fetch(url, options);
+                if (!response.ok){
+                    console.log(response.status, response.statusText);
+                    return
+                }
+                const data = await response.json();
+                console.log(data);
+                setStore({offersCompany: data.results.offers})
+            },
+			isLogged: () => {
+                if (localStorage.getItem("token")){
+                    setStore({isLoggedIn: true});
+                    setStore({isInfluencer: localStorage.getItem("is_influencer")});
+                    setStore({user: JSON.parse(localStorage.getItem("user"))});
+                    setStore({profile: JSON.parse(localStorage.getItem("profile"))});
+                    if (localStorage.getItem("is_influencer") == "false"){
+                        getActions().handleOffersCompany();
+                    }
+                }
+                else {
+                    setStore({isLoggedIn: false})
+                }
+            },
 			}
 		}
 	};
-};
 
 
 export default getState;

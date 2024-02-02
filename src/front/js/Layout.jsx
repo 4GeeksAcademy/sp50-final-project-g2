@@ -16,6 +16,8 @@ import { Footer } from "./component/Footer.jsx";
 import { Login } from "./pages/Login.jsx";
 import { Profile } from "./pages/Profile.jsx";
 import { UpdateProfile } from "./pages/UpdateProfile.jsx";
+import { SeeCandidates } from "./pages/SeeCandidates.jsx";
+import { MyOffers } from "./pages/MyOffers.jsx";
 import { UpdateSocialNetwork } from "./pages/UpdateSocialNetwork.jsx";
 import { Inicio } from "./pages/Inicio.jsx";
 import { OffersCandidate } from "./pages/OffersCandidate.jsx";
@@ -44,6 +46,8 @@ const Layout = () => {
                         <Route element={<Offer />} path="/offers/:offerId" />
                         <Route element={<OffersCandidate/>} path="/offers"/>
                         <Route element={<h1>Not found!</h1>} path="*"/>
+                        <Route element={<MyOffers />} path="company/:id_user_company/my-offers" />
+                        <Route element={<SeeCandidates />} path="company/:id_user_company/my-offers/:offer_id/influencers" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>
