@@ -7,27 +7,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isInfluencer: null,
 			user: null,
 			profile: null,
-			offersPublic: []
+			offersPublic: null,
+			oneOffer: null
 		},
 
 		actions: {
-
+			
+	
 			getOffers: async () => {
-				const url = "https://opulent-doodle-9pqp5wqjvgx2p6x5-3001.app.github.dev/api/offers-public";
-				const token = localStorage.getItem("token")
-				const options = {
-					method: 'GET'
-				};
-				const response = await fetch (url, options)
-				if (response.ok) {
-					const data = await response.json();
-					console.log(data);
-					setStore ({offersPublic : data.results})
-				} else {
-					console.log('Error', response.status, response.statusText)
-					}				
+				const response = await fetch (process.env.BACKEND_URL+ "/api/offers-public")
+				if (!response.ok) return	
+				const data = await response.json();
+				setStore ({offersPublic : data.results.offers})			
 			},
-		
+			
+			getOneOffer: async (id_offer, id_company) => {
+				const response = await fetch (process.env.BACKEND_URL+ "/api/offers/" + id_company + id_offer)
+				if (!response.ok) return	
+				const data = await response.json();
+				setStore ({oneOffer : data.results})
+			},
+
 			getMessage: async () => {
 				try {
 					// Fetching data from the backend
@@ -39,7 +39,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			
+			changeColor: (index, color) => {
+				const store = getStore();  // Get the store
+				// We have to loop the entire demo array to look for the respective index and change its color
+				const demo = store.demo.map((element, i) => {
+					if (i === index) element.background = color;
+					return element;
+				});
+				setStore({demo: demo});  // Reset the global store
+			},
 			validMail: async (email) => {
 					const url = process.env.API_MAIL + email + process.env.API_MAIL2;
 					const options = {
@@ -73,16 +81,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({isInfluencer: influencer});
 					localStorage.setItem("token", token);
 					localStorage.setItem("is_influencer", influencer);
-					localStorage.setItem("user", user);
-					localStorage.setItem("profile", profile)
+					localStorage.setItem("user", JSON.stringify(user));
+					localStorage.setItem("profile", JSON.stringify(profile))
 				}
 			},
 			logout: () =>{
 				setStore({isLoggedIn: false});
 				localStorage.removeItem("token");
 				localStorage.removeItem("is_influencer");
-				//localStorage.removeItem("user");
-				//localStorage.removeItem("profile");
+				localStorage.removeItem("user");
+				localStorage.removeItem("profile");
 				setStore({user: null});
 				setStore({isInfluencer: null});
 				setStore({profile: null})
@@ -91,8 +99,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (localStorage.getItem("token")){
 					setStore({isLoggedIn: true});
 					setStore({isInfluencer: localStorage.getItem("is_influencer")});
-					//setStore({user: user});
-					//setStore({profile: profile})
+					setStore({user: JSON.parse(localStorage.getItem("user"))});
+					setStore({profile: JSON.parse(localStorage.getItem("profile"))});
+					if (localStorage.getItem("is_influencer") == "false"){
+						return 
+					} else {
+						getActions().handleSocialNetworks();
+					}
 				} 
 				else {
 					setStore({isLoggedIn: false})
@@ -106,6 +119,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({user: user});
 				setStore({profile: profile});
 				getActions().isLogged(user, profile)
+			},
+			updateProfile: (profile) => {
+				setStore({profile: profile});
+			},
+			handleSocialNetworks: async () =>{
+				const url = process.env.BACKEND_URL + "/api/social-networks/" + getStore().profile.id;
+        		const options = {
+            		method: "GET",
+            		headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		},   
+        		};
+        		const response = await fetch(url, options);
+        		if (!response.ok){
+        		    console.log(response.status, response.statusText);
+        		    return
+        		}
+        		const data = await response.json();
+        		console.log(data);
+				setStore({socialNetworks: data.results})
+			},
+			handleCurrentSocialNetwork: (obj) =>{
+				setStore({currentSocialNetwork: obj})
 			},
 			uploadFile: async (fileToUpload) => {
 				const data = new FormData();
@@ -121,7 +158,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const response = await fetch(url, options)
 				if (response.ok) {
 				  const data = await response.json();
-				  console.log(data)  // data contiene la url de la imagen
+				  console.log(data);  // data contiene la url de la imagen
+				  setStore({imageProfile: data.results})
 				  return data;
 				} else {
 				  console.log('error', response.status, response.text)

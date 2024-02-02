@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext.js";
-
+import Icono2 from '../../img/1.png';
+import '../../styles/Navbar.css'
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
@@ -9,16 +10,16 @@ export const Navbar = () => {
 	const handleOnClick= () => actions.logout();
 	
 	return (
-		<div className="container-fluid ">
-			<nav className="navbar navbar-light bg-light mt-2">
-				<div className="container-fluid col-6">
+		<div className="col-12">
+			<nav className="navbar navbar-light bg-primary-subtle">
+				<div className="container col-6">
 					<Link to="/">
-						<span className="navbar-brand mb-0 h1"><i className="fa-solid fa-house"></i></span>
+					<img className= "imagen" src= {Icono2} alt="personajes" style={{ width: 150 }}/>
 					</Link>
 					<div className="ml-auto">
 						{ !store.isLoggedIn ? 
 						<Link to="/login">
-							<button className="btn btn-primary">Login</button>
+							<button className="btn btn-warning">Login</button>
 						</Link>
 						:
 						<div>

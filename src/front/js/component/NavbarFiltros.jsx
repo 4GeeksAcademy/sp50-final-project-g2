@@ -6,38 +6,48 @@ export const NavbarFiltros = () => {
 
     return(
         <>
-        <ul className="nav flex-column col-1 ms-3">
-            <div className="card" >
-                <ul className="container p-5">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
-                        <label class="form-check-label" for="flexCheckDefault">
-                         Defaucheckboxxxxxxxxxxxxxxxx
-                        </label>
+        <div className="container-fluid">
+            <div className="row">    
+                    <div className="container-fluid">
+                        <div className="card text-center container-fluid ">
+                            <div className="card text-center container-fluid  my-3">
+                                <div className="form-check">
+                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
+                                <label className="form-check-label" htmlFor="flexCheckDefault">Defaucheck</label>
+                                </div>
+                                <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" defaultChecked=''/>
+                                <label className="form-check-label" htmlFor="flexCheckChecked">Checkedcheckbox</label>
+                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                                <label className="form-check-label" htmlFor="flexRadioDefault1"> Defaultradio</label>
+                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" defaultChecked=''/>
+                                <label className="form-check-label" htmlFor="flexRadioDefault2">Defaultchecked radio</label>
+                                <label htmlFor="customRange1" className="form-label">Examplerange</label>
+                                <input type="range" className="form-range" id="customRange1"></input> 
+                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
+                                <label className="form-check-label" htmlFor="flexCheckDefault">Defaucheck</label>
+                                <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" defaultChecked=''/>
+                                <label className="form-check-label" htmlFor="flexCheckChecked">Checkedcheckbox</label>
+                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                                <label className="form-check-label" htmlFor="flexRadioDefault1"> Defaultradio</label>
+                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" defaultChecked=''/>
+                                <label className="form-check-label" htmlFor="flexRadioDefault2">Defaultchecked radio</label>
+                                <label htmlFor="customRange1" className="form-label">Examplerange</label>
+                                <input type="range" className="form-range" id="customRange1"></input>      
+                                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
+                                <label className="form-check-label" htmlFor="flexCheckDefault">Defaucheck</label>
+                                <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" defaultChecked=''/>
+                                <label className="form-check-label" htmlFor="flexCheckChecked">Checkedcheckbox</label>
+                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+                                <label className="form-check-label" htmlFor="flexRadioDefault1"> Defaultradio</label>
+                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" defaultChecked=''/>
+                                <label className="form-check-label" htmlFor="flexRadioDefault2">Defaultchecked radio</label>
+                                <label htmlFor="customRange1" className="form-label">Examplerange</label>
+                                <input type="range" className="form-range" id="customRange1"></input>           
+                            </div>           
                         </div>
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked/>
-                        <label class="form-check-label" for="flexCheckChecked">
-                            Checkedcheckbox
-                        </label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            Defaultradio
-                        </label>
-                        </div>
-                        <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked/>
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Defaultchecked radio
-                        </label>
-                    </div>
-                        <label for="customRange1" class="form-label">Examplerange</label>
-                        <input type="range" class="form-range" id="customRange1"></input>
-                </ul>
-            </div>
-        </ul>
+            </div>   
+        </div>
         </>
     )
 }

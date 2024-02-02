@@ -3,10 +3,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import injectContext from "./store/appContext";
 // Import pages or views
 import { Home } from "./pages/Home.jsx";
-import { Single } from "./pages/Single.jsx";
 import { OffersPublic } from "./pages/OffersPublic.jsx";
-
-
+import { Offer } from "./pages/Offer.jsx";
+// Import styles
+import 'bootswatch/dist/sandstone/bootstrap.min.css';
+import "../styles/home.css";
 // Import components
 import ScrollToTop from "./component/ScrollToTop.jsx";
 import { BackendURL } from "./component/BackendURL.jsx";
@@ -15,7 +16,7 @@ import { Footer } from "./component/Footer.jsx";
 import { Login } from "./pages/Login.jsx";
 import { Profile } from "./pages/Profile.jsx";
 import { UpdateProfile } from "./pages/UpdateProfile.jsx";
-
+import { UpdateSocialNetwork } from "./pages/UpdateSocialNetwork.jsx";
 
 
 // Create your first component
@@ -31,12 +32,13 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Home />} path="/" />
+                        <Route element={<Home />} path="/signup" />
                         <Route element={<Login />} path="/login"/>
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<UpdateProfile />} path="/update-profile" />
+                        <Route element={<UpdateSocialNetwork />} path="/update-socialnetwork/:idsocialnetwork" />
                         <Route element={<OffersPublic />} path="/offers" />
-                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<Offer />} path="/offers/:companyId/:offerId" />
                         <Route element={<h1>Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />

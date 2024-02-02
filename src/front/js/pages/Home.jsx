@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext.js";
-import "../../styles/home.css";
 import { Link, Navigate } from "react-router-dom";
 
 export const Home = () => {
@@ -44,7 +43,7 @@ export const Home = () => {
 
 	return (
 		store.isLoggedIn ? <Navigate to={"/profile"} /> :
-		<div className="text-center mt-5 bg-warning-subtle">
+		<div className="text-center mt-5">
 			<div className="container-fluid d-flex col-10 ">
 				<div className="col"> 
 					<h1 className="m-2">¡Te damos la bienvenida a tu comunidad profesional!</h1>
