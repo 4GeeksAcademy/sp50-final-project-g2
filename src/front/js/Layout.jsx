@@ -3,8 +3,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import injectContext from "./store/appContext";
 // Import pages or views
 import { Home } from "./pages/Home.jsx";
-import { Demo } from "./pages/Demo.jsx";
-import { Single } from "./pages/Single.jsx";
+import { OffersPublic } from "./pages/OffersPublic.jsx";
+import { Offer } from "./pages/Offer.jsx";
+// Import styles
+import 'bootswatch/dist/sandstone/bootstrap.min.css';
+import "../styles/home.css";
 // Import components
 import ScrollToTop from "./component/ScrollToTop.jsx";
 import { BackendURL } from "./component/BackendURL.jsx";
@@ -17,6 +20,10 @@ import { AddSocialNetwork } from "./pages/AddSocialNetwork.jsx";
 import { UpdateSocialNetwork } from "./pages/UpdateSocialNetwork.jsx";
 import { CreateOffer } from "./pages/CreateOffer.jsx";
 import { UpdateOffersCompany } from "./pages/UpdateOffersCompany.jsx";
+import { SeeCandidates } from "./pages/SeeCandidates.jsx";
+import { MyOffers } from "./pages/MyOffers.jsx";
+import { Inicio } from "./pages/Inicio.jsx";
+import { OffersCandidate } from "./pages/OffersCandidate.jsx";
 
 
 // Create your first component
@@ -32,7 +39,8 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Home />} path="/" />
+                        <Route element={<Inicio/>} path="/"/>
+                        <Route element={<Home />} path="/signup" />
                         <Route element={<Login />} path="/login"/>
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<UpdateProfile />} path="/update-profile" />
@@ -41,7 +49,12 @@ const Layout = () => {
                         <Route element={<CreateOffer />} path="/create-offer" />
                         <Route element={<UpdateOffersCompany />} path="/update-offer/:idoffer"/>
                         <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<Single />} path="/single/:theid" />  
+                        <Route element={<OffersPublic />} path="/offers" />
+                        <Route element={<Offer />} path="/offers/:offerId" />
+                        <Route element={<OffersCandidate/>} path="/offers"/>
+                        <Route element={<MyOffers />} path="company/:id_user_company/my-offers" />
+                        <Route element={<SeeCandidates />} path="company/:id_user_company/my-offers/:offer_id/influencers" />
                         <Route element={<h1 className="text-center">Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />
