@@ -1,13 +1,17 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import Icono from '../../img/Icono.png';
 import '../../styles/Navbar.css'
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
-	const handleOnClick= () => actions.logout();
+	const handleOnClick= () => {
+		actions.logout();
+		navigate("/")
+	}
 	
 	return (
 		<div className="col-12">

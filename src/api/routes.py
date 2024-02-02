@@ -155,8 +155,8 @@ def private():
             social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == current_user[1]["id"])).scalar()
             db.session.delete(user)
             db.session.delete(user_profile)
-            db.session.delete(offer_candidates)
-            db.session.delete(social_networks)
+            if offer_candidates: db.session.delete(offer_candidates)
+            if social_networks: db.session.delete(social_networks)
             db.session.commit()
             response_body['message'] = 'Usuario eliminado'
             return response_body, 200
@@ -165,7 +165,7 @@ def private():
             offers = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"])).scalar()
             db.session.delete(user)
             db.session.delete(user_profile)
-            db.session.delete(offers)
+            if offers: db.session.delete(offers)
             db.session.commit()
             response_body['message'] = 'Usuario eliminado'
             return response_body, 200
@@ -202,13 +202,13 @@ def profile():
             return jsonify({"message": "Bad email or password"}), 401
         if current_user[0]['is_influencer'] == True: 
             data = request.json
-            format_data = "%d/%m/%Y"
+            format_data = "%Y-%m-%d"
             users_influencers = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id == current_user[1]["id"])).scalar()
             if not users_influencers:
                 return jsonify({"message:" "Usuario no encontrado"}), 404
             users_influencers.first_name = data.get('first_name')
             users_influencers.last_name = data.get('last_name')
-            users_influencers.date_birth = datetime.strptime(data.get('date_birth'), format_data), 
+            users_influencers.date_birth = (datetime.strptime(data.get('date_birth'), format_data))
             users_influencers.gender = data.get('gender') 
             users_influencers.telephone = data.get('telephone')
             users_influencers.country = data.get('country')
@@ -218,7 +218,7 @@ def profile():
             users_influencers.description = data.get('description')
             users_influencers.social_networks = data.get('social_networks')
             db.session.commit()
-            response_body['user'] = users_influencers.serialize()
+            response_body['results'] = users_influencers.serialize()
             response_body['message'] = 'El perfil del usuario influencer ha sido modificado'
             return response_body, 200
         if current_user[0]['is_influencer'] == False:
@@ -268,7 +268,7 @@ def publish_offer():
         new_offer = Offers(title = data.get('title'),
                            post = data.get('post'),
                            date_post = datetime.now(), 
-                           status = data.get('status'),
+                           status = "opened", 
                            salary_range = data.get('salary_range'),
                            min_followers = data.get('min_followers'),
                            industry = data.get('industry'),
@@ -280,7 +280,7 @@ def publish_offer():
         response_body["message"] = "Oferta creada"
         response_body["results"] = new_offer.serialize()
         return response_body,200
-      
+     
       
 @api.route('/offers/<int:offers_id>', methods=['GET', 'PUT', 'DELETE'])  # SOLO PARA USERS/COMPANY
 @jwt_required()
@@ -330,7 +330,6 @@ def private_offer_singular(offers_id):
             return jsonify({"message:" "No se han encontrado ofertas"}), 404
         company_offer.title = data.get('title') 
         company_offer.post = data.get('post')
-        company_offer.date_publish = data.get('date_publish')
         company_offer.status = data.get('status')
         company_offer.salary_range = data.get('salary_range')
         company_offer.min_followers = data.get('min_followers')
@@ -381,7 +380,7 @@ def company_offer(id_user_company):
         response_body['message'] = 'Listado de ofertas de la compañía'
         response_body['results'] = results
         return response_body, 200
-    
+
 
 # Endpoint para aplicar una oferta como influencer.
 @api.route('/offer-candidates', methods=['POST'])
@@ -585,7 +584,7 @@ def offered_influencers(offer_id):
             response_body['results'] = results
             return response_body, 200
 
-@api.route('company/<int:offer_id>/offer-candidates/<int:influencer_id>', methods=['PUT'])  # PUT de la compañía para cambiar status de influencer en su oferta
+@api.route('/company/<int:offer_id>/offer-candidates/<int:influencer_id>', methods=['PUT'])  # PUT de la compañía para cambiar status de influencer en su oferta
 @jwt_required()
 def change_status_candidate(offer_id, influencer_id):
     if request.method == 'PUT':
@@ -605,7 +604,7 @@ def change_status_candidate(offer_id, influencer_id):
             response_body['message'] = 'No tiene permisos para editar los candidatos'
             return response_body, 403
             
-@api.route('company/<int:offer_id>', methods=['PUT'])  # Put para que la empresa cambie el estatus de la oferta
+@api.route('/company/<int:offer_id>', methods=['PUT'])  # Put para que la empresa cambie el estatus de la oferta
 @jwt_required()
 def change_offer_status(offer_id):
     if request.method == 'PUT':

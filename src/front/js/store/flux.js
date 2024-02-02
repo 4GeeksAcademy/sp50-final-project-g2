@@ -7,6 +7,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isInfluencer: null,
 			user: null,
 			profile: null,
+			imageProfile: null,
+			socialNetworks: null,
+			currentSocialNetwork: null,
+			offersCompany: null,
+			currentOffer: null,
 			candidates: [],
 			offer: [],
 			myOffers: [],
@@ -105,14 +110,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({isInfluencer: null});
 				setStore({profile: null})
 			},
-			isLogged: (user, profile) => {
+			isLogged: () => {
 				if (localStorage.getItem("token")){
 					setStore({isLoggedIn: true});
 					setStore({isInfluencer: localStorage.getItem("is_influencer")});
 					setStore({user: JSON.parse(localStorage.getItem("user"))});
 					setStore({profile: JSON.parse(localStorage.getItem("profile"))});
 					if (localStorage.getItem("is_influencer") == "false"){
-						return 
+						getActions().handleOffersCompany(); 
 					} else {
 						getActions().handleSocialNetworks();
 					}
@@ -153,6 +158,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			handleCurrentSocialNetwork: (obj) =>{
 				setStore({currentSocialNetwork: obj})
+			},
+			handleCurrentOffer: (obj) =>{
+				setStore({currentOffer: obj})
+			},
+			handleOffersCompany: async() =>{
+				const url = process.env.BACKEND_URL + "/api/offer/" + getStore().profile.id;
+        		const options = {
+            		method: "GET",
+            		headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		},   
+        		};
+        		const response = await fetch(url, options);
+        		if (!response.ok){
+        		    console.log(response.status, response.statusText);
+        		    return
+        		}
+        		const data = await response.json();
+        		console.log(data);
+				setStore({offersCompany: data.results.offers})
 			},
 			uploadFile: async (fileToUpload) => {
 				const data = new FormData();
