@@ -129,22 +129,29 @@ export const Profile = () => {
                     <h4 className="m-2">Descripción</h4>
                     <p className="m-2"><strong> {store.profile.description} </strong></p>
                 </div>
-                <div className="d-grid m-2 mt-3 background_form rounded justify-content-start text-start">
+                <div className="d-block py-1 m-2 mt-3 background_form rounded justify-content-center">
                     <h4 className="m-2">Ofertas publicadas:</h4>
-                    <ul className="m-2 border rounded">
-                        <li>Título: <strong> Instagram </strong></li>
-                        <li>Fecha de publicación: <strong> 05/01/2024 </strong></li>
-                        <li>Descripción de la oferta: <strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempus scelerisque nisl, nec malesuada purus efficitur sit amet. In eget aliquet nulla. Vestibulum eget lacinia elit. Nunc vitae ante vulputate, convallis tortor non, pretium orci. Nunc viverra mattis augue at auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras cursus viverra metus, a vestibulum ligula lobortis non. Maecenas vel mollis odio. Etiam eget elit tincidunt, blandit erat vitae, tempus nunc. Duis consectetur libero erat, consequat porttitor mauris hendrerit vel. Nullam pellentesque euismod lorem. Aliquam lectus magna, aliquet vel vulputate sed, posuere non enim. </strong></li>
-                        <li>Estatus de la oferta: <strong> Activa </strong></li>
-                        <li>Más detalle...</li>
-                    </ul>
-                    <ul className="m-2 border rounded">
-                    <li>Título: <strong> Instagram </strong></li>
-                        <li>Fecha de publicación: <strong> 05/01/2024 </strong></li>
-                        <li>Descripción de la oferta: <strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempus scelerisque nisl, nec malesuada purus efficitur sit amet. In eget aliquet nulla. Vestibulum eget lacinia elit. Nunc vitae ante vulputate, convallis tortor non, pretium orci. Nunc viverra mattis augue at auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras cursus viverra metus, a vestibulum ligula lobortis non. Maecenas vel mollis odio. Etiam eget elit tincidunt, blandit erat vitae, tempus nunc. Duis consectetur libero erat, consequat porttitor mauris hendrerit vel. Nullam pellentesque euismod lorem. Aliquam lectus magna, aliquet vel vulputate sed, posuere non enim. </strong></li>
-                        <li>Estatus de la oferta: <strong> Activa </strong></li>
-                        <li>Más detalle...</li>
-                    </ul>
+                    <Link to="/create-offer" className="text-dark text-end">
+                        <p className="text-end m-2"><i className="fa-solid fa-plus fa-lg"></i></p>
+                    </Link>
+                    {!store.offersCompany ? 
+                    <Spinner />
+                    : 
+                    store.offersCompany.map((item, id) =>{
+                        return(
+                        <div className="m-2 border rounded text-start d-flex justify-content-between">
+                            <div>
+                                <h4 className="m-1 ps-3">{item.title}</h4>
+                                <p className="m-1 ps-3">{item.post}</p>
+                            </div>
+                            <div>
+                                <Link to={`/update-offer/${item.id}`} onClick={() => actions.handleCurrentOffer(item)} className="bg-secondary">
+                                    <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-lg text-secondary"></i></p>
+                                </Link>
+                            </div>
+                        </div>
+                    )})
+                    }
                 </div>
                 <button href="#" className="btn btn-danger" onClick={handleOnClick}>Log out</button>
                 </div>

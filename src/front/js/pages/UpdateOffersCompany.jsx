@@ -1,38 +1,44 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext.js";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
-export const CreateOffer = () =>{
+export const UpdateOffersCompany = () =>{
     const { store, actions } = useContext(Context);
-    const [ title, setTitle] = useState("");
-    const [ post, setPost ] = useState("");
-    const [ salaryRange, setSalaryRange ] = useState("");
-    const [ minFollowers, setMinFollowers ] = useState("");
-    const [ industry, setIndustry ] = useState("");
-    const [ duration, setDuration ] = useState("");
-    const [ location, setLocation ] = useState("");
     const navigate = useNavigate();
+    const params = useParams();
+
+    const currentOffer = store.currentOffer;
+    const [ title, setTitle] = useState(currentOffer.title);
+    const [ post, setPost ] = useState(currentOffer.post);
+    const [ salaryRange, setSalaryRange ] = useState(currentOffer.salary_range);
+    const [ minFollowers, setMinFollowers ] = useState(currentOffer.min_followers);
+    const [ industry, setIndustry ] = useState(currentOffer.industry);
+    const [ duration, setDuration ] = useState(currentOffer.duration_in_weeks);
+    const [ location, setLocation ] = useState(currentOffer.location);
 
     const handleOnSubmit = (event) =>{
         event.preventDefault();
-        const postOffer = {
-           title: title,
-           post: post,
-           salary_range: salaryRange,
-           min_followers: minFollowers,
-           industry: industry,
-           duration_in_weeks: duration,
-           location: location
+        const idOffer = params.idoffer;
+        const obj = {
+            title: title,
+            post: post,
+            salary_range: salaryRange,
+            min_followers: minFollowers,
+            industry: industry,
+            duration_in_weeks: duration,
+            location: location,
+            status: "opened"
         }
-        handleOffer(postOffer);
+        handleUpdateOffer(obj, idOffer);
+        actions.handleOffersCompany();
         navigate('/profile')
     }
 
-    const handleOffer = async(post) =>{
-        const url = process.env.BACKEND_URL + "/api/offers";
+    const handleUpdateOffer = async(obj, idOffer) =>{
+        const url = process.env.BACKEND_URL + "/api/offers/" + idOffer;
         const options = {
-            method: "POST",
-            body: JSON.stringify(post),
+            method: "PUT",
+            body: JSON.stringify(obj),
             headers:{
                 "Content-Type": "application/json",
                 "Authorization" : "Bearer " + localStorage.getItem("token")
@@ -45,14 +51,13 @@ export const CreateOffer = () =>{
         }
         const data = await response.json();
         console.log(data);
-        actions.handleOffersCompany()
     }
 
     return(
         store.isInfluencer == "true" ? <Navigate to='/profile' /> :
         <div>
             <div>
-                <h1 className="text-center m-2">CREAR UNA OFERTA</h1>
+                <h1 className="text-center m-2">MODIFICAR LA OFERTA</h1>
                 <div className="d-flex justify-content-center">
                     <div className="m-5 col-8 background_form p-2 rounded">
                         <form onSubmit={handleOnSubmit}>

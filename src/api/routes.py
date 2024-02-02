@@ -265,7 +265,7 @@ def publish_offer():
         new_offer = Offers(title = data.get('title'),
                            post = data.get('post'),
                            date_post = datetime.now(), 
-                           status = data.get('status'), ## Se tiene que colocar por defecto que sea "opened", luego la empresa puede editarlo
+                           status = "opened", 
                            salary_range = data.get('salary_range'),
                            min_followers = data.get('min_followers'),
                            industry = data.get('industry'),
@@ -278,22 +278,32 @@ def publish_offer():
         response_body["results"] = new_offer.serialize()
         return response_body,200
 
-@api.route('/offers/<int:id_user_company>/<int:offers_id>', methods=['GET', 'PUT', 'DELETE'])  # SOLO PARA USERS/COMPANY
+@api.route('/offers/<int:offers_id>', methods=['GET', 'PUT', 'DELETE']) # SOLO PARA USERS/COMPANY
 @jwt_required()
-def private_offer_singular(id_company, offer_id):
+def private_offer_singular(offers_id):
     if request.method == 'GET':
         current_user = get_jwt_identity()
         response_body = {}
         results = {}
         if current_user[0]['is_influencer'] == False:
-            offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]['id'])).scalar()
+            offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == current_user[1]["id"])).scalar()
+            if not offer:
+                return jsonify({"message": "No se encontro la oferta"}), 404
             results['Offer: '] = offer.serialize()
             response_body['Message: '] = 'Oferta:'
             response_body['results: '] = results
             return response_body,200
-        else:               
-            response_body['message'] = 'Oferta no encontrada o no pertenece al usuario/company'
-            return jsonify(response_body), 404   
+        if current_user[0]['is_influencer'] == True:
+            offer = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"], Offers.id == offers_id)).scalar()
+            if not offer:
+                return jsonify({"message": "No se encontro la oferta"}), 404
+            results['offer'] = offer.serialize()
+            response_body['message'] = 'Oferta'
+            response_body['results'] = results
+            return response_body, 200
+        else:
+            response_body['message'] = 'Error en la parte de influencer '
+            return jsonify(response_body), 404
     if request.method == 'DELETE':
         current_user = get_jwt_identity()
         response_body = {}
@@ -316,7 +326,6 @@ def private_offer_singular(id_company, offer_id):
                 return jsonify({"message:" "No se han encontrado ofertas"}), 404
         company_offer.title = data.get('title') 
         company_offer.post = data.get('post')
-        company_offer.date_publish = data.get('date_publish')
         company_offer.status = data.get('status')
         company_offer.salary_range = data.get('salary_range')
         company_offer.min_followers = data.get('min_followers')
@@ -347,26 +356,7 @@ def company_offer(id_user_company):
         response_body['message'] = 'Listado de ofertas de la compañía'
         response_body['results'] = results
         return response_body, 200
-    if request.method == 'POST':
-        current_user = get_jwt_identity()
-        response_body = {}
-        data = request.json
-        new_offer = Offers(
-                           title = data.get('title'),
-                           post = data.get('post'),
-                           date_post = datetime.now(), #REVISAR ESTO, NO TOCAR PARA QUE FUNCIONE
-                           status = data.get('status'), ## Se tiene que colocar un sting de "opened" cuando se crea la oferta, luego la empresa puede modificar este dato
-                           salary_range = data.get('salary_range'),
-                           min_followers = data.get('min_followers'),
-                           industry = data.get('industry'),
-                           duration_in_weeks = data.get('duration_in_weeks'),
-                           location = data.get('location'),
-                           id_company = current_user[0]['id']
-                                )
-        db.session.add(new_offer)
-        db.session.commit()
-        response_body['Oferta: '] = new_offer.serialize()
-        return response_body,200 
+
 
 # HASTA AQUÍ          
 
@@ -552,7 +542,7 @@ def offered_influencers(offer_id):
             response_body['results'] = results
             return response_body, 200
 
-@api.route('company/<int:offer_id>/offer-candidates/<int:influencer_id>', methods=['PUT'])  # PUT de la compañía para cambiar status de influencer en su oferta
+@api.route('/company/<int:offer_id>/offer-candidates/<int:influencer_id>', methods=['PUT'])  # PUT de la compañía para cambiar status de influencer en su oferta
 @jwt_required()
 def change_status_candidate(offer_id, influencer_id):
     if request.method == 'PUT':
@@ -572,7 +562,7 @@ def change_status_candidate(offer_id, influencer_id):
             response_body['message'] = 'No tiene permisos para editar los candidatos'
             return response_body, 403
             
-@api.route('company/<int:offer_id>', methods=['PUT'])  # Put para que la empresa cambie el estatus de la oferta
+@api.route('/company/<int:offer_id>', methods=['PUT'])  # Put para que la empresa cambie el estatus de la oferta
 @jwt_required()
 def change_offer_status(offer_id):
     if request.method == 'PUT':
