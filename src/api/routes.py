@@ -278,27 +278,37 @@ def publish_offer():
         response_body["results"] = new_offer.serialize()
         return response_body,200
 
-@api.route('/offers/<int:id_user_company>/<int:offers_id>', methods=['GET', 'PUT', 'DELETE'])  # SOLO PARA USERS/COMPANY
+@api.route('/offers/<int:offers_id>', methods=['GET', 'PUT', 'DELETE'])  # SOLO PARA USERS/COMPANY
 @jwt_required()
-def private_offer_singular(id_company, offer_id):
+def private_offer_singular(offers_id):
     if request.method == 'GET':
         current_user = get_jwt_identity()
         response_body = {}
         results = {}
         if current_user[0]['is_influencer'] == False:
-            offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]['id'])).scalar()
+            offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == current_user[1]["id"])).scalar()
+            if not offer:
+                return jsonify({"message": "No se encontro la oferta"}), 404
             results['Offer: '] = offer.serialize()
             response_body['Message: '] = 'Oferta:'
             response_body['results: '] = results
             return response_body,200
-        else:               
-            response_body['message'] = 'Oferta no encontrada o no pertenece al usuario/company'
-            return jsonify(response_body), 404   
+        if current_user[0]['is_influencer'] == True:
+            offer = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"], Offers.id == offers_id)).scalar()
+            if not offer:
+                return jsonify({"message": "No se encontro la oferta"}), 404
+            results['offer'] = offer.serialize()
+            response_body['message'] = 'Oferta'
+            response_body['results'] = results
+            return response_body, 200
+        else:
+            response_body['message'] = 'Error en la parte de influencer '
+            return jsonify(response_body), 404  
     if request.method == 'DELETE':
         current_user = get_jwt_identity()
         response_body = {}
         if current_user[0]['is_influencer'] == False:
-            user_offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]["id"])).scalar()
+            user_offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == current_user[0]["id"])).scalar()
             db.session.delete(user_offer)
             db.session.commit()
             response_body['message'] = 'Oferta eliminada'
@@ -311,7 +321,7 @@ def private_offer_singular(id_company, offer_id):
         response_body = {}       
         if current_user[0]['is_influencer'] == False:
             data = request.json
-            company_offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]["id"])).scalar()             
+            company_offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == current_user[0]["id"])).scalar()             
         if not user_offers:
                 return jsonify({"message:" "No se han encontrado ofertas"}), 404
         company_offer.title = data.get('title') 
@@ -329,16 +339,16 @@ def private_offer_singular(id_company, offer_id):
         return response_body, 200
 
 ## ESTO ES PARA MIKE PARA QUE PRUEBE LO SUYO
-@api.route('/offer/<int:id_user_company>', methods=['GET','POST'])  #FUNCIONA, TE DEVUELVE TODAS LAS OFERTAS DE TU EMPRESA Y TE DEJA PUBLICAR
+@api.route('/offers/<int:id_user_company>', methods=['GET','POST'])  #FUNCIONA, TE DEVUELVE TODAS LAS OFERTAS DE TU EMPRESA Y TE DEJA PUBLICAR
 @jwt_required()
 def company_offer(id_user_company):
     if request.method == 'GET':
         current_user = get_jwt_identity()
+        response_body = {}
+        results = {}
         if current_user[0]['is_influencer'] == True: 
             response_body["message"] = "Acceso denegado, no tiene perfil de compañía"
             response_body["results"] = current_user
-        response_body = {}
-        results = {}
         offers = db.session.execute(db.select(Offers).where(Offers.id_company == id_user_company)).scalars()
         list_offers = []
         for row in offers:
@@ -593,4 +603,24 @@ def change_offer_status(offer_id):
             return response_body, 200
         if not current_user:
             response_body['message'] = 'No tiene permisos para editar la oferta'
+            return response_body, 403
+
+@api.route('influencer/<int:id_company>/<int:offers_id>', methods=['GET']) # Get para que influencer pueda ver X oferta
+@jwt_required()
+def getParticularOffer(id_company,offers_id):
+    if request.method == 'GET':
+        current_user = get_jwt_identity()
+        response_body = {}
+        if current_user[0]['is_influencer'] == True:
+            offer = db.session.execute(db.select(Offers).where(Offers.id == id_company, Offers.id_company == offers_id)).scalar()
+            if offer:
+                offer_serialized = offer.serialize()
+                response_body['message'] = 'Oferta'
+                response_body['results'] = offer_serialized
+                return response_body, 200
+            else:
+                response_body['message'] = 'Oferta no encontrada o no pertenece a la empresa'
+                return response_body, 404
+        else:
+            response_body['message'] = 'No tiene permiso'
             return response_body, 403

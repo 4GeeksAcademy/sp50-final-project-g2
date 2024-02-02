@@ -20,7 +20,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: null,
 			profile: null,
 			candidates: [],
-			offer: []
+			offer: [],
+			myOffers: []
 		},
 		actions: {
 			exampleFunction: () => {
@@ -92,17 +93,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({user: null});
 				setStore({isInfluencer: null});
 				setStore({profile: null})
-			},
-			isLogged: (user, profile) => {
-				if (localStorage.getItem("token")){
-					setStore({isLoggedIn: true});
-					setStore({isInfluencer: localStorage.getItem("is_influencer")});
-					//setStore({user: user});
-					//setStore({profile: profile})
-				} 
-				else {
-					setStore({isLoggedIn: false})
-				}
 			},
 			handleInfluencer: (value) =>{
 				if (value == true){setStore({isInfluencer: true})}
@@ -187,6 +177,57 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json()
 				console.log(data)
 			},
+			// getMyOffers: async(id_user_company) =>{
+			// 	const url = `https://super-duper-rotary-phone-7v9wrwrxrpx53xjwj-3001.app.github.dev/api/offers/${id_user_company}`
+			// 	console.log('Url', url)
+			// 	const token = localStorage.getItem("token")
+			// 	const options = {
+			// 		method: 'GET',
+			// 		headers: {
+			// 			'Authorization' : `Bearer ${token}`
+			// 		},					
+			// 	};
+			// 	const response = await fetch(url, options)
+			// 	if (!response.ok){
+			// 		console.log('Error, no recibe respuesta')
+			// 	};
+			// 	const data = await response.json()
+			// 	console.log('getOffers:', data.results)
+			// 	setStore({myOffers: data.results.offers})
+			// 	console.log('Los datos se han guardado')
+			// },
+			handleOffersCompany: async() =>{
+                const url = process.env.BACKEND_URL + "/api/offer/" + getStore().profile.id;
+                const options = {
+                    method: "GET",
+                    headers:{
+                        "Content-Type": "application/json",
+                        "Authorization" : "Bearer " + localStorage.getItem("token")
+                    },
+                };
+                const response = await fetch(url, options);
+                if (!response.ok){
+                    console.log(response.status, response.statusText);
+                    return
+                }
+                const data = await response.json();
+                console.log(data);
+                setStore({offersCompany: data.results.offers})
+            },
+			isLogged: () => {
+                if (localStorage.getItem("token")){
+                    setStore({isLoggedIn: true});
+                    setStore({isInfluencer: localStorage.getItem("is_influencer")});
+                    setStore({user: JSON.parse(localStorage.getItem("user"))});
+                    setStore({profile: JSON.parse(localStorage.getItem("profile"))});
+                    if (localStorage.getItem("is_influencer") == "false"){
+                        getActions().handleOffersCompany();
+                    }
+                }
+                else {
+                    setStore({isLoggedIn: false})
+                }
+            },
 			}
 		}
 	};

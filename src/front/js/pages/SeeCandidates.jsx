@@ -8,11 +8,8 @@ import { useParams } from "react-router-dom"
 
 export const SeeCandidates = () => {
     const { store, actions } = useContext(Context)
-    const { offer_id } = useParams()
-    const [fadeCandidates, setFadeCandidates] = useState([])
-
-    
-    
+    const { offer_id } = useParams()  
+   
     useEffect(() => {
         actions.getCandidates(offer_id); // Llamada a la acción
     }, [offer_id]);
