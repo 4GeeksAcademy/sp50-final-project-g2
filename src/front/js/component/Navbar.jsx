@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext.js";
-import Icono2 from '../../img/1.png';
+import Icono from '../../img/Icono.png';
 import '../../styles/Navbar.css'
 
 export const Navbar = () => {
@@ -14,7 +14,7 @@ export const Navbar = () => {
 			<nav className="navbar navbar-light bg-primary-subtle">
 				<div className="container col-6">
 					<Link to="/">
-					<img className= "imagen" src= {Icono2} alt="personajes" style={{ width: 150 }}/>
+					<img className= "imagen" src= {Icono} alt="personajes" style={{ width: 150 }}/>
 					</Link>
 					<div className="ml-auto">
 						{ !store.isLoggedIn ? 

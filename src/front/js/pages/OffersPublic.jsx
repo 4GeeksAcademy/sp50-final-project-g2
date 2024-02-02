@@ -8,9 +8,7 @@ import {Spinner} from "../component/Spinner.jsx"
 export const OffersPublic = () => {
     const { store, actions } = useContext(Context);
 
-const handleClick = () => {
-    console.log("hola")
-};
+
 
     return ( !store.offersPublic ? <Spinner/> : 
         <div>
@@ -37,7 +35,7 @@ const handleClick = () => {
                                             <p className="card-text">
                                             <small className="text-body-secondary">{item.salary_range}$ | {(item.min_followers).toLocaleString()} Seguidores | {item.duration} Semanas</small>
                                             </p>
-                                            <Link to={`/offers/${item.id_company}/${item.id}`} className="btn btn-primary">Oferta</Link>
+                                            <Link onClick={() => actions.handleOfferPublic(item)} to={`/offers/${item.id}`} className="btn btn-primary">Oferta</Link>
                                         </div>
                                     </div>
                                 </div>

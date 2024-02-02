@@ -17,15 +17,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getOffers: async () => {
 				const response = await fetch (process.env.BACKEND_URL+ "/api/offers-public")
 				if (!response.ok) return	
-				const data = await response.json();
-				setStore ({offersPublic : data.results.offers})			
+					const data = await response.json();
+					setStore ({offersPublic : data.results.offers})			
 			},
 			
-			getOneOffer: async (id_offer, id_company) => {
-				const response = await fetch (process.env.BACKEND_URL+ "/api/offers/" + id_company + id_offer)
-				if (!response.ok) return	
-				const data = await response.json();
-				setStore ({oneOffer : data.results})
+			getOneOffer: async (id_offer) => {
+				const url = process.env.BACKEND_URL+ "/api/offers/" + id_offer
+				const options = {
+					method: "GET",
+					headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		}  
+        		};
+        		const response = await fetch(url, options);
+        		if (response.ok){
+					const data = await response.json();
+					setStore({ oneOffer: data.results });
+        		} else {
+					console.log("Error: ", response.status, response.statusText);
+				}
+			},
+
+			handleOfferPublic: (obj) => {
+				setStore({oneOffer: obj})
 			},
 
 			getMessage: async () => {
@@ -39,15 +54,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			changeColor: (index, color) => {
-				const store = getStore();  // Get the store
-				// We have to loop the entire demo array to look for the respective index and change its color
-				const demo = store.demo.map((element, i) => {
-					if (i === index) element.background = color;
-					return element;
-				});
-				setStore({demo: demo});  // Reset the global store
-			},
+			
 			validMail: async (email) => {
 					const url = process.env.API_MAIL + email + process.env.API_MAIL2;
 					const options = {

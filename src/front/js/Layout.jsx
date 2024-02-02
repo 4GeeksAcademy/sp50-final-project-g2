@@ -17,6 +17,8 @@ import { Login } from "./pages/Login.jsx";
 import { Profile } from "./pages/Profile.jsx";
 import { UpdateProfile } from "./pages/UpdateProfile.jsx";
 import { UpdateSocialNetwork } from "./pages/UpdateSocialNetwork.jsx";
+import { Inicio } from "./pages/Inicio.jsx";
+import { OffersCandidate } from "./pages/OffersCandidate.jsx";
 
 
 // Create your first component
@@ -32,13 +34,15 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
+                        <Route element={<Inicio/>} path="/"/>
                         <Route element={<Home />} path="/signup" />
                         <Route element={<Login />} path="/login"/>
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<UpdateProfile />} path="/update-profile" />
                         <Route element={<UpdateSocialNetwork />} path="/update-socialnetwork/:idsocialnetwork" />
                         <Route element={<OffersPublic />} path="/offers" />
-                        <Route element={<Offer />} path="/offers/:companyId/:offerId" />
+                        <Route element={<Offer />} path="/offers/:offerId" />
+                        <Route element={<OffersCandidate/>} path="/offers"/>
                         <Route element={<h1>Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />
