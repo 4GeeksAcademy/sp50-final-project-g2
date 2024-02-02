@@ -2,18 +2,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			],
 			isLoggedIn: false,
 			mailValidated: false,
 			isInfluencer: null,
@@ -21,12 +9,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 			profile: null,
 			candidates: [],
 			offer: [],
-			myOffers: []
+			myOffers: [],
+			offersPublic: null,
+			oneOffer: null
 		},
+
 		actions: {
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");  // Use getActions to call a function within a fuction
+			
+	
+			getOffers: async () => {
+				const response = await fetch (process.env.BACKEND_URL+ "/api/offers-public")
+				if (!response.ok) return	
+					const data = await response.json();
+					setStore ({offersPublic : data.results.offers})			
 			},
+			
+			getOneOffer: async (id_offer) => {
+				const url = process.env.BACKEND_URL+ "/api/offers/" + id_offer
+				const options = {
+					method: "GET",
+					headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		}  
+        		};
+        		const response = await fetch(url, options);
+        		if (response.ok){
+					const data = await response.json();
+					setStore({ oneOffer: data.results });
+        		} else {
+					console.log("Error: ", response.status, response.statusText);
+				}
+			},
+
+			handleOfferPublic: (obj) => {
+				setStore({oneOffer: obj})
+			},
+
 			getMessage: async () => {
 				try {
 					// Fetching data from the backend
@@ -38,15 +57,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			changeColor: (index, color) => {
-				const store = getStore();  // Get the store
-				// We have to loop the entire demo array to look for the respective index and change its color
-				const demo = store.demo.map((element, i) => {
-					if (i === index) element.background = color;
-					return element;
-				});
-				setStore({demo: demo});  // Reset the global store
-			},
+			
 			validMail: async (email) => {
 					const url = process.env.API_MAIL + email + process.env.API_MAIL2;
 					const options = {
@@ -80,19 +91,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({isInfluencer: influencer});
 					localStorage.setItem("token", token);
 					localStorage.setItem("is_influencer", influencer);
-					localStorage.setItem("user", user);
-					localStorage.setItem("profile", profile)
+					localStorage.setItem("user", JSON.stringify(user));
+					localStorage.setItem("profile", JSON.stringify(profile))
 				}
 			},
 			logout: () =>{
 				setStore({isLoggedIn: false});
 				localStorage.removeItem("token");
 				localStorage.removeItem("is_influencer");
-				//localStorage.removeItem("user");
-				//localStorage.removeItem("profile");
+				localStorage.removeItem("user");
+				localStorage.removeItem("profile");
 				setStore({user: null});
 				setStore({isInfluencer: null});
 				setStore({profile: null})
+			},
+			isLogged: (user, profile) => {
+				if (localStorage.getItem("token")){
+					setStore({isLoggedIn: true});
+					setStore({isInfluencer: localStorage.getItem("is_influencer")});
+					setStore({user: JSON.parse(localStorage.getItem("user"))});
+					setStore({profile: JSON.parse(localStorage.getItem("profile"))});
+					if (localStorage.getItem("is_influencer") == "false"){
+						return 
+					} else {
+						getActions().handleSocialNetworks();
+					}
+				} 
+				else {
+					setStore({isLoggedIn: false})
+				}
 			},
 			handleInfluencer: (value) =>{
 				if (value == true){setStore({isInfluencer: true})}
@@ -102,6 +129,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({user: user});
 				setStore({profile: profile});
 				getActions().isLogged(user, profile)
+			},
+			updateProfile: (profile) => {
+				setStore({profile: profile});
+			},
+			handleSocialNetworks: async () =>{
+				const url = process.env.BACKEND_URL + "/api/social-networks/" + getStore().profile.id;
+        		const options = {
+            		method: "GET",
+            		headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		},   
+        		};
+        		const response = await fetch(url, options);
+        		if (!response.ok){
+        		    console.log(response.status, response.statusText);
+        		    return
+        		}
+        		const data = await response.json();
+        		console.log(data);
+				setStore({socialNetworks: data.results})
+			},
+			handleCurrentSocialNetwork: (obj) =>{
+				setStore({currentSocialNetwork: obj})
 			},
 			uploadFile: async (fileToUpload) => {
 				const data = new FormData();
@@ -117,7 +168,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const response = await fetch(url, options)
 				if (response.ok) {
 				  const data = await response.json();
-				  console.log(data)  // data contiene la url de la imagen
+				  console.log(data);  // data contiene la url de la imagen
+				  setStore({imageProfile: data.results})
 				  return data;
 				} else {
 				  console.log('error', response.status, response.text)
