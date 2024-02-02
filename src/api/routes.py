@@ -249,7 +249,10 @@ def offers():
     offers = db.session.execute(db.select(Offers)).scalars()
     list_offers = []
     for row in offers:
-        list_offers.append(row.serialize())
+        company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id == row.id_company)).scalar()
+        offer_data = row.serialize()
+        offer_data['company'] = company.serialize()
+        list_offers.append(offer_data)
     results['offers'] = list_offers
     response_body['message'] = 'Listado de ofertas'
     response_body['results'] = results
@@ -278,22 +281,33 @@ def publish_offer():
         response_body["results"] = new_offer.serialize()
         return response_body,200
 
-@api.route('/offers/<int:id_user_company>/<int:offers_id>', methods=['GET', 'PUT', 'DELETE'])  # SOLO PARA USERS/COMPANY
+
+@api.route('/offers/<int:offers_id>', methods=['GET', 'PUT', 'DELETE'])  # SOLO PARA USERS/COMPANY
 @jwt_required()
-def private_offer_singular(id_company, offer_id):
+def private_offer_singular(offers_id):
     if request.method == 'GET':
         current_user = get_jwt_identity()
         response_body = {}
         results = {}
         if current_user[0]['is_influencer'] == False:
-            offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]['id'])).scalar()
+            offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == current_user[1]["id"])).scalar()
+            if not offer:
+                return jsonify({"message": "No se encontro la oferta"}), 404
             results['Offer: '] = offer.serialize()
             response_body['Message: '] = 'Oferta:'
             response_body['results: '] = results
             return response_body,200
-        else:               
-            response_body['message'] = 'Oferta no encontrada o no pertenece al usuario/company'
-            return jsonify(response_body), 404   
+        if current_user[0]['is_influencer'] == True:
+            offer = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"], Offers.id == offers_id)).scalar()
+            if not offer:
+                return jsonify({"message": "No se encontro la oferta"}), 404
+            results['offer'] = offer.serialize()
+            response_body['message'] = 'Oferta'
+            response_body['results'] = results
+            return response_body, 200 
+        else:
+            response_body['message'] = 'Error en la parte de influencer '
+            return jsonify(response_body), 404
     if request.method == 'DELETE':
         current_user = get_jwt_identity()
         response_body = {}
@@ -313,7 +327,7 @@ def private_offer_singular(id_company, offer_id):
             data = request.json
             company_offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id, Offers.id_company == current_user[0]["id"])).scalar()             
         if not user_offers:
-                return jsonify({"message:" "No se han encontrado ofertas"}), 404
+            return jsonify({"message:" "No se han encontrado ofertas"}), 404
         company_offer.title = data.get('title') 
         company_offer.post = data.get('post')
         company_offer.date_publish = data.get('date_publish')
@@ -328,17 +342,35 @@ def private_offer_singular(id_company, offer_id):
         response_body['message'] = 'Los datos de la oferta han sido modificados'
         return response_body, 200
 
-## ESTO ES PARA MIKE PARA QUE PRUEBE LO SUYO
-@api.route('/offer/<int:id_user_company>', methods=['GET','POST'])  #FUNCIONA, TE DEVUELVE TODAS LAS OFERTAS DE TU EMPRESA Y TE DEJA PUBLICAR
+
+@api.route('influencer/<int:id_company>/<int:offers_id>', methods=['GET']) # Get para que influencer pueda ver X oferta
+@jwt_required()
+def getParticularOffer(id_company,offers_id):
+    if request.method == 'GET':
+        current_user = get_jwt_identity()
+        response_body = {}
+        if current_user[0]['is_influencer'] == True:
+            offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == offers_id)).scalar()
+            offer_serialized = offer.serialize()
+            response_body['message'] = 'Oferta'
+            response_body['results'] = offer_serialized
+            return response_body, 200
+        else:
+            response_body['message'] = 'No tiene permiso'
+            return response_body,403
+
+
+@api.route('/offers/<int:id_user_company>', methods=['GET'])  #FUNCIONA, TE DEVUELVE TODAS LAS OFERTAS DE TU EMPRESA Y TE DEJA PUBLICAR
 @jwt_required()
 def company_offer(id_user_company):
     if request.method == 'GET':
+        response_body = {}
+        results = {}
         current_user = get_jwt_identity()
         if current_user[0]['is_influencer'] == True: 
             response_body["message"] = "Acceso denegado, no tiene perfil de compañía"
             response_body["results"] = current_user
-        response_body = {}
-        results = {}
+            return response_body, 401
         offers = db.session.execute(db.select(Offers).where(Offers.id_company == id_user_company)).scalars()
         list_offers = []
         for row in offers:
@@ -347,28 +379,7 @@ def company_offer(id_user_company):
         response_body['message'] = 'Listado de ofertas de la compañía'
         response_body['results'] = results
         return response_body, 200
-    if request.method == 'POST':
-        current_user = get_jwt_identity()
-        response_body = {}
-        data = request.json
-        new_offer = Offers(
-                           title = data.get('title'),
-                           post = data.get('post'),
-                           date_post = datetime.now(), #REVISAR ESTO, NO TOCAR PARA QUE FUNCIONE
-                           status = data.get('status'),
-                           salary_range = data.get('salary_range'),
-                           min_followers = data.get('min_followers'),
-                           industry = data.get('industry'),
-                           duration_in_weeks = data.get('duration_in_weeks'),
-                           location = data.get('location'),
-                           id_company = current_user[0]['id']
-                                )
-        db.session.add(new_offer)
-        db.session.commit()
-        response_body['Oferta: '] = new_offer.serialize()
-        return response_body,200 
-
-# HASTA AQUÍ          
+    
 
 # Endpoint para aplicar una oferta como influencer.
 @api.route('/offer-candidates', methods=['POST'])
@@ -462,7 +473,8 @@ def social_networks():
             data = request.json
             social_networks = SocialNetworks(social_network = data.get('social_network'),
                                             social_network_url = data.get('social_network_url'),
-                                            followers = data.get('followers'))
+                                            followers = data.get('followers'),
+                                            id_influencer = current_user[1]['id'])
             db.session.add(social_networks)
             db.session.commit()
             response_body['social_networks'] = social_networks.serialize()
@@ -481,43 +493,57 @@ def edit_social_networks(id_influencer):
             response_body['results'] = social_network.serialize()
             return response_body, 200
         if current_user[0]['is_influencer'] == True:
-            social_network = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()
-            if current_user[1]['id'] != social_network.id_influencer:
+            social_network = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalars()
+            social_network_list = []
+            for row in social_network:
+                social_network_list.append(row.serialize())
+            if current_user[1]['id'] != id_influencer:
                 response_body['message'] = 'No tienes acceso a esta cuenta'
                 return response_body, 400
-            if current_user[1]['id'] == social_network.id_influencer:
+            if current_user[1]['id'] == id_influencer:
                 response_body['message'] = 'Redes'
-                response_body['results'] = social_network.serialize()
+                response_body['results'] = social_network_list
                 return response_body, 200
+
+
+@api.route('/social-networks/current/<int:id_socialnetwork>', methods=['PUT', 'DELETE'])#PUT y DELETE
+@jwt_required()
+def handle_social_networks(id_socialnetwork):
     if request.method == 'PUT':
+        response_body = {}
         current_user = get_jwt_identity()  
-        social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()
+        socialnetwork = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id == id_socialnetwork)).scalar()
+        if not socialnetwork:
+            response_body['message'] = 'Red social no encontrada'
+            return response_body, 404
         if current_user[0]["is_influencer"] == True:         
-            if current_user[1]['id'] == social_networks.id_influencer:               
+            if current_user[1]['id'] == socialnetwork.id_influencer:               
                 data = request.json
-                social_networks.social_network = data.get('social_network') 
-                social_networks.social_network_url = data.get('social_network_url')
-                social_networks.followers = data.get('followers')        
+                socialnetwork.social_network = data.get('social_network') 
+                socialnetwork.social_network_url = data.get('social_network_url')
+                socialnetwork.followers = data.get('followers')        
                 db.session.commit()            
-                response_body['results'] = social_networks.serialize()
+                response_body['results'] = socialnetwork.serialize()
                 response_body['message'] = 'Los datos de las redes han sido modificados'
                 return response_body, 200
         response_body['message'] = 'No es el usuario de la cuenta'
         return response_body, 404
     if request.method == 'DELETE':
+        response_body = {}
         current_user = get_jwt_identity()
-        social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()
-        if not social_networks:
-            response_body['message'] = 'Usuario no correspondiente'
+        socialnetwork = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id == id_socialnetwork)).scalar()
+        if not socialnetwork:
+            response_body['message'] = 'Red social no encontrada'
             return response_body, 400
         if current_user[0]["is_influencer"] == True:    
-            if current_user[1]['id'] == social_networks.id_influencer:
-                db.session.delete(social_networks)      
+            if current_user[1]['id'] == socialnetwork.id_influencer:
+                db.session.delete(socialnetwork)      
                 db.session.commit()
                 response_body['message'] = 'Datos eliminados'
                 return response_body, 200
         response_body['message'] = 'No tiene permisos para eliminar los datos'
         return response_body, 403
+
 
 
 @api.route('/company/offers/<int:offer_id>/influencers', methods=['GET'])
