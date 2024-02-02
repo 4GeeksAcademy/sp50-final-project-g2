@@ -265,7 +265,7 @@ def publish_offer():
         new_offer = Offers(title = data.get('title'),
                            post = data.get('post'),
                            date_post = datetime.now(), 
-                           status = data.get('status'),
+                           status = data.get('status'), ## Se tiene que colocar por defecto que sea "opened", luego la empresa puede editarlo
                            salary_range = data.get('salary_range'),
                            min_followers = data.get('min_followers'),
                            industry = data.get('industry'),
@@ -355,7 +355,7 @@ def company_offer(id_user_company):
                            title = data.get('title'),
                            post = data.get('post'),
                            date_post = datetime.now(), #REVISAR ESTO, NO TOCAR PARA QUE FUNCIONE
-                           status = data.get('status'),
+                           status = data.get('status'), ## Se tiene que colocar un sting de "opened" cuando se crea la oferta, luego la empresa puede modificar este dato
                            salary_range = data.get('salary_range'),
                            min_followers = data.get('min_followers'),
                            industry = data.get('industry'),

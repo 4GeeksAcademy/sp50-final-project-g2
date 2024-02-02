@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext.js";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
 export const UpdateSocialNetwork = () =>{
     const { store, actions } = useContext(Context);
@@ -46,6 +46,7 @@ export const UpdateSocialNetwork = () =>{
     }
 
     return(
+        !store.isLoggedIn || !store.isInfluencer == "true" ? <Navigate to='/' /> :
         <div>
             <h1 className="text-center m-2">MODIFICAR RED SOCIAL</h1>
             <div className="d-flex justify-content-center">
