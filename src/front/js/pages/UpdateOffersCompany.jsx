@@ -13,7 +13,7 @@ export const UpdateOffersCompany = () =>{
     const [ salaryRange, setSalaryRange ] = useState(currentOffer.salary_range);
     const [ minFollowers, setMinFollowers ] = useState(currentOffer.min_followers);
     const [ industry, setIndustry ] = useState(currentOffer.industry);
-    const [ duration, setDuration ] = useState(currentOffer.duration_in_weeks);
+    const [ duration, setDuration ] = useState(currentOffer.duration);
     const [ location, setLocation ] = useState(currentOffer.location);
 
     const handleOnSubmit = (event) =>{
@@ -30,7 +30,6 @@ export const UpdateOffersCompany = () =>{
             status: "opened"
         }
         handleUpdateOffer(obj, idOffer);
-        actions.handleOffersCompany();
         navigate('/profile')
     }
 
@@ -51,6 +50,7 @@ export const UpdateOffersCompany = () =>{
         }
         const data = await response.json();
         console.log(data);
+        actions.handleOffersCompany();
     }
 
     return(

@@ -60,7 +60,7 @@ export const Login = () =>{
   			    <button type="submit" className="btn btn-success btn-lg mx-3" onClick={handleOnSubmit}>Submit</button>
                 <div className="mt-2 text-center d-flex justify-content-center border-top border-secondary">
                     <p className="m-1">¿No tienes una cuenta?</p>
-                    <Link className="text-dark m-1" to="/"> Registrate aquí.</Link>
+                    <Link className="text-dark m-1" to="/signup"> Registrate aquí.</Link>
                 </div>
             </div>
             </div>
