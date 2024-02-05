@@ -4,15 +4,10 @@ import injectContext from "./store/appContext";
 // Import pages or views
 import { Home } from "./pages/Home.jsx";
 import { OffersPublic } from "./pages/OffersPublic.jsx";
+import { OffersCandidate } from "./pages/OffersCandidate.jsx";
 import { Offer } from "./pages/Offer.jsx";
-// Import styles
-import 'bootswatch/dist/sandstone/bootstrap.min.css';
-import "../styles/home.css";
-// Import components
-import ScrollToTop from "./component/ScrollToTop.jsx";
-import { BackendURL } from "./component/BackendURL.jsx";
-import { Navbar } from "./component/Navbar.jsx";
-import { Footer } from "./component/Footer.jsx";
+import { MyOffers } from "./pages/MyOffers.jsx";
+import { Inicio } from "./pages/Inicio.jsx";
 import { Login } from "./pages/Login.jsx";
 import { Profile } from "./pages/Profile.jsx";
 import { UpdateProfile } from "./pages/UpdateProfile.jsx";
@@ -21,9 +16,15 @@ import { UpdateSocialNetwork } from "./pages/UpdateSocialNetwork.jsx";
 import { CreateOffer } from "./pages/CreateOffer.jsx";
 import { UpdateOffersCompany } from "./pages/UpdateOffersCompany.jsx";
 import { SeeCandidates } from "./pages/SeeCandidates.jsx";
-import { MyOffers } from "./pages/MyOffers.jsx";
-import { Inicio } from "./pages/Inicio.jsx";
-import { OffersCandidate } from "./pages/OffersCandidate.jsx";
+// Import styles
+import 'bootswatch/dist/sandstone/bootstrap.min.css';
+import "../styles/home.css";
+// Import components
+import ScrollToTop from "./component/ScrollToTop.jsx";
+import { BackendURL } from "./component/BackendURL.jsx";
+import { Navbar } from "./component/Navbar.jsx";
+import { Footer } from "./component/Footer.jsx";
+import { Inscripcion } from "./pages/Inscripcion.jsx";
 
 
 // Create your first component
@@ -46,12 +47,13 @@ const Layout = () => {
                         <Route element={<UpdateProfile />} path="/update-profile" />
                         <Route element={<AddSocialNetwork />} path="/add-socialnetwork" />
                         <Route element={<UpdateSocialNetwork />} path="/update-socialnetwork/:idsocialnetwork" />
+                        <Route element={<Inscripcion/>} path="/register" />
                         <Route element={<CreateOffer />} path="/create-offer" />
                         <Route element={<UpdateOffersCompany />} path="/update-offer/:idoffer"/>
                         <Route element={<OffersPublic />} path="/offers" />
-                        <Route element={<Offer />} path="/offers/:offerId" />
-                        <Route element={<OffersCandidate/>} path="/offers-candidate"/>
-                        <Route element={<MyOffers />} path="/company/:id_user_company/my-offers" />
+                        <Route element={<Offer />} path="/oneOffer" />
+                        <Route element={<OffersCandidate/>} path="/offer-candidates"/>
+                        <Route element={<MyOffers />} path="/company/my-offers" />
                         <Route element={<SeeCandidates />} path="/company/:id_user_company/my-offers/:offer_id/influencers" />
                         <Route element={<h1 className="text-center">Not found!</h1>} path="*"/>
                     </Routes>

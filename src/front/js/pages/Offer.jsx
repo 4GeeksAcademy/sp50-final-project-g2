@@ -5,53 +5,50 @@ import {Spinner} from "../component/Spinner.jsx"
 
 export const Offer = () => {
     const { store, actions } = useContext(Context);
-    const { title, setTitle } = useState(store.oneOffer.title);
-    const { companyName, setCompanyName } = useState(store.oneOffer.company);
-    const { salary, setSalary } = useState(store.oneOffer.salary_range);
-    const { post, setPost } = useState(store.oneOffer.post);
-    const { followers, setFollowes } = useState(store.oneOffer.min_followers);
-    const { weeks, setWeeks } = useState(store.oneOffer.duration);
-    const { location, setLocation } = useState(store.oneOffer.location);
-    const { date, setDate } = useState(new Date(store.oneOffer.date_post).toLocaleDateString());
-    const { image, setImage } = useState(store.oneOffer.profile_img);
-    const params = useParams()
+ 
 
-    useEffect( () => {
-        actions.getOneOffer(params.offerId);
-    },[]) 
 
     return ( 
+            !store.isLoggedIn ? <Navigate to='/signup' /> :
         <div>
+            {!store.oneOffer ? <Spinner/> :   
             <div className="container mt-5">
+            
                 <div className="row">
                     <div className="col-sm-11 col-md-10">
                         <div className="card mb-3" >
                             <div className="row g-0">
                                 <div className="col-md-1 m-5">
-                                <img src= "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg" className="img-fluid rounded-start" />
+                                <img src= {store.oneOffer.profile_img ? store.oneOffer.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid rounded-start" />
                                 </div>
-                                <div className="col-md-8">
+                                <div className="col-md-8 mt-4">
                                     <div className="card-body">
                                         <h2 className="card-title">{store.oneOffer.title}</h2>
-                                        <h5 className="card-title"></h5>
+                                        <h5 className="card-title ms-1">{store.oneOffer.company.name}</h5>
                                         <div className="row">
-                                            <div className="col-6">
+                                            <div className="col-4 mt-2">
                                                 <small className="card-subtitle mb-2 mt-1 text-body-secondary">
                                                     <ul>
-                                                        <li></li>
-                                                        <li> Publicada el {date} </li>
-                                                        <li></li>
+                                                        <li> {store.oneOffer.location}</li>
+                                                        <li> {store.oneOffer.duration} Semanas</li>
+                                                        <li> Publicada el {new Date(store.oneOffer.date_post).toLocaleDateString()} </li>
                                                     </ul>
                                                 </small>
                                             </div>
-                                            <div className="col-6">
+                                            <div className="col-4 mt-2">
                                                 <small className="card-subtitle mb-2 mt-1 text-body-secondary">
                                                     <ul>
-                                                        <li> Seguidores</li>
-                                                        <li>Salario: $</li>
+                                                        <li>Seguidores: {(store.oneOffer.min_followers).toLocaleString()}</li>
+                                                        <li>Salario: {(store.oneOffer.salary_range).toLocaleString()} $</li>
                                                     </ul>
                                                 </small>
                                             </div>
+                                            <div className="col-4">
+                                                <Link to="/register">
+                                               <button className="btn btn-warning "> Inscribirme en esta oferta</button>
+                                               </Link>
+                                            </div>
+                                           
                                         </div>
                                         <p className="card-text"></p>
                                         <p className="card-text">
@@ -63,19 +60,21 @@ export const Offer = () => {
                         </div>
                     </div>
                 </div>
+                  
                 <div className="row">
                     <div className="col-sm-11 col-md-7">
                         <div className="card mb-3" >
-                                <div className="col-md-8">
+                                <div className="col-md-12">
                                     <div className="card-body">
-                                        <h2 className="card-title">Descripcion:</h2>
-                                        <h5 className="card-title"></h5>
+                                        <h4 className="card-title ms-5 mt-2">Descripcion:</h4>
+                                        <p className="card-title mx-5 my-3">{store.oneOffer.post}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>              
-            )
+            </div>
+            }
+        </div>              
+      )
         }

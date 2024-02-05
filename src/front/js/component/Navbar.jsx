@@ -15,47 +15,60 @@ export const Navbar = () => {
 	}
 	
 	return (
-		!store.isLoggedIn ?
-		<div className="col-12 d-flex justify-content-between">
-			<Link to="/">
-				<img className= "imagen" src= {Icono} alt="personajes" style={{ width: 150 }}/>
-			</Link>
-			<Link to="/login">
-				<button className="btn btn-primary m-2">Login</button>
-			</Link>
-		</div>
-		:
 		<div className="col-12">
-			<nav className="navbar navbar-light bg-primary-subtle">
-				<div className="container col-6">
-					<Link to="/">
-					<img className= "imagen" src= {Icono} alt="personajes" style={{ width: 150 }}/>
-					</Link>
+			<nav className="navbar navbar-expand-lg ColorNavbar">
+				<div className="container col-xs-9">
+						<Link to="/">
+						<img className= "imagen ms-5" src= {Icono} alt="personajes" style={{ width: 150 }}/>
+						</Link>
+						<Link to={"/offers"}>
+						<button type="button" className="btn btn-light color-button"><span>Offers</span></button>
+						</Link>
+					</div>
+				<div className="col-xs-6">
 					<BtnNotifications />
 					<div className="ml-auto">
 						{ !store.isLoggedIn ? 
 						<Link to="/login">
-							<button className="btn btn-warning">Login</button>
+							<button className="btn btn-warning me-3"><span>Inicio Sesion</span></button>
+						<Link to="/signup"><button className="btn btn-warning me-5"><span>Registrarse</span></button></Link>
 						</Link>
-						:
-						<div>
-							<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-								<span className="navbar-toggler-icon"></span>
-							</button>
-							<div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-							<Link to={"/profile"}>
-							<button type="button" className="btn btn-light m-2 color-button">Profile</button>
-							</Link>
-							<Link to={"/offers"}>
-							<button type="button" className="btn btn-light m-2 color-button">Offers</button>
-							</Link>
-							<span>
-							<button href="#" className="btn btn-danger" onClick={handleOnClick}>Log out</button>
-							</span>
-							</div>
+						: 
+						<div className="container-fluid">
+						<div className="collapse navbar-collapse">
+						  <ul className="navbar-nav">
+							<li className="nav-item dropdown">
+							  <button className="btn dropdown-toggle me-5" data-bs-toggle="dropdown" aria-expanded="false"><span>Menu</span></button>
+							  <ul className="dropdown-menu ">	
+								<li>
+								<Link to={"/profile"} className="dropdown-item"><span>Perfil</span></Link>
+								</li> 
+									{store.isInfluencer ? 
+								<li>
+									<Link to={"/offer-candidates"} className="dropdown-item"><span>Mis Ofertas influencer</span></Link> 
+									</li>
+									: 
+									<li>
+									<Link to={"/"} className="dropdown-item"><span>Mis ofertas publicadas</span></Link>
+									</li>
+									}
+								<li>
+								<li>
+     							 <hr className="dropdown-divider" />
+    							</li>
+								<li>
+								<span className="dropdown-item text-danger" onClick={handleOnClick}>Log out</span>
+								</li>
+								</li>
+							  </ul>
+							</li>
+						  </ul>
 						</div>
-						}
+					  </div>
+					  } 
+					
 					</div>
+				
 				</div>
 			</nav>
 		</div>

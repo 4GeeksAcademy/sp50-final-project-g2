@@ -15,7 +15,7 @@ import cloudinary.api
 
 
 api = Blueprint('api', __name__)
-CORS(api)  # Allow CORS requests to this API
+CORS(api)
 
 cloudinary.config(cloud_name = os.getenv("CLOUD_NAME"),
                   api_key = os.getenv("API_KEY"),
@@ -242,7 +242,7 @@ def profile():
             return response_body, 200
 
 
-@api.route('/offers-public', methods=['GET']) # Cambiar el endpoint en offers
+@api.route('/offers-public', methods=['GET']) 
 def offers():
     response_body = {}
     results = {}
@@ -257,8 +257,9 @@ def offers():
     response_body['message'] = 'Listado de ofertas'
     response_body['results'] = results
     return response_body, 200
-   
-@api.route('/offers', methods=['POST'])  # Quitar el GET
+
+
+@api.route('/offers', methods=['POST']) 
 @jwt_required()
 def publish_offer():
     if request.method == 'POST':
@@ -281,8 +282,8 @@ def publish_offer():
         response_body["results"] = new_offer.serialize()
         return response_body,200
      
-      
-@api.route('/offers/<int:offers_id>', methods=['GET', 'PUT', 'DELETE'])  # SOLO PARA USERS/COMPANY
+# SOLO PARA USERS/COMPANY      
+@api.route('/offers/<int:offers_id>', methods=['GET', 'PUT', 'DELETE'])  
 @jwt_required()
 def private_offer_singular(offers_id):
     if request.method == 'GET':
@@ -348,7 +349,7 @@ def private_offer_singular(offers_id):
             return response_body, 200
 
 
-@api.route('/offers-data/<int:id_user_company>', methods=['GET'])  #FUNCIONA, TE DEVUELVE TODAS LAS OFERTAS DE TU EMPRESA Y TE DEJA PUBLICAR
+@api.route('/offers-data/<int:id_user_company>', methods=['GET'])  
 @jwt_required()
 def company_offer(id_user_company):
     if request.method == 'GET':
@@ -382,8 +383,8 @@ def offer_candidates():
             return response_body, 401
         if current_user[0]['is_influencer'] == True:
             data = request.json
-            offer_register = OffersCandidates(status_candidate = data.get('status_candidate'), 
-                                              status_influencer = data.get('status_influencer'),
+            offer_register = OffersCandidates(status_candidate = 'pending', 
+                                              status_influencer = 'active',
                                               cover_letter = data.get('cover_letter'),
                                               social_network_url = data.get('social_network_url'),
                                               followers = data.get('followers'),
@@ -438,12 +439,18 @@ def offer_candidates_by_influencer(id):
             response_body["message"] = "Acceso denegado, no tiene perfil de influencer" 
             return response_body, 403
         offers = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == id)).scalars()
-        offers_list = []
+        list_offers = []
         for row in offers:
-            offers_list.append(row.serialize())   
-        results['offers'] = offers_list 
-        response_body['message'] = "Ofertas" 
-        # response_body['results'] = results  # daba error circular
+            # company = db.session.execute(db.select(Offers).where(Offers.id == row.id_offer)).scalar()
+            offer_data = row.serialize()
+            offer = db.session.execute(db.select(Offers).where(Offers.id == row.id_offer)).scalar()
+            offer_data["offer"] = offer.serialize()
+            company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id == offer.id_company)).scalar()
+            offer_data['company'] = company.serialize()
+            list_offers.append(offer_data)
+        results['offers'] = list_offers
+        response_body['message'] = 'Listado de candidaturas'
+        # response_body['results'] = results
         return response_body, 200
 
 
@@ -484,7 +491,8 @@ def social_networks():
             response_body['social_networks'] = social_networks.serialize()
             return response_body, 200
 
-@api.route('/social-networks/<int:id_influencer>', methods=['GET','PUT', 'DELETE'])#PUT y DELETE
+
+@api.route('/social-networks/<int:id_influencer>', methods=['GET','PUT', 'DELETE'])
 @jwt_required()
 def edit_social_networks(id_influencer):
     response_body = {}
@@ -510,7 +518,7 @@ def edit_social_networks(id_influencer):
                 return response_body, 200
 
 
-@api.route('/social-networks/current/<int:id_socialnetwork>', methods=['PUT', 'DELETE'])#PUT y DELETE
+@api.route('/social-networks/current/<int:id_socialnetwork>', methods=['PUT', 'DELETE'])
 @jwt_required()
 def handle_social_networks(id_socialnetwork):
     if request.method == 'PUT':
@@ -570,7 +578,8 @@ def offered_influencers(offer_id):
             response_body['results'] = results
             return response_body, 200
 
-@api.route('/company/<int:offer_id>/offer-candidates/<int:influencer_id>', methods=['PUT'])  # PUT de la compañía para cambiar status de influencer en su oferta
+# PUT de la compañía para cambiar status de influencer en su oferta
+@api.route('/company/<int:offer_id>/offer-candidates/<int:influencer_id>', methods=['PUT'])  
 @jwt_required()
 def change_status_candidate(offer_id, influencer_id):
     if request.method == 'PUT':
@@ -590,7 +599,8 @@ def change_status_candidate(offer_id, influencer_id):
             response_body['message'] = 'No tiene permisos para editar los candidatos'
             return response_body, 403
             
-@api.route('/company/<int:offer_id>', methods=['PUT'])  # Put para que la empresa cambie el estatus de la oferta
+# Put para que la empresa cambie el estatus de la oferta
+@api.route('/company/<int:offer_id>', methods=['PUT'])  
 @jwt_required()
 def change_offer_status(offer_id):
     if request.method == 'PUT':
@@ -608,7 +618,9 @@ def change_offer_status(offer_id):
             response_body['message'] = 'No tiene permisos para editar la oferta'
             return response_body, 403
 
-@api.route('/influencer/<int:id_company>/<int:offers_id>', methods=['GET']) # Get para que influencer pueda ver X oferta
+
+# Get para que influencer pueda ver X oferta
+@api.route('/influencer/<int:id_company>/<int:offers_id>', methods=['GET']) 
 @jwt_required()
 def getParticularOffer(id_company,offers_id):
     if request.method == 'GET':

@@ -28,7 +28,7 @@ export const Login = () =>{
         const is_influencer = data.results.user.is_influencer
         const data_user = data.results
         actions.login(data.access_token, is_influencer, data.results.user, data.results.profile);
-        actions.handleInfluencer(is_influencer);
+        actions.handleInfluencer(is_influencer, data.results.profile.id);
         actions.handleUser(data.results.user, data.results.profile);
         // actions.isLogged(data.results.user, data.results.profile);
         console.log(data_user);
