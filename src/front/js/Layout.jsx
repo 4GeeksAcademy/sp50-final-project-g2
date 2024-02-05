@@ -51,10 +51,10 @@ const Layout = () => {
                         <Route element={<CreateOffer />} path="/create-offer" />
                         <Route element={<UpdateOffersCompany />} path="/update-offer/:idoffer"/>
                         <Route element={<OffersPublic />} path="/offers" />
+                        <Route element={<SeeCandidates />} path="/company/my-offers/:offer_id/influencers" />
                         <Route element={<Offer />} path="/oneOffer" />
                         <Route element={<OffersCandidate/>} path="/offer-candidates"/>
                         <Route element={<MyOffers />} path="/company/my-offers" />
-                        <Route element={<SeeCandidates />} path="/company/:id_user_company/my-offers/:offer_id/influencers" />
                         <Route element={<h1 className="text-center">Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />

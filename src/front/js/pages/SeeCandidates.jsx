@@ -4,7 +4,8 @@ import "../../styles/home.css";
 import 'bootswatch/dist/sandstone/bootstrap.min.css'
 import { Spinner } from "../component/Spinner.jsx"
 import { getCandidates } from "../store/flux.js"
-import { useParams } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
+import { refuseCandidate } from "../store/flux.js"
 
 export const SeeCandidates = () => {
     const { store, actions } = useContext(Context)
@@ -17,18 +18,21 @@ export const SeeCandidates = () => {
         
     
     const handleAcceptCandidate = async(influencer_id) =>{
-        await actions.acceptCandidate(offer_id, influencer_id)
+        await actions.acceptCandidate(offer_id, influencer_id);
         actions.getCandidates(offer_id)
     }
 
-    const handleRefuseCandidate = async(influencer_id) =>{
-        const isConfirmed = window.confirm('¿Seguro que quiere rechazar a este influencer?')
-        if (isConfirmed){
+    const handleRefuseCandidate = async (influencer_id) => {
+        const isConfirmed = window.confirm('¿Seguro que quiere rechazar a este influencer?');
+        if (isConfirmed) {
             await actions.refuseCandidate(offer_id, influencer_id);
-            actions.getCandidates(offer_id)}
+            await actions.getCandidates(offer_id);
         }
+    }
 
-    return (!store.candidates ? <Spinner /> :
+    return (store.isInfluencer ? <Navigate to="/" /> :
+        !store.candidates ? <Spinner /> :
+        
         <div className="container-fluid my-4">
             <div className="container">
                 <h1 className="text-center">Candidatos</h1>
@@ -39,7 +43,7 @@ export const SeeCandidates = () => {
                                 <div className="col-md-2">
                                     <img
                                         src={item.influencer.profile_img}
-                                        className="img-thumbnail rounded-start border-0" style={{ maxHeight: "100%" }}
+                                        className="img-fluid" style={{ maxHeight: "100%" }}
                                         alt="..."
                                     />
                                 </div>
@@ -47,7 +51,6 @@ export const SeeCandidates = () => {
                                     <div className="card-body ">
                                         <h5 className="card-title">{item.influencer.first_name} {item.influencer.last_name}</h5>
                                         <p className="card-text">{item.cover_letter}</p>
-                                        {/* <button className="btn btn-primary">{item.followers} seguidores</button> */}
                                     </div>
                                     <div className="mx-3 my-2">
                                         <button className="btn btn-primary me-4">{item.followers.toLocaleString()} seguidores</button>

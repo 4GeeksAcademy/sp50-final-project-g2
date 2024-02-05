@@ -131,9 +131,11 @@ export const Profile = () => {
                 </div>
                 <div className="d-block py-1 m-2 mt-3 background_form rounded justify-content-center">
                     <h4 className="m-2">Ofertas publicadas:</h4>
-                    <Link to="/create-offer" className="text-dark text-end">
-                        <p className="text-end m-2"><i className="fa-solid fa-plus fa-lg"></i></p>
-                    </Link>
+                    <div className="d-flex justify-content-end me-2">
+                        <Link to="/create-offer" className="text-dark text-end">
+                            <p className="text-end m-2"><i className="fa-solid fa-plus fa-lg"></i></p>
+                        </Link>
+                    </div>
                     {!store.offersCompany ? 
                     <Spinner />
                     : 

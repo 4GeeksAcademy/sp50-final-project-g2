@@ -9,6 +9,7 @@ export const Navbar = () => {
 	const { store, actions } = useContext(Context);
 	const navigate = useNavigate();
 
+
 	const handleOnClick= () => {
 		actions.logout();
 		navigate("/")
@@ -49,13 +50,14 @@ export const Navbar = () => {
 									</li>
 									: 
 									<li>
-									<Link to={"/"} className="dropdown-item"><span>Mis ofertas publicadas</span></Link>
+									<Link to={`/company/my-offers`} className="dropdown-item"><span>Mis ofertas publicadas</span></Link>
 									</li>
 									}
 								<li>
 								<li>
-     							 <hr className="dropdown-divider" />
+     							 
     							</li>
+                 <hr className="dropdown-divider" />
 								<li>
 								<span className="dropdown-item text-danger" onClick={handleOnClick}>Log out</span>
 								</li>
@@ -66,11 +68,13 @@ export const Navbar = () => {
 						</div>
 					  </div>
 					  } 
-					
 					</div>
-				
 				</div>
-			</nav>
+			  </div>
+			  }
+			</div>
 		</div>
-	);
+	</nav>
+</div>
+);
 };

@@ -586,10 +586,11 @@ def change_status_candidate(offer_id, influencer_id):
         current_user = get_jwt_identity()
         response_body = {}
         offer = db.session.execute(db.select(Offers).where(Offers.id == offer_id)).scalar()
+        print(offer)
         if current_user[0]["is_influencer"] == False:
              if current_user[1]['id'] == offer.id_company:
                 data = request.json
-                candidate = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == influencer_id)).scalar()
+                candidate = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == influencer_id, OffersCandidates.id_offer == offer_id)).scalar()
                 candidate.status_candidate = data.get('status_candidate')
                 db.session.commit()
                 response_body['candidate: '] = candidate.serialize()

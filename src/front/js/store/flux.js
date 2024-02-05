@@ -208,7 +208,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         		    return
         		}
         		const data = await response.json();
-        		console.log(data);
+        		console.log('Response: ',data);
 				setStore({offersCompany: data.results.offers})
 			},
 			uploadFile: async (fileToUpload) => {
@@ -270,6 +270,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(data)
 			},
 			refuseCandidate: async(offer_id, influencer_id) =>{
+				console.log("Refusing candidate. Offer ID:", offer_id, "Influencer ID:", influencer_id);
 				const url = process.env.BACKEND_URL + `/api/company/${offer_id}/offer-candidates/${influencer_id}`
 				const options = {
 					method: 'PUT',
@@ -287,6 +288,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(data)
 
 			},
+
+			closeOffer: async(offer_id) =>{
+				const url =process.env.BACKEND_URL + `/api/company/${offer_id}`
+				console.log('Url', url)
+				const options = {
+					method: 'PUT',
+					body: JSON.stringify({"status": "closed" }),
+					headers:{
+						"Content-Type": "application/json",
+                		"Authorization" : "Bearer " + localStorage.getItem("token")
+					}
+				};
+				const response = await fetch(url, options)
+				if(!response.ok){
+					console.log('Error de put', response.status, response.statusText)
+				};
+				const data = await response.json()
+				console.log(data)
+			}
+
 			}
 
 		}
