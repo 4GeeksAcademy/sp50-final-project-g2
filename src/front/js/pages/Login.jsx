@@ -28,9 +28,9 @@ export const Login = () =>{
         const is_influencer = data.results.user.is_influencer
         const data_user = data.results
         actions.login(data.access_token, is_influencer, data.results.user, data.results.profile);
-        actions.handleInfluencer(is_influencer);
+        actions.handleInfluencer(is_influencer, data.results.profile.id);
         actions.handleUser(data.results.user, data.results.profile);
-        actions.isLogged(data.results.user, data.results.profile);
+        // actions.isLogged(data.results.user, data.results.profile);
         console.log(data_user);
         console.log(data);
         console.log(response);
@@ -39,7 +39,7 @@ export const Login = () =>{
     return(
         store.isLoggedIn ? <Navigate to={"/profile"} /> :
         <div>
-            <h1 className="m-2 text-center mt-3">Inicia sesión para descubrir #inserte nombre de la app#</h1>
+            <h1 className="m-2 text-center mt-5">Inicia sesión para descubrir #inserte nombre de la app#</h1>
             <div className="d-flex justify-content-center">
             <div className="m-5 col-5 background_form p-2 rounded">
   			    <div className="mb-3 text-start mx-3">
