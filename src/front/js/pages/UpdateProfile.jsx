@@ -28,7 +28,7 @@ export const UpdateProfile = () => {
 
     const handleOnSubmit = (event) => {
         event.preventDefault();
-        if (store.isInfluencer == "true"){
+        if (store.isInfluencer == true){
             const profile = {
                 first_name: firstName,
                 last_name: lastName,
@@ -105,7 +105,7 @@ export const UpdateProfile = () => {
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
             <h1 className="text-center">EDITAR MI PERFIL</h1>
-            { store.isInfluencer == "true" ? 
+            { store.isInfluencer == true ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
                 <Spinner />
