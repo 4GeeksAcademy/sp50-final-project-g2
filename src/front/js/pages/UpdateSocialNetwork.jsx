@@ -47,7 +47,7 @@ export const UpdateSocialNetwork = () =>{
     }
 
     return(
-        !store.isLoggedIn || !store.isInfluencer == "true" ? <Navigate to='/' /> :
+        !store.isLoggedIn || !store.isInfluencer == true ? <Navigate to='/' /> :
         <div>
             <h1 className="text-center m-2">MODIFICAR RED SOCIAL</h1>
             <div className="d-flex justify-content-center">

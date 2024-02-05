@@ -35,7 +35,7 @@ export const Profile = () => {
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
             <h1 className="text-center">MI PERFIL</h1>
-            { store.isInfluencer == "true" ? 
+            { store.isInfluencer == true ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
                 <Spinner />

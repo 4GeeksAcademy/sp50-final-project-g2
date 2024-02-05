@@ -107,7 +107,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isLogged: () => {
 				if (localStorage.getItem("token")){
 					setStore({isLoggedIn: true});
-					setStore({isInfluencer: localStorage.getItem("is_influencer")});
+					const change = localStorage.getItem("is_influencer");
+					if (change == "false"){
+						setStore({isInfluencer: false})
+					} else {
+						setStore({isInfluencer: true})
+					}
 					setStore({user: JSON.parse(localStorage.getItem("user"))});
 					setStore({profile: JSON.parse(localStorage.getItem("profile"))});
 					if (localStorage.getItem("is_influencer") == "false"){

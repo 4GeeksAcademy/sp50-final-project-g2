@@ -49,7 +49,7 @@ export const CreateOffer = () =>{
     }
 
     return(
-        store.isInfluencer == "true" ? <Navigate to='/profile' /> :
+        store.isInfluencer == true ? <Navigate to='/profile' /> :
         <div>
             <div>
                 <h1 className="text-center m-2">CREAR UNA OFERTA</h1>
