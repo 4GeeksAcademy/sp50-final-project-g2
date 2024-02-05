@@ -39,7 +39,7 @@ export const Login = () =>{
     return(
         store.isLoggedIn ? <Navigate to={"/profile"} /> :
         <div>
-            <h1 className="m-2 text-center mt-5">Inicia sesión para descubrir #inserte nombre de la app#</h1>
+            <h1 className="m-2 text-center mt-3">Inicia sesión para descubrir InfluJobs</h1>
             <div className="d-flex justify-content-center">
             <div className="m-5 col-5 background_form p-2 rounded">
   			    <div className="mb-3 text-start mx-3">
@@ -60,7 +60,7 @@ export const Login = () =>{
   			    <button type="submit" className="btn btn-success btn-lg mx-3" onClick={handleOnSubmit}>Submit</button>
                 <div className="mt-2 text-center d-flex justify-content-center border-top border-secondary">
                     <p className="m-1">¿No tienes una cuenta?</p>
-                    <Link className="text-dark m-1" to="/"> Registrate aquí.</Link>
+                    <Link className="text-dark m-1" to="/signup"> Registrate aquí.</Link>
                 </div>
             </div>
             </div>

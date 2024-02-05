@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import Icono from '../../img/Icono.png';
 import '../../styles/Navbar.css'
+import { BtnNotifications } from "./BtnNotifications.jsx";
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
@@ -25,6 +26,7 @@ export const Navbar = () => {
 						</Link>
 					</div>
 				<div className="col-xs-6">
+					<BtnNotifications />
 					<div className="ml-auto">
 						{ !store.isLoggedIn ? 
 						<Link to="/login">

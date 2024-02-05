@@ -19,9 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			registerCandidates: null
 
 		},
-
 		actions: {
-	
 			getOfferByCandidates: async (id) => {
 				const url = process.env.BACKEND_URL + "/api/influencers/" + id + "/offer-candidates";
 				const options = {
@@ -47,6 +45,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 					setStore ({offersPublic : data.results.offers})			
 			},
+
 			// No la estoy utilizando
 			getOneOffer: async (id_offer) => {
 				const url = process.env.BACKEND_URL+ "/api/offers/" + id_offer
@@ -64,6 +63,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         		} else {
 					console.log("Error: ", response.status, response.statusText);
 				}
+			},
+			handleOfferPublic: (obj) => {
+				setStore({oneOffer: obj})
 			},
 			getMessage: async () => {
 				try {
@@ -128,7 +130,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isLogged: () => {
 				if (localStorage.getItem("token")){
 					setStore({isLoggedIn: true});
-					const change = localStorage.getItem("is_influencer")
+					const change = localStorage.getItem("is_influencer");
 					if (change == "false"){
 						setStore({isInfluencer: false})
 					} else {
@@ -192,7 +194,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({currentOffer: obj})
 			},
 			handleOffersCompany: async() =>{
-				const url = process.env.BACKEND_URL + "/api/offer-data/" + getStore().profile.id;
+				const url = process.env.BACKEND_URL + "/api/offers-data/" + getStore().profile.id;
         		const options = {
             		method: "GET",
             		headers:{
@@ -283,8 +285,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 				const data = await response.json()
 				console.log(data)
+
 			},
 			}
+
 		}
 	};
 
