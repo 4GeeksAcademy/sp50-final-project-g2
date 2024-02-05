@@ -14,7 +14,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			currentOffer: null,
 			candidates: [],
 			offer: [],
-			myOffers: [],
 			offersPublic: null,
 			oneOffer: null
 		},
@@ -111,21 +110,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({profile: null})
 			},
 			isLogged: () => {
-				if (localStorage.getItem("token")){
-					setStore({isLoggedIn: true});
-					setStore({isInfluencer: localStorage.getItem("is_influencer")});
-					setStore({user: JSON.parse(localStorage.getItem("user"))});
-					setStore({profile: JSON.parse(localStorage.getItem("profile"))});
-					if (localStorage.getItem("is_influencer") == "false"){
-						getActions().handleOffersCompany(); 
-					} else {
-						getActions().handleSocialNetworks();
-					}
-				} 
-				else {
-					setStore({isLoggedIn: false})
-				}
-			},
+                if (localStorage.getItem("token")){
+                    setStore({isLoggedIn: true});
+                    const change = localStorage.getItem("is_influencer");
+                    if (change == "false"){
+                        setStore({isInfluencer: false})
+                    } else {
+                        setStore({isInfluencer: true})
+                    }
+                    setStore({user: JSON.parse(localStorage.getItem("user"))});
+                    setStore({profile: JSON.parse(localStorage.getItem("profile"))});
+                    if (localStorage.getItem("is_influencer") == "false"){
+                        getActions().handleOffersCompany();
+                    } else {
+                        getActions().handleSocialNetworks();
+                    }
+                }
+                else {
+                    setStore({isLoggedIn: false})
+                }
+            },
 			handleInfluencer: (value) =>{
 				if (value == true){setStore({isInfluencer: true})}
 				else {setStore({isInfluencer: false})}
@@ -163,7 +167,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({currentOffer: obj})
 			},
 			handleOffersCompany: async() =>{
-				const url = process.env.BACKEND_URL + "/api/offer/" + getStore().profile.id;
+				const url = process.env.BACKEND_URL + "/api/offers-data/" + getStore().profile.id;
         		const options = {
             		method: "GET",
             		headers:{
@@ -177,7 +181,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         		    return
         		}
         		const data = await response.json();
-        		console.log(data);
+        		console.log('Response: ',data);
 				setStore({offersCompany: data.results.offers})
 			},
 			uploadFile: async (fileToUpload) => {
@@ -239,6 +243,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(data)
 			},
 			refuseCandidate: async(offer_id, influencer_id) =>{
+				console.log("Refusing candidate. Offer ID:", offer_id, "Influencer ID:", influencer_id);
 				const url = process.env.BACKEND_URL + `/api/company/${offer_id}/offer-candidates/${influencer_id}`
 				const options = {
 					method: 'PUT',
@@ -255,57 +260,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json()
 				console.log(data)
 			},
-			// getMyOffers: async(id_user_company) =>{
-			// 	const url = `https://super-duper-rotary-phone-7v9wrwrxrpx53xjwj-3001.app.github.dev/api/offers/${id_user_company}`
-			// 	console.log('Url', url)
-			// 	const token = localStorage.getItem("token")
-			// 	const options = {
-			// 		method: 'GET',
-			// 		headers: {
-			// 			'Authorization' : `Bearer ${token}`
-			// 		},					
-			// 	};
-			// 	const response = await fetch(url, options)
-			// 	if (!response.ok){
-			// 		console.log('Error, no recibe respuesta')
-			// 	};
-			// 	const data = await response.json()
-			// 	console.log('getOffers:', data.results)
-			// 	setStore({myOffers: data.results.offers})
-			// 	console.log('Los datos se han guardado')
-			// },
-			handleOffersCompany: async() =>{
-                const url = process.env.BACKEND_URL + "/api/offer/" + getStore().profile.id;
-                const options = {
-                    method: "GET",
-                    headers:{
-                        "Content-Type": "application/json",
-                        "Authorization" : "Bearer " + localStorage.getItem("token")
-                    },
-                };
-                const response = await fetch(url, options);
-                if (!response.ok){
-                    console.log(response.status, response.statusText);
-                    return
-                }
-                const data = await response.json();
-                console.log(data);
-                setStore({offersCompany: data.results.offers})
-            },
-			isLogged: () => {
-                if (localStorage.getItem("token")){
-                    setStore({isLoggedIn: true});
-                    setStore({isInfluencer: localStorage.getItem("is_influencer")});
-                    setStore({user: JSON.parse(localStorage.getItem("user"))});
-                    setStore({profile: JSON.parse(localStorage.getItem("profile"))});
-                    if (localStorage.getItem("is_influencer") == "false"){
-                        getActions().handleOffersCompany();
-                    }
-                }
-                else {
-                    setStore({isLoggedIn: false})
-                }
-            },
+			closeOffer: async(offer_id) =>{
+				const url =process.env.BACKEND_URL + `/api/company/${offer_id}`
+				console.log('Url', url)
+				const options = {
+					method: 'PUT',
+					body: JSON.stringify({"status": "closed" }),
+					headers:{
+						"Content-Type": "application/json",
+                		"Authorization" : "Bearer " + localStorage.getItem("token")
+					}
+				};
+				const response = await fetch(url, options)
+				if(!response.ok){
+					console.log('Error de put', response.status, response.statusText)
+				};
+				const data = await response.json()
+				console.log(data)
+			}
+			
 			}
 		}
 	};
