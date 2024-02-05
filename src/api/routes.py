@@ -312,7 +312,7 @@ def private_offer_singular(offers_id):
         current_user = get_jwt_identity()
         response_body = {}
         if current_user[0]['is_influencer'] == False:
-            user_offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == current_user[0]["id"])).scalar()
+            user_offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == current_user[1]["id"])).scalar()
             db.session.delete(user_offer)
             db.session.commit()
             response_body['message'] = 'Oferta eliminada'
@@ -322,49 +322,36 @@ def private_offer_singular(offers_id):
             return jsonify(response_body), 404 
     if request.method == 'PUT':
         current_user = get_jwt_identity()
-        response_body = {}       
+        response_body = {}
+        if current_user[0]['is_influencer'] == True: 
+            response_body["message"] = "No tienes los permisos para modificar esta oferta"
+            return response_body, 404    
         if current_user[0]['is_influencer'] == False:
             data = request.json
-            company_offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == current_user[0]["id"])).scalar()             
-        if not user_offers:
-            return jsonify({"message:" "No se han encontrado ofertas"}), 404
-        company_offer.title = data.get('title') 
-        company_offer.post = data.get('post')
-        company_offer.status = data.get('status')
-        company_offer.salary_range = data.get('salary_range')
-        company_offer.min_followers = data.get('min_followers')
-        company_offer.duration_in_weeks = data.get('duration_in_weeks')
-        company_offer.location = data.get('location') 
-        company_offer.industry = data.get('industry')
-        db.session.commit()
-        response_body['offer: '] = company_offer.serialize()
-        response_body['message'] = 'Los datos de la oferta han sido modificados'
-        return response_body, 200
-      
-
-@api.route('influencer/<int:id_company>/<int:offers_id>', methods=['GET']) # Get para que influencer pueda ver X oferta
-@jwt_required()
-def getParticularOffer(id_company,offers_id):
-    if request.method == 'GET':
-        current_user = get_jwt_identity()
-        response_body = {}
-        if current_user[0]['is_influencer'] == True:
-            offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == offers_id)).scalar()
-            offer_serialized = offer.serialize()
-            response_body['message'] = 'Oferta'
-            response_body['results'] = offer_serialized
+            company_offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id, Offers.id_company == current_user[1]["id"])).scalar()             
+            if not company_offer:
+                return jsonify({"message:" "No se ha encontrado la oferta"}), 404
+            if company_offer.serialize()["id_company"] != current_user[1]["id"]:
+                response_body["message"] = "No tienes permisos para modificar esta oferta"
+                return response_body, 404
+            company_offer.title = data.get('title') 
+            company_offer.post = data.get('post')
+            company_offer.status = data.get('status')
+            company_offer.salary_range = data.get('salary_range')
+            company_offer.min_followers = data.get('min_followers')
+            company_offer.duration_in_weeks = data.get('duration_in_weeks')
+            company_offer.location = data.get('location') 
+            company_offer.industry = data.get('industry')
+            db.session.commit()
+            response_body['offer: '] = company_offer.serialize()
+            response_body['message'] = 'Los datos de la oferta han sido modificados'
             return response_body, 200
-        else:
-            response_body['message'] = 'No tiene permiso'
-            return response_body,403
 
 
-@api.route('/offers/<int:id_user_company>', methods=['GET'])  #FUNCIONA, TE DEVUELVE TODAS LAS OFERTAS DE TU EMPRESA Y TE DEJA PUBLICAR
+@api.route('/offers-data/<int:id_user_company>', methods=['GET'])  #FUNCIONA, TE DEVUELVE TODAS LAS OFERTAS DE TU EMPRESA Y TE DEJA PUBLICAR
 @jwt_required()
 def company_offer(id_user_company):
     if request.method == 'GET':
-        response_body = {}
-        results = {}
         current_user = get_jwt_identity()
         response_body = {}
         results = {}
@@ -562,7 +549,6 @@ def handle_social_networks(id_socialnetwork):
         return response_body, 403
 
 
-
 @api.route('/company/offers/<int:offer_id>/influencers', methods=['GET'])
 @jwt_required()
 def offered_influencers(offer_id):
@@ -622,7 +608,7 @@ def change_offer_status(offer_id):
             response_body['message'] = 'No tiene permisos para editar la oferta'
             return response_body, 403
 
-@api.route('influencer/<int:id_company>/<int:offers_id>', methods=['GET']) # Get para que influencer pueda ver X oferta
+@api.route('/influencer/<int:id_company>/<int:offers_id>', methods=['GET']) # Get para que influencer pueda ver X oferta
 @jwt_required()
 def getParticularOffer(id_company,offers_id):
     if request.method == 'GET':
@@ -641,3 +627,4 @@ def getParticularOffer(id_company,offers_id):
         else:
             response_body['message'] = 'No tiene permiso'
             return response_body, 403
+

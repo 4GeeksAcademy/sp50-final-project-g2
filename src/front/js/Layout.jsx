@@ -48,13 +48,11 @@ const Layout = () => {
                         <Route element={<UpdateSocialNetwork />} path="/update-socialnetwork/:idsocialnetwork" />
                         <Route element={<CreateOffer />} path="/create-offer" />
                         <Route element={<UpdateOffersCompany />} path="/update-offer/:idoffer"/>
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />  
                         <Route element={<OffersPublic />} path="/offers" />
                         <Route element={<Offer />} path="/offers/:offerId" />
-                        <Route element={<OffersCandidate/>} path="/offers"/>
-                        <Route element={<MyOffers />} path="company/:id_user_company/my-offers" />
-                        <Route element={<SeeCandidates />} path="company/:id_user_company/my-offers/:offer_id/influencers" />
+                        <Route element={<OffersCandidate/>} path="/offers-candidate"/>
+                        <Route element={<MyOffers />} path="/company/:id_user_company/my-offers" />
+                        <Route element={<SeeCandidates />} path="/company/:id_user_company/my-offers/:offer_id/influencers" />
                         <Route element={<h1 className="text-center">Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />

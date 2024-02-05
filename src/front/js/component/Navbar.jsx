@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import Icono from '../../img/Icono.png';
 import '../../styles/Navbar.css'
+import { BtnNotifications } from "./BtnNotifications.jsx";
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
@@ -14,12 +15,23 @@ export const Navbar = () => {
 	}
 	
 	return (
+		!store.isLoggedIn ?
+		<div className="col-12 d-flex justify-content-between">
+			<Link to="/">
+				<img className= "imagen" src= {Icono} alt="personajes" style={{ width: 150 }}/>
+			</Link>
+			<Link to="/login">
+				<button className="btn btn-primary m-2">Login</button>
+			</Link>
+		</div>
+		:
 		<div className="col-12">
 			<nav className="navbar navbar-light bg-primary-subtle">
 				<div className="container col-6">
 					<Link to="/">
 					<img className= "imagen" src= {Icono} alt="personajes" style={{ width: 150 }}/>
 					</Link>
+					<BtnNotifications />
 					<div className="ml-auto">
 						{ !store.isLoggedIn ? 
 						<Link to="/login">
