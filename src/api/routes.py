@@ -418,7 +418,7 @@ def offer_candidates_id(id):
         response_body['results'] = results
         return response_body, 200
     if request.method == 'DELETE':
-        offer_candidates["status_influencer"] = 'inactive'
+        offer_candidates.status_influencer = "inactive"
         db.session.commit()
         response_body['message'] = "Oferta anulada"  
         results = offer_candidates.serialize()          
@@ -641,3 +641,18 @@ def getParticularOffer(id_company,offers_id):
             response_body['message'] = 'No tiene permiso'
             return response_body, 403
 
+
+@api.route('/company/profile/<int:id_company>', methods=['GET'])
+@jwt_required()
+def get_company_profile(id_company):
+    response_body = results = {}
+    if request.method == 'GET':
+        current_user = get_jwt_identity()
+        if current_user[0]['is_influencer'] == True: 
+            company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == id_company)).scalar()
+        if not company:
+            response_body["message"] = "No se ha encontrado"
+            return response_body, 404
+        response_body["message"] = "Perfil de la Compañia"
+        response_body["results"] = company.serialize()
+        return response_body, 200

@@ -25,6 +25,7 @@ import { BackendURL } from "./component/BackendURL.jsx";
 import { Navbar } from "./component/Navbar.jsx";
 import { Footer } from "./component/Footer.jsx";
 import { Inscripcion } from "./pages/Inscripcion.jsx";
+import { ProfileCompany } from "./pages/ProfileCompany.jsx";
 
 
 // Create your first component
@@ -55,6 +56,7 @@ const Layout = () => {
                         <Route element={<Offer />} path="/oneOffer" />
                         <Route element={<OffersCandidate/>} path="/offer-candidates"/>
                         <Route element={<MyOffers />} path="/company/my-offers" />
+                        <Route element={<ProfileCompany/>} path="/company/profile" />
                         <Route element={<h1 className="text-center">Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />
