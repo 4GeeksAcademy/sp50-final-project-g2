@@ -8,12 +8,10 @@ export const Offer = () => {
  
 
 
-    return ( 
-            !store.isLoggedIn ? <Navigate to='/signup' /> :
+    return (!store.isLoggedIn ? <Navigate to='/signup' /> :
         <div>
             {!store.oneOffer ? <Spinner/> :   
             <div className="container mt-5">
-            
                 <div className="row">
                     <div className="col-sm-11 col-md-10">
                         <div className="card mb-3" >
@@ -48,7 +46,6 @@ export const Offer = () => {
                                                <button className="btn btn-warning "> Inscribirme en esta oferta</button>
                                                </Link>
                                             </div>
-                                           
                                         </div>
                                         <p className="card-text"></p>
                                         <p className="card-text">
@@ -76,5 +73,5 @@ export const Offer = () => {
             </div>
             }
         </div>              
-      )
-        }
+    )
+}

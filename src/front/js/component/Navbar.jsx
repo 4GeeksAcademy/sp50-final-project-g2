@@ -30,10 +30,8 @@ export const Navbar = () => {
 				<div className="col-xs-6">
 					<div className="ml-auto">
 						{ !store.isLoggedIn ? 
-						<div className="d-flex container-fluid">
-						<Link to="/login">
-							<button className="btn btn-warning me-3"><span>Inicio Sesion</span></button>
-						</Link>
+						<Link to="/login"><button className="btn btn-warning me-3"><span>Inicio Sesion</span></button></Link>
+							<Link to="/signup"><button className="btn btn-warning me-5"><span>Registrarse</span></button></Link>
 						<Link to="/signup">
 							<button className="btn btn-warning me-5"><span>Registrarse</span></button>
 						</Link>
@@ -63,7 +61,8 @@ export const Navbar = () => {
 								<li>
      							 
     							</li>
-                 				<hr className="dropdown-divider" />
+                				 <hr className="dropdown-divider" />
+
 								<li>
 								<span className="dropdown-item text-danger" onClick={handleOnClick}>Log out</span>
 								</li>
@@ -77,7 +76,9 @@ export const Navbar = () => {
 					  } 
 					</div>
 				</div>
-			</nav>
-		</div>
+				  </nav>
+			  </div>
+			  
+
 );
 };
