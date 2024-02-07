@@ -15,14 +15,14 @@ export const BtnNotifications = () =>{
         </button>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             {!store.registerCandidates ? (
-                <li><a className="dropdown-item" href="#">No tienes candidaturas activas.</a></li>
+                <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
             ) : (
             store.registerCandidates.map((item, id)=>{
                 if (`${item.status_candidate}` == "accepted" || `${item.status_candidate}` == "refused"){
                     return ( 
                     <li key={item.id} className="d-flex">
                         <Link to={`/update-offer/${item.id}`} className="dropdown-item" >{item.offer.title}</Link>
-                        <p>{item.status_candidate}</p>
+                        <p className="dropdown-item border rounded">{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
                         <button type="button" className="btn btn-ligth"><i class="fa-solid fa-check"></i></button>
                     </li>
                 )}
