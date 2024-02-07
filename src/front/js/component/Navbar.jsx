@@ -25,15 +25,20 @@ export const Navbar = () => {
 						<Link to={"/offers"}>
 						<button type="button" className="btn btn-light color-button"><span>Offers</span></button>
 						</Link>
-					</div>
+				</div>
+					
 				<div className="col-xs-6">
-					<BtnNotifications />
 					<div className="ml-auto">
 						{ !store.isLoggedIn ? 
-						<Link to="/login"><button className="btn btn-warning me-3"><span>Inicio Sesion</span></button>
+						<Link to="/login"><button className="btn btn-warning me-3"><span>Inicio Sesion</span></button></Link>
 							<Link to="/signup"><button className="btn btn-warning me-5"><span>Registrarse</span></button></Link>
+						<Link to="/signup">
+							<button className="btn btn-warning me-5"><span>Registrarse</span></button>
 						</Link>
+						</div>
 						: 
+						<div>
+						<BtnNotifications />
 						<div className="container-fluid">
 						<div className="collapse navbar-collapse">
 						  <ul className="navbar-nav">
@@ -57,6 +62,7 @@ export const Navbar = () => {
      							 
     							</li>
                 				 <hr className="dropdown-divider" />
+
 								<li>
 								<span className="dropdown-item text-danger" onClick={handleOnClick}>Log out</span>
 								</li>
@@ -65,6 +71,7 @@ export const Navbar = () => {
 							</li>
 						  </ul>
 						</div>
+					  </div>
 					  </div>
 					  } 
 					</div>

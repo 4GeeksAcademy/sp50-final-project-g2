@@ -34,6 +34,7 @@ export const Home = () => {
 		const response = await fetch(url, options);
 		if (!response.ok){
 			console.log(response.status, response.statusText);
+			actions.handleUserExist()
 		}
 		const data = await response.json();
 		actions.login(data.access_token, isChecked, data.results.user, data.results.profile);
@@ -54,6 +55,14 @@ export const Home = () => {
 						value={email} onChange={(e) => setEmail(e.target.value)} required></input>
     					<div id="emailHelp" className="form-text">Nunca compartiremos tu email con alguien más.</div>
 						<button className="btn btn-primary btn-sm m-1" onClick={handleMail}>Validar mail</button>
+						{store.mailValidated ? 
+						<div>
+						</div>
+						:
+						<div className="alert alert-danger m-1" role="alert">
+  							Por favor, valida el mail antes de continuar.
+						</div>
+						}
   					</div>
   					<div className="mb-3 text-start">
   					  <label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
@@ -66,6 +75,12 @@ export const Home = () => {
   					</div>
   					<button type="submit" className={store.mailValidated ? "btn btn-info btn-lg" : "btn btn-info btn-lg disabled" }>Continuar</button>
 					</form>
+					{store.userExist == false ?
+					<div></div>
+					:
+					<div class="alert alert-warning m-2" role="alert">
+  						Usuario existente. Por favor, intente registrarse con otro mail.
+					</div>}
 					<div className="mt-2 text-center d-flex justify-content-center border-top border-secondary">
                     <p className="m-1">¿Ya tienes una cuenta?</p>
                     <Link className="text-dark m-1" to="/login"> Inicia sesión aquí.</Link>

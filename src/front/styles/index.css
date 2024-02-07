@@ -3,4 +3,8 @@
 };
 .background_inputt {
     background: #FFF0BA;
+};
+.size-images {
+    max-width: 200px !important;
+    max-height: 200px !important;
 }

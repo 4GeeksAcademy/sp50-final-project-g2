@@ -17,8 +17,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			offersPublic: null,
 			oneOffer: null,
 			registerCandidates: null,
+			candidatesOffersAll: null,
+			userExist: false,
 			oneOfferCandidate: null,
 			profileCompany: []
+
 
 		},
 		actions: {
@@ -162,12 +165,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({isLoggedIn: false})
 				} else {
 					setStore({isLoggedIn: true});
-				
-					setStore({isInfluencer: influencer})
+					setStore({isInfluencer: influencer});
 					localStorage.setItem("token", token);
 					localStorage.setItem("is_influencer", influencer);
 					localStorage.setItem("user", JSON.stringify(user));
-					localStorage.setItem("profile", JSON.stringify(profile))
+					localStorage.setItem("profile", JSON.stringify(profile));
+					if (localStorage.getItem("is_influencer") == "false"){
+						getActions().allOffersCandidatesbyCompany()
+					}
 				}
 			},
 			logout: () =>{
@@ -180,7 +185,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({registerCandidates: null})
 				setStore({user: null});
 				setStore({isInfluencer: null});
-				setStore({profile: null})
+				setStore({profile: null});
+				setStore({candidatesOffersAll: null});
+				setStore({userExist: false})
 			},
 			isLogged: () => {
 				if (localStorage.getItem("token")){
@@ -196,6 +203,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({registerCandidates: JSON.parse(localStorage.getItem("registerCandidates"))});
 					if (localStorage.getItem("is_influencer") == "false"){
 						getActions().handleOffersCompany(); 
+						getActions().allOffersCandidatesbyCompany()
 					} else {
 						getActions().handleSocialNetworks();
 					}
@@ -203,6 +211,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				else {
 					setStore({isLoggedIn: false})
 				}
+			},
+			handleUserExist: () =>{
+				setStore({userExist: true})
 			},
 			handleOfferPublic: (obj) => {
 				setStore({oneOffer: obj})
@@ -360,6 +371,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 				const data = await response.json()
 				console.log(data)
+			},
+			allOffersCandidatesbyCompany: async() =>{
+				const url = process.env.BACKEND_URL + "/api/company/offers/candidates-influencers" ;
+        		const options = {
+            		method: "GET",
+            		headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		},   
+        		};
+        		const response = await fetch(url, options);
+        		if (!response.ok){
+        		    console.log(response.status, response.statusText);
+        		    return
+        		}
+        		const data = await response.json();
+        		console.log('Response: ',data);
+				setStore({candidatesOffersAll: data.results.offers})
 			}
 		}
 	};
