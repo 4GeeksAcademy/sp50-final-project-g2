@@ -16,10 +16,65 @@ const getState = ({ getStore, getActions, setStore }) => {
 			offer: [],
 			offersPublic: null,
 			oneOffer: null,
-			registerCandidates: null
+			registerCandidates: null,
+			oneOfferCandidate: null,
+			profileCompany: []
 
 		},
 		actions: {
+			getProfileCompany: async(id) => {
+				const url = process.env.BACKEND_URL + "/api/company/profile/" + id
+				const options = {
+            		method: "GET",
+            		headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		},   
+        		};
+        		const response = await fetch(url, options);
+        		if (!response.ok){
+        		    console.log(response.status, response.statusText);
+        		    return
+        		}
+        		const data = await response.json();
+				setStore({profileCompany: data.results})
+				localStorage.setItem("oneOfferCandidate", JSON.stringify(data.results))
+			},
+			cancelOffer: async(id) =>{
+                const url = process.env.BACKEND_URL + "/api/offer-candidates/" + id
+                const options = {
+                    method: 'DELETE',
+                    headers:{
+                        "Content-Type": "application/json",
+                        "Authorization" : "Bearer " + localStorage.getItem("token")
+                    }
+                };
+                const response = await fetch(url, options)
+                if(!response.ok){
+                    console.log('Error al cancelar', response.status, response.statusText)
+                };
+                const data = await response.json()
+				
+            },
+			getOneOfferCandidates: async (id_offer) => {
+				const url = process.env.BACKEND_URL + "/api/offer-candidates/" + id_offer
+				const options = {
+            		method: "GET",
+            		headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		},   
+        		};
+        		const response = await fetch(url, options);
+        		if (!response.ok){
+        		    console.log(response.status, response.statusText);
+        		    return
+        		}
+        		const data = await response.json();
+				setStore({oneOfferCandidate: data.offers})
+				localStorage.setItem("oneOfferCandidate", JSON.stringify(data.results))
+				
+			},
 			getOfferByCandidates: async (id) => {
 				const url = process.env.BACKEND_URL + "/api/influencers/" + id + "/offer-candidates";
 				const options = {
@@ -37,15 +92,14 @@ const getState = ({ getStore, getActions, setStore }) => {
         		const data = await response.json();
 				setStore({registerCandidates: data.offers})
 				localStorage.setItem("registerCandidates", JSON.stringify(data.offers))
-
+				
 			},
 			getOffers: async () => {
-				const response = await fetch (process.env.BACKEND_URL+ "/api/offers-public")
+				const response = await fetch (process.env.BACKEND_URL + "/api/offers-public")
 				if (!response.ok) return	
-					const data = await response.json();
-					setStore ({offersPublic : data.results.offers})			
+				const data = await response.json();
+				setStore ({offersPublic: data.results.offers})
 			},
-
 			// No la estoy utilizando
 			getOneOffer: async (id_offer) => {
 				const url = process.env.BACKEND_URL+ "/api/offers/" + id_offer
@@ -123,6 +177,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("user");
 				localStorage.removeItem("profile");
 				localStorage.removeItem("registerCandidates");
+				setStore({registerCandidates: null})
 				setStore({user: null});
 				setStore({isInfluencer: null});
 				setStore({profile: null})
@@ -288,7 +343,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(data)
 
 			},
-
 			closeOffer: async(offer_id) =>{
 				const url =process.env.BACKEND_URL + `/api/company/${offer_id}`
 				console.log('Url', url)
@@ -307,11 +361,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json()
 				console.log(data)
 			}
-
-			}
-
 		}
 	};
+};
 
 
 export default getState;

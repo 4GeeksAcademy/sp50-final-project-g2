@@ -6,14 +6,7 @@ export const Inicio = () => {
 
 
     return (
-        <div>
-            <Link to="/signup">
-                <button>Signup</button>
-            </Link>
-            <Link to="/login">
-                <button>Login</button>
-            </Link>
-            
+        <div>    
         </div>
     )
 }
