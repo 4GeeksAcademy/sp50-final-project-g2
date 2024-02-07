@@ -17,7 +17,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			offersPublic: null,
 			oneOffer: null,
 			registerCandidates: null,
-			candidatesOffersAll: null
+			candidatesOffersAll: null,
+			userExist: false
 
 		},
 		actions: {
@@ -129,7 +130,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({user: null});
 				setStore({isInfluencer: null});
 				setStore({profile: null});
-				setStore({candidatesOffersAll: null})
+				setStore({candidatesOffersAll: null});
+				setStore({userExist: false})
 			},
 			isLogged: () => {
 				if (localStorage.getItem("token")){
@@ -153,6 +155,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				else {
 					setStore({isLoggedIn: false})
 				}
+			},
+			handleUserExist: () =>{
+				setStore({userExist: true})
 			},
 			handleOfferPublic: (obj) => {
 				setStore({oneOffer: obj})
