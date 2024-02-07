@@ -418,7 +418,7 @@ def offer_candidates_id(id):
         response_body['results'] = results
         return response_body, 200
     if request.method == 'DELETE':
-        offer_candidates["status_influencer"] = 'inactive'
+        offer_candidates.status_influencer = "inactive"
         db.session.commit()
         response_body['message'] = "Oferta anulada"  
         results = offer_candidates.serialize()          
@@ -573,10 +573,42 @@ def offered_influencers(offer_id):
                 offer_data = row.serialize()
                 offer_data['influencer'] = influencer.serialize()                
                 candidates_list.append(offer_data)
-            results['offers'] = candidates_list
-            response_body['message'] = 'Listado de candidatos'
-            response_body['results'] = results
-            return response_body, 200
+        results['offers'] = candidates_list
+        response_body['message'] = 'Listado de candidatos'
+        response_body['results'] = results
+        return response_body, 200
+
+## Muestra todos los candidatos de todas las ofertas de la empresa
+@api.route('/company/offers/candidates-influencers', methods=['GET'])
+@jwt_required()
+def candidates_influencers():
+    if request.method == 'GET':
+        current_user = get_jwt_identity()
+        response_body = {}
+        results = {}
+        offers = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"])).scalars()
+        if not offers:
+            response_body["message"] = "No tienes ofertas publicadas"
+            return response_body, 400
+        ## if current_user[1]['id'] == offer.id_company:
+        list_offers = []
+        for row in offers:
+            offer_data = row.serialize()
+            ## offer = db.session.execute(db.select(Offers).where(Offers.id == row.id)).scalar()
+            candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_offer == row.id)).scalars()
+            ## offer_data["candidates"] = candidates.serialize()
+            candidates_list = []
+            for row in candidates:
+                candidates_data = row.serialize()
+                influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id == row.id_influencer)).scalar()
+                candidates_data['influencer'] = influencer.serialize()                
+                candidates_list.append(candidates_data)
+                offer_data["data_influencer"] = candidates_list
+                list_offers.append(candidates_data)
+        results['offers'] = list_offers
+        response_body['message'] = 'Listado de candidatos'
+        response_body['results'] = results
+        return response_body, 200
 
 # PUT de la compañía para cambiar status de influencer en su oferta
 @api.route('/company/<int:offer_id>/offer-candidates/<int:influencer_id>', methods=['PUT'])  
@@ -642,7 +674,8 @@ def getParticularOffer(id_company,offers_id):
             return response_body, 403
 
 
-@api.route('/influencer/profile/<int: id_influencer>', methods=['GET'])
+
+@api.route('/influencer/profile/<int:id_influencer>', methods=['GET'])
 @jwt_required()
 def getInfluencerProfile(id_influencer):
     if request.method == 'GET':
@@ -657,3 +690,19 @@ def getInfluencerProfile(id_influencer):
                 return response_body,200
             else: 
                  response_body['message'] = 'No se ha encontrado'
+
+           
+@api.route('/company/profile/<int:id_company>', methods=['GET'])
+@jwt_required()
+def get_company_profile(id_company):
+    response_body = results = {}
+    if request.method == 'GET':
+        current_user = get_jwt_identity()
+        if current_user[0]['is_influencer'] == True: 
+            company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == id_company)).scalar()
+        if not company:
+            response_body["message"] = "No se ha encontrado"
+            return response_body, 404
+        response_body["message"] = "Perfil de la Compañia"
+        response_body["results"] = company.serialize()
+        return response_body, 200

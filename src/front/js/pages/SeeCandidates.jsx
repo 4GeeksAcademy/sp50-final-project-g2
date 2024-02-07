@@ -36,6 +36,13 @@ export const SeeCandidates = () => {
         <div className="container-fluid my-4">
             <div className="container">
                 <h1 className="text-center">Candidatos</h1>
+                {store.candidates.length == 0 ?
+                <div className="row align-items-center">
+                <div class="alert alert-primary m-5" role="alert">
+                    No hay candidatos en esta oferta.
+                </div>
+                </div>
+                :
                 <div className="row">
                     {store.candidates.filter(item => item.status_candidate == 'pending').map((item,index) => (
                         <div key={index} className="card mb-3 p-0">
@@ -69,6 +76,7 @@ export const SeeCandidates = () => {
                         </div>
                     ))}
                 </div>
+                }
             </div>
         </div>
     )

@@ -47,7 +47,7 @@ export const Profile = () => {
                 </Link>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
-                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
+                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
                         <h4 className="m-2">Principal red social: <strong> {store.profile.social_networks} </strong></h4>
                     </div>
@@ -94,7 +94,7 @@ export const Profile = () => {
                     )
                     })}
                 </div>
-                <button href="#" className="btn btn-danger" onClick={handleOnClick}>Log out</button>
+                <button href="#" className="btn btn-danger m-3" onClick={handleOnClick}>Log out</button>
     
                 </div>
                 }        
@@ -111,7 +111,7 @@ export const Profile = () => {
                 </Link>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
-                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
+                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
                     </div>
                     <div className="col-8 d-grid background_form rounded justify-content-center">
@@ -155,7 +155,7 @@ export const Profile = () => {
                     )})
                     }
                 </div>
-                <button href="#" className="btn btn-danger" onClick={handleOnClick}>Log out</button>
+                <button href="#" className="btn btn-danger m-3" onClick={handleOnClick}>Log out</button>
                 </div>
                 }
             </div>

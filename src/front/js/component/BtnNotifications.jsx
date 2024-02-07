@@ -15,14 +15,14 @@ export const BtnNotifications = () =>{
         </button>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             {!store.registerCandidates ? (
-                <li><a className="dropdown-item" href="#">No tienes candidaturas activas.</a></li>
+                <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
             ) : (
             store.registerCandidates.map((item, id)=>{
                 if (`${item.status_candidate}` == "accepted" || `${item.status_candidate}` == "refused"){
                     return ( 
                     <li key={item.id} className="d-flex">
                         <Link to={`/update-offer/${item.id}`} className="dropdown-item" >{item.offer.title}</Link>
-                        <p>{item.status_candidate}</p>
+                        <p className="dropdown-item border rounded">{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
                         <button type="button" className="btn btn-ligth"><i class="fa-solid fa-check"></i></button>
                     </li>
                 )}
@@ -32,7 +32,7 @@ export const BtnNotifications = () =>{
     </div>
     :
     <div className="dropdown dropstart me-3 d-sm-none d-md-block">
-        <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>Candidatos
+        <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {!store.candidatesOffersAll ? "0" : store.candidatesOffersAll.length}
             <span className="visually-hidden">New alerts</span>
