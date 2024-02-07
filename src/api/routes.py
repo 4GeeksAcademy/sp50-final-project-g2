@@ -674,6 +674,24 @@ def getParticularOffer(id_company,offers_id):
             return response_body, 403
 
 
+
+@api.route('/influencer/profile/<int:id_influencer>', methods=['GET'])
+@jwt_required()
+def getInfluencerProfile(id_influencer):
+    if request.method == 'GET':
+        current_user = get_jwt_identity()
+        response_body = {}
+        if current_user[0]['is_influencer'] == False:
+            influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == id_influencer)).scalar()
+            if influencer:
+                serialize_influencer = influencer.serialize()
+                response_body['message'] = 'Perfil Influencer'
+                response_body['results'] = serialize_influencer
+                return response_body,200
+            else: 
+                 response_body['message'] = 'No se ha encontrado'
+
+           
 @api.route('/company/profile/<int:id_company>', methods=['GET'])
 @jwt_required()
 def get_company_profile(id_company):
