@@ -16,7 +16,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			offer: [],
 			offersPublic: null,
 			oneOffer: null,
-			registerCandidates: null
+			registerCandidates: null,
+			profileInfluencer: []
 
 		},
 		actions: {
@@ -306,6 +307,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 				const data = await response.json()
 				console.log(data)
+			},
+			getInfluencerProfile: async(influencer_id) =>{
+				const url = process.removeListener.BACKEND_URL + `/api/influencer/profile/${influencer_id}`
+				console.log('URL', url)
+				const token = localStorage.getItem("token")
+				const options = {
+					method: 'GET',
+					headers:{
+						'Authorization': `Bearer ${token}`
+					},
+				};
+				const response = await fetch(url, options)
+				if(!response.ok){
+					console.log('Error', response.status, response.text)
+				};
+				const data = await response.json()
+				console.log(data)
+				setStore({profileInfluencer: data.results});
+				
 			}
 
 			}

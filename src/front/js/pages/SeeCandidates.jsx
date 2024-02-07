@@ -37,7 +37,7 @@ export const SeeCandidates = () => {
             <div className="container">
                 <h1 className="text-center">Candidatos</h1>
                 <div className="row">
-                    {store.candidates.filter(item => item.status_candidate !== 'refused').map((item,index) => (
+                    {store.candidates.filter(item => item.status_candidate == 'pending').map((item,index) => (
                         <div key={index} className="card mb-3 p-0">
                             <div className="row g-0">
                                 <div className="col-md-2">
