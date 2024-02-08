@@ -4,7 +4,7 @@ import "../../styles/home.css";
 import 'bootswatch/dist/sandstone/bootstrap.min.css'
 import { Spinner } from "../component/Spinner.jsx"
 import { getCandidates } from "../store/flux.js"
-import { Navigate, useParams } from "react-router-dom"
+import { Link, Navigate, useParams } from "react-router-dom"
 import { refuseCandidate } from "../store/flux.js"
 
 export const SeeCandidates = () => {
@@ -41,6 +41,7 @@ export const SeeCandidates = () => {
                 <div class="alert alert-primary m-5" role="alert">
                     No hay candidatos en esta oferta.
                 </div>
+                <Link to="/company/my-offers/all-candidates" className="text-secondary text-end m-2">Volver atrás.</Link>
                 </div>
                 :
                 <div className="row">
@@ -75,6 +76,7 @@ export const SeeCandidates = () => {
                             </div>
                         </div>
                     ))}
+                    <Link to="/company/my-offers/all-candidates" className="text-secondary text-end m-2">Volver atrás.</Link>
                 </div>
                 }
             </div>

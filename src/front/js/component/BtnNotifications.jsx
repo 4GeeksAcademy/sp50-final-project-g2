@@ -1,19 +1,26 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const BtnNotifications = () =>{
     const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+
+    const handleOneOffer = (id_offer) =>{
+        actions.getOneOffer(id_offer);
+       // navigate("/oneOffer")
+    }
 
     return(
     store.isInfluencer == true ? 
     <div className="dropdown dropstart me-3 d-sm-none d-md-block">
-        <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>Candidaturas
+        <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
         <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger rounded-circle">
             <span className="visually-hidden">New alerts</span>
         </span>
         </button>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li className="d-flex m-1"><span class="dropdown-item-text">Candidaturas:</span></li>
             {!store.registerCandidates ? (
                 <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
             ) : (
@@ -21,9 +28,8 @@ export const BtnNotifications = () =>{
                 if (`${item.status_candidate}` == "accepted" || `${item.status_candidate}` == "refused"){
                     return ( 
                     <li key={item.id} className="d-flex">
-                        <Link to={`/update-offer/${item.id}`} className="dropdown-item" >{item.offer.title}</Link>
+                        <Link onClick={() => actions.getOneOffer(item.id_offer)} to="/oneOffer" className="dropdown-item" >{item.offer.title}</Link>
                         <p className="dropdown-item border rounded">{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
-                        <button type="button" className="btn btn-ligth"><i class="fa-solid fa-check"></i></button>
                     </li>
                 )}
             }))}
@@ -39,6 +45,7 @@ export const BtnNotifications = () =>{
         </span>
         </button>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li className="d-flex m-1"><span class="dropdown-item-text">Candidatos:</span></li>
             {!store.candidatesOffersAll ? (
                 <li><a className="dropdown-item" href="#">No tienes candidatos en tus ofertas.</a></li>
             ) : (
@@ -47,7 +54,6 @@ export const BtnNotifications = () =>{
                 <li key={item.id} className="d-flex">
                     <Link to={`/update-offer/${item.id}`} className="dropdown-item" >{item.influencer.first_name} {item.influencer.last_name}</Link>
                     <p>Seguidores: {item.followers}</p>
-                    <button type="button" className="btn btn-ligth"><i class="fa-solid fa-check"></i></button>
                 </li>
                 )
             }))}
