@@ -67,7 +67,7 @@ export const Inscripcion = () => {
                             <div className="mb-3 text-start mx-2">
                                 <label htmlFor="exampleFormControlTextarea1" className="form-label">Descripción</label>
                                 <textarea className="form-control" id="exampleFormControlTextarea1" rows="2"
-                                value={coverLetter} onChange={(e) => setCoverLetter(e.target.value)} placeholder="Resume tus actitudes"></textarea>
+                                value={coverLetter} onChange={(e) => setCoverLetter(e.target.value)} placeholder="Resume tus aptitudes"></textarea>
                                     </div>
                             <button  type="submit" className="btn btn-success btn-lg mx-2 my-2">Registrarte</button>
                         </form>

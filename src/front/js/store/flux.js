@@ -21,27 +21,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 			candidatesOffersAll: null,
 			userExist: false,
 			oneOfferCandidate: null,
-			profileCompany: []
+			profileCompany: {}
 
 		},
 		actions: {
-			getProfileCompany: async(id) => {
-				const url = process.env.BACKEND_URL + "/api/company/profile/" + id
+			getProfileCompany: async(id_company) => {
+				const url = process.env.BACKEND_URL + `/api/company/profile/${id_company}`
+				const token = localStorage.getItem('token')
 				const options = {
-            		method: "GET",
+					method: "GET",
             		headers:{
-            		    "Content-Type": "application/json",
-            		    "Authorization" : "Bearer " + localStorage.getItem("token")
-            		},   
+            		    "Authorization" : `Bearer ${token}`
+            		},
         		};
         		const response = await fetch(url, options);
         		if (!response.ok){
-        		    console.log(response.status, response.statusText);
+        		    console.log( 'Error', response.status, response.statusText);
         		    return
-        		}
+        		};
         		const data = await response.json();
-				setStore({profileCompany: data.results})
-				localStorage.setItem("oneOfferCandidate", JSON.stringify(data.results))
+				console.log(data)
+				setStore({ profileCompany: data.results })
 			},
 			cancelOffer: async(id) =>{
                 const url = process.env.BACKEND_URL + "/api/offer-candidates/" + id
@@ -372,7 +372,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json()
 				console.log(data)
 			},
-
 			getInfluencerProfile: async(influencer_id) =>{
 				const url = process.removeListener.BACKEND_URL + `/api/influencer/profile/${influencer_id}`
 				console.log('URL', url)
@@ -390,8 +389,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json()
 				console.log(data)
 				setStore({profileInfluencer: data.results});
-      },				
-        
+      		},				       
 			allOffersCandidatesbyCompany: async() =>{
 				const url = process.env.BACKEND_URL + "/api/company/offers/candidates-influencers" ;
         		const options = {
