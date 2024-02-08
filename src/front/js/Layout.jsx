@@ -16,6 +16,7 @@ import { UpdateSocialNetwork } from "./pages/UpdateSocialNetwork.jsx";
 import { CreateOffer } from "./pages/CreateOffer.jsx";
 import { UpdateOffersCompany } from "./pages/UpdateOffersCompany.jsx";
 import { SeeCandidates } from "./pages/SeeCandidates.jsx";
+import { SeeInfluencerProfile} from "./pages/SeeInfluencerProfile.jsx";
 // Import styles
 import 'bootswatch/dist/sandstone/bootstrap.min.css';
 import "../styles/home.css";
@@ -60,6 +61,7 @@ const Layout = () => {
                         <Route element={<MyOffers />} path="/company/my-offers" />
                         <Route element={<AllOffersCandidates />} path="/company/my-offers/all-candidates"/>
                         <Route element={<ProfileCompany/>} path="/company/profile" />
+                        <Route element={<SeeInfluencerProfile />} path="company/my-offers/:offer_id/influencers/influencer/:influencer_id/profile"/>
                         <Route element={<h1 className="text-center">Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />

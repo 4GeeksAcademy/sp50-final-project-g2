@@ -4,7 +4,7 @@ import "../../styles/home.css";
 import 'bootswatch/dist/sandstone/bootstrap.min.css'
 import { Spinner } from "../component/Spinner.jsx"
 import { getCandidates } from "../store/flux.js"
-import { Navigate, useParams } from "react-router-dom"
+import { Navigate, useParams, Link } from "react-router-dom"
 import { refuseCandidate } from "../store/flux.js"
 
 export const SeeCandidates = () => {
@@ -38,7 +38,7 @@ export const SeeCandidates = () => {
                 <h1 className="text-center">Candidatos</h1>
                 {store.candidates.length == 0 ?
                 <div className="row align-items-center">
-                <div class="alert alert-primary m-5" role="alert">
+                <div className="alert alert-primary m-5" role="alert">
                     No hay candidatos en esta oferta.
                 </div>
                 </div>
@@ -65,6 +65,11 @@ export const SeeCandidates = () => {
                                             <a href={item.social_network_url} target="_blank" rel="noopener noreferrer">
                                                 Redes
                                             </a>
+                                        </button>
+                                        <button className="btn btn-primary">
+                                            <Link to={`influencer/${item.influencer.id_user}/profile`} rel="noopener noreferrer">
+                                                Perfil
+                                            </Link>
                                         </button>
                                     </div>
                                 </div>
