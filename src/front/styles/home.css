@@ -2,5 +2,51 @@
     background-color: rgb(245, 226, 203);
 }
 .ColorNavbar {
-    background-color: #fdb960;
+    background-color: #f8de6c;
+}
+.imagenfondo {
+    width:100%;
+    height:auto;
+}
+.logo {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    top: 60%;
+    left: 2%;
+
+}
+.influencerico {
+    width: 600px;
+    height: 600px;
+    position: absolute;
+    top: 15%;
+    left: 60%;
+    
+}
+.titulo {
+    color:white;
+    position: absolute;
+    font-size: 100px;
+    top: 40%;
+    left: 7%;
+}
+.parrafo {
+    color:white;
+    position: absolute;
+    font-size: 30px;
+    top: 52%;
+    left: 7%;
+
+}
+.wifi {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+}
+.unete {
+    top: 60%;
+    width: 200px;
+    left: 7%;
+    position: absolute;
 }

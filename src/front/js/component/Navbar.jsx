@@ -15,10 +15,10 @@ export const Navbar = () => {
     }
 
 	return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container">
+        <nav className="navbar navbar-expand-lg navbar-light ColorNavbar">
+            <div className="container-fluid">
                 <Link to="/" className="navbar-brand">
-                    <img className="imagen" src={Icono} alt="personajes" style={{ width: 150 }} />
+                    <img className="imagenlogo" src={Icono} alt="icono" style={{ width: 105 }} />
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -29,18 +29,22 @@ export const Navbar = () => {
                             <Link to="/offers" className="nav-link">Offers</Link>
                         </li>
                     </ul>
-                    <BtnNotifications />
                     <div className="d-flex">
                         {!store.isLoggedIn ?
                             <div>
-                                <Link to="/login" className="btn btn-warning me-3">Inicio Sesion</Link>
-                                <Link to="/signup" className="btn btn-warning">Registrarse</Link>
+                                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li className="nav-item">
+                                        <Link to="/login" className="nav-link me-3">Inicio Sesion</Link>
+                                    </li>
+                                        <Link to="/signup" className="nav-link">Registrarse</Link>
+                                </ul>
                             </div>
                             :
                             <div className="dropdown me-3 d-sm-none d-md-block">
                                 <button className="btn btn-primary dropdown-toggle me-3" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     Menu
                                 </button>
+                                <BtnNotifications />
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li>
                                         <Link to="/profile" className="dropdown-item">Perfil</Link>
