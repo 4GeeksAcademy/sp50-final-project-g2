@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 import { Spinner } from "../component/Spinner.jsx";
 
@@ -7,6 +7,7 @@ export const OffersCandidate = () => {
     const { store, actions } = useContext(Context);
 
 
+   
 
     const handleCancelOffer = async (id) => {
         const isConfirmed = window.confirm('¿Seguro que quiere cerrar la oferta?')
@@ -23,8 +24,8 @@ export const OffersCandidate = () => {
                 {store.registerCandidates.map((item, id) => {
                     if (`${item.status_influencer}` == 'active') {
                     return (
-                        <div className="container-fluid m-5">
-                            <div key={id} className="container-fluid" >
+                        <div key={id} className="container-fluid mt-5">
+                            <div  className="container-fluid" >
                                 <div className="row">
                                     <div className="col-sm-1 col-md-2"></div>
                                     <div className="col-sm-9 col-md-8">
@@ -36,7 +37,7 @@ export const OffersCandidate = () => {
                                                 <div className="col-md-8 mt-4">
                                                     <div className="card-body">
                                                         <h2 className="card-title">{item.offer.title}</h2>
-                                                        <h5 className="card-title">{item.company.name}</h5>
+                                                        <Link to={`/offer-candidates/company/${item.company.id_user}`}><h5 className="card-title">{item.company.name}</h5></Link>
                                                         <small className="card-subtitle mb-2 mt-1 text-body-secondary"></small>
                                                         <span><hr className="dropdown-divider mt-2"></hr></span>
                                                         <p className="card-text mt-3"></p>

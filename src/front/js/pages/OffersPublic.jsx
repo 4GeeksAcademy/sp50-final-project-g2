@@ -27,8 +27,8 @@ export const OffersPublic = () => {
                     </div>
                 </nav>
             </div>
-            {results.map((item) => (
-                <div key= {item.id} className="container-fluid mt-4">
+            {results.map((item, id) => (
+                <div key= {id} className="container-fluid mt-4">
                     <div className="row">
                         <div className="col-sm-2 col-md-3"></div>
                         <div className="col-sm-9 col-md-8">

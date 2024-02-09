@@ -17,12 +17,12 @@ export const Offer = () => {
                         <div className="card mb-3" >
                             <div className="row g-0">
                                 <div className="col-md-1 m-5">
-                                <img src= {store.oneOffer.profile_img ? store.oneOffer.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid rounded-start" />
+                                <img src= {store.oneOffer.company.profile_img ? store.oneOffer.company.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid rounded-start" />
                                 </div>
                                 <div className="col-md-8 mt-4">
                                     <div className="card-body">
                                         <h2 className="card-title">{store.oneOffer.title}</h2>
-                                        <h5 className="card-title ms-1">{store.oneOffer.company.name}</h5>
+                                        <Link to={`/oneOffer/company/${store.oneOffer.company.id_user}`}><h5 className="card-title ms-1">{store.oneOffer.company.name}</h5></Link>
                                         <div className="row">
                                             <div className="col-4 mt-2">
                                                 <small className="card-subtitle mb-2 mt-1 text-body-secondary">
