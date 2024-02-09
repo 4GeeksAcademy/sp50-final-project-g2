@@ -66,7 +66,7 @@ export const SeeCandidates = () => {
                                                 Redes
                                             </a>
                                         </button>
-                                        <button className="btn btn-primary">
+                                        <button className="btn btn-primary ms-4">
                                             <Link to={`influencer/${item.influencer.id_user}/profile`} rel="noopener noreferrer">
                                                 Perfil
                                             </Link>

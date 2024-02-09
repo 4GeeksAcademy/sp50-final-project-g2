@@ -28,7 +28,7 @@ import { Footer } from "./component/Footer.jsx";
 import { Inscripcion } from "./pages/Inscripcion.jsx";
 import { AllOffersCandidates } from "./pages/AllOffersCandidates.jsx";
 import { ProfileCompany } from "./pages/ProfileCompany.jsx";
-
+import { CuatroCeroCuatro } from "./pages/CuatroCeroCuatro.jsx";
 
 
 // Create your first component
@@ -62,7 +62,7 @@ const Layout = () => {
                         <Route element={<AllOffersCandidates />} path="/company/my-offers/all-candidates"/>
                         <Route element={<ProfileCompany/>} path="/company/profile" />
                         <Route element={<SeeInfluencerProfile />} path="company/my-offers/:offer_id/influencers/influencer/:influencer_id/profile"/>
-                        <Route element={<h1 className="text-center">Not found!</h1>} path="*"/>
+                        <Route element={<CuatroCeroCuatro />} path="*"/>
                     </Routes>
                     <Footer />
                 </ScrollToTop>
