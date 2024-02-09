@@ -38,7 +38,7 @@ export const SeeCandidates = () => {
                 <h1 className="text-center title-style">Candidatos</h1>
                 {store.candidates.length == 0 ?
                 <div className="row align-items-center">
-                <div class="alert alert-primary m-5" role="alert">
+                <div className="alert alert-primary m-5" role="alert">
                     No hay candidatos en esta oferta.
                 </div>
                 <Link to="/company/my-offers/all-candidates" className="text-secondary text-end m-2">Volver atrás.</Link>
@@ -66,6 +66,11 @@ export const SeeCandidates = () => {
                                             <a href={item.social_network_url} target="_blank" rel="noopener noreferrer">
                                                 Redes
                                             </a>
+                                        </button>
+                                        <button className="btn btn-primary ms-4">
+                                            <Link to={`influencer/${item.influencer.id_user}/profile`} rel="noopener noreferrer">
+                                                Perfil
+                                            </Link>
                                         </button>
                                     </div>
                                 </div>
