@@ -42,12 +42,12 @@ export const Profile = () => {
                 :
                 <div>
                 <h2>Influencer</h2>
-                <Link to="/update-profile">
-                    <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-lg"></i></p>
+                <Link to="/update-profile" className="text-secondary">
+                    <p className="text-end m-1 me-5"><i className="fa-regular fa-pen-to-square fa-xl"></i></p>
                 </Link>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
-                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
+                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
                         <h4 className="m-2">Principal red social: <strong> {store.profile.social_networks} </strong></h4>
                     </div>
@@ -69,26 +69,26 @@ export const Profile = () => {
                 <div className="d-block py-1 m-2 mt-3 background_form rounded justify-content-center">
                     <h4 className="m-2">Redes sociales:</h4>
                     <Link to="/add-socialnetwork" className="text-secondary text-end">
-                        <p className="text-end m-2"><i className="fa-solid fa-plus fa-lg"></i></p>
+                        <p className="text-end m-2 me-5" ><i className="fa-solid fa-plus fa-xl" ></i></p>
                     </Link>
                     {!store.socialNetworks ? 
                     <p>Cargando datos.. </p>
                     :
                     store.socialNetworks.map((item, id)=>{
                         return (
-                            <div className="m-2 border rounded text-start d-flex justify-content-between">
-                                <div>
+                            <div className="m-4 border rounded text-start d-flex justify-content-between">
+                                <div className="ms-4 mt-2">
                                 <h4 className="m-1 ps-3">{item.social_network}</h4>
                                 <ul>
                                     <li className="list-group-item">Cantidad de seguidores: {item.followers}</li>
                                     <li className="list-group-item">Url o nickname: {item.social_network_url}</li>
                                 </ul>
                                 </div>
-                                <div>
-                                <Link to={`/update-socialnetwork/${item.id}`} onClick={() => actions.handleCurrentSocialNetwork(item)} className="bg-secondary">
-                                    <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-lg text-secondary"></i></p>
+                                <div className="me-4 mt-2">
+                                <Link to={`/update-socialnetwork/${item.id}`} onClick={() => actions.handleCurrentSocialNetwork(item)} className="bg-secondary mt-2">
+                                    <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-xl text-secondary"></i></p>
                                 </Link>
-                                <button type="button" className="btn-close text-secondary" aria-label="Close" onClick={() => handleDeleteSocialNetwork(item.id)}></button>
+                                <button type="button" className="btn-close btn-outline-secondary mt-2" aria-label="Close" onClick={() => handleDeleteSocialNetwork(item.id)} data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar red social"></button>
                                 </div>
                             </div>
                     )
@@ -106,12 +106,12 @@ export const Profile = () => {
                 :
                 <div>
                 <h2>Empresa</h2>
-                <Link to="/update-profile">
-                    <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-lg"></i></p>
+                <Link to="/update-profile" className="text-secondary">
+                    <p className="text-end m-1 me-5"><i className="fa-regular fa-pen-to-square fa-xl"></i></p>
                 </Link>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
-                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
+                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
                     </div>
                     <div className="col-8 d-grid background_form rounded justify-content-center">
@@ -133,7 +133,7 @@ export const Profile = () => {
                     <h4 className="m-2">Ofertas publicadas:</h4>
                     <div className="d-flex justify-content-end me-2">
                         <Link to="/create-offer" className="text-dark text-end">
-                            <p className="text-end m-2"><i className="fa-solid fa-plus fa-lg"></i></p>
+                            <p className="text-end m-2 me-5"><i className="fa-solid fa-plus fa-xl"></i></p>
                         </Link>
                     </div>
                     {!store.offersCompany ? 
@@ -142,13 +142,13 @@ export const Profile = () => {
                     store.offersCompany.map((item, id) =>{
                         return(
                         <div className="m-2 border rounded text-start d-flex justify-content-between">
-                            <div>
+                            <div className="ms-4 mt-2 mb-2">
                                 <h4 className="m-1 ps-3">{item.title}</h4>
                                 <p className="m-1 ps-3">{item.post}</p>
                             </div>
-                            <div>
+                            <div className="me-4 mt-2">
                                 <Link to={`/update-offer/${item.id}`} onClick={() => actions.handleCurrentOffer(item)} className="bg-secondary">
-                                    <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-lg text-secondary"></i></p>
+                                    <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-xl text-secondary"></i></p>
                                 </Link>
                             </div>
                         </div>

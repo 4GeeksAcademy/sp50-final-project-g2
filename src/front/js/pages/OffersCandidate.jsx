@@ -23,7 +23,7 @@ export const OffersCandidate = () => {
                 {store.registerCandidates.map((item, id) => {
                     if (`${item.status_influencer}` == 'active') {
                     return (
-                        <div className="container-fluid mt-5">
+                        <div className="container-fluid m-5">
                             <div key={id} className="container-fluid" >
                                 <div className="row">
                                     <div className="col-sm-1 col-md-2"></div>

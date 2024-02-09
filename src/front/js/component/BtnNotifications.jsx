@@ -29,7 +29,7 @@ export const BtnNotifications = () =>{
                     return ( 
                     <li key={item.id} className="d-flex">
                         <Link onClick={() => actions.getOneOffer(item.id_offer)} to="/oneOffer" className="dropdown-item" >{item.offer.title}</Link>
-                        <p className="dropdown-item border rounded">{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
+                        <p className="dropdown-item border rounded me-1">{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
                     </li>
                 )}
             }))}

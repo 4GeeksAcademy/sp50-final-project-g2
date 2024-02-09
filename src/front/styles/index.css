@@ -1,4 +1,6 @@
-
+.title-style{
+    font-family: 'Protest Strike', sans-serif;
+};
 .background_form {
     background: #FFC66B !important;
 };
@@ -9,9 +11,7 @@
     max-width: 200px !important;
     max-height: 200px !important;
 };
-h1{
-    font-family: 'Open Sans', sans-serif !important;
-};
+
 
 
 

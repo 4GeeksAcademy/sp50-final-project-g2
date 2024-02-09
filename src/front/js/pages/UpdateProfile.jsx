@@ -174,7 +174,7 @@ export const UpdateProfile = () => {
                         </div>
                         <button type="submit" className="btn btn-success btn-lg">Submit</button>
                         </form>
-                        <Link to="/profile">
+                        <Link to="/profile" className="text-secondary">
                             <p className="text-end m-1 me-3">O vuelve al perfil.</p>
                         </Link>
                     </div>
@@ -255,7 +255,7 @@ export const UpdateProfile = () => {
                         </div>
                         <button type="submit" className="btn btn-success btn-lg">Submit</button>
                         </form>
-                        <Link to="/profile">
+                        <Link to="/profile" className="text-secondary">
                             <p className="text-end m-1 me-3">O vuelve al perfil.</p>
                         </Link>
                     </div>
