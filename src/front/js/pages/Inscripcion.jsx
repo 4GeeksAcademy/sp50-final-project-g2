@@ -48,7 +48,7 @@ export const Inscripcion = () => {
 
         return(
             <div>
-                <h1 className="text-center">REGISTRATE A LA OFERTA</h1>
+                <h1 className="text-center title-style m-2">REGISTRATE A LA OFERTA</h1>
                 <div className="d-flex justify-content-center">
                         <div className="m-5 col-8 background_form p-2 rounded">
                         <form onSubmit={handleOnSubmit}>

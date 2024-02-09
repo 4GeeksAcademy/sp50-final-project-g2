@@ -7,8 +7,8 @@ export const AllOffersCandidates = () =>{
 
     return(
         <div>
-            <h1 className="text-center mt-5 ">Listado de candidaturas</h1>
-            <h3 className="text-center mt-1">Selecciona una oferta para ver los candidatos de la misma</h3>
+            <h1 className="text-center mt-5 title-style">Listado de candidaturas</h1>
+            <h3 className="text-center mt-1 title-style">Selecciona una oferta para ver los candidatos de la misma</h3>
             <div className="container-fluid mt-5">
               {!store.candidatesOffersAll ?
                 <div className="alert alert-warning m-2" role="alert">

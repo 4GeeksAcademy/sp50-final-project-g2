@@ -35,7 +35,7 @@ export const SeeCandidates = () => {
         
         <div className="container-fluid my-4">
             <div className="container">
-                <h1 className="text-center">Candidatos</h1>
+                <h1 className="text-center title-style">Candidatos</h1>
                 {store.candidates.length == 0 ?
                 <div className="row align-items-center">
                 <div class="alert alert-primary m-5" role="alert">

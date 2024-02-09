@@ -34,14 +34,14 @@ export const Profile = () => {
     return (
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
-            <h1 className="text-center">MI PERFIL</h1>
+            <h1 className="text-center title-style">MI PERFIL</h1>
             { store.isInfluencer == true ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
                 <Spinner />
                 :
                 <div>
-                <h2>Influencer</h2>
+                <h2 className="title-style text-center">Influencer</h2>
                 <Link to="/update-profile" className="text-secondary">
                     <p className="text-end m-1 me-5"><i className="fa-regular fa-pen-to-square fa-xl"></i></p>
                 </Link>
@@ -51,7 +51,7 @@ export const Profile = () => {
                         <h3 className="m-2">{store.profile.headline}</h3>
                         <h4 className="m-2">Principal red social: <strong> {store.profile.social_networks} </strong></h4>
                     </div>
-                    <div className="col-8 d-grid background_form rounded justify-content-center">
+                    <div className="col-8 d-grid background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
                         <h4 className="m-2">Datos personales</h4>
                         <p className="m-2">Nombre: <strong> {store.profile.first_name} </strong></p>
                         <p className="m-2">Apellido/s: <strong> {store.profile.last_name} </strong></p>
@@ -62,11 +62,11 @@ export const Profile = () => {
                         <p className="m-2">País y código postal: <strong> {store.profile.country} - {store.profile.zip_code} </strong></p>
                     </div>
                 </div>
-                <div className="d-grid m-2 mt-3 background_form rounded justify-content-center">
+                <div className="d-grid m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
                     <h4 className="m-2">Descripción</h4>
                     <p className="m-2"><strong> {store.profile.description} </strong></p>
                 </div>
-                <div className="d-block py-1 m-2 mt-3 background_form rounded justify-content-center">
+                <div className="d-block py-1 m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
                     <h4 className="m-2">Redes sociales:</h4>
                     <Link to="/add-socialnetwork" className="text-secondary text-end">
                         <p className="text-end m-2 me-5" ><i className="fa-solid fa-plus fa-xl" ></i></p>
@@ -105,7 +105,7 @@ export const Profile = () => {
                 <Spinner />
                 :
                 <div>
-                <h2>Empresa</h2>
+                <h2 className="text-center title-style">Empresa</h2>
                 <Link to="/update-profile" className="text-secondary">
                     <p className="text-end m-1 me-5"><i className="fa-regular fa-pen-to-square fa-xl"></i></p>
                 </Link>
@@ -114,7 +114,7 @@ export const Profile = () => {
                         <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
                     </div>
-                    <div className="col-8 d-grid background_form rounded justify-content-center">
+                    <div className="col-8 d-grid background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
                         <h4 className="m-2">Datos </h4>
                         <p className="m-2">Nombre: <strong> {store.profile.name} </strong></p>
                         <p className="m-2">Email: <strong> {store.user.email} </strong></p>
@@ -125,11 +125,11 @@ export const Profile = () => {
                         <p className="m-2">País y código postal: <strong> {store.profile.country} - {store.profile.zip_code} </strong></p>
                     </div>
                 </div>
-                <div className="d-grid m-2 mt-3 background_form rounded justify-content-center">
+                <div className="d-grid m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
                     <h4 className="m-2">Descripción</h4>
                     <p className="m-2"><strong> {store.profile.description} </strong></p>
                 </div>
-                <div className="d-block py-1 m-2 mt-3 background_form rounded justify-content-center">
+                <div className="d-block py-1 m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
                     <h4 className="m-2">Ofertas publicadas:</h4>
                     <div className="d-flex justify-content-end me-2">
                         <Link to="/create-offer" className="text-dark text-end">

@@ -13,14 +13,14 @@ export const Profile = () => {
     return (
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
-            <h1 className="text-center">Perfil</h1>
+            <h1 className="text-center title-style">Perfil</h1>
             { store.isInfluencer == false ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
                 <Spinner />
                 :
                 <div>
-                <h2>Influencer</h2>
+                <h2 className="title-style">Influencer</h2>
                     <Link to="/update-profile">
                         <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-lg"></i></p>
                     </Link>

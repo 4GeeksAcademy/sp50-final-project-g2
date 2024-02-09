@@ -6,7 +6,7 @@ export const ProfileCompany = () => {
 
     return (
         <div>
-            <h2>Empresa</h2>
+            <h2 className="title-style">Empresa</h2>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
                         <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>

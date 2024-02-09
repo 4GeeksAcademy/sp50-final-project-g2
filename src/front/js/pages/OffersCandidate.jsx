@@ -19,7 +19,7 @@ export const OffersCandidate = () => {
 
     return (!store.registerCandidates ? <Spinner /> :
         <div>
-            <h1 className="text-center mt-5 "> Ofertas Inscritas</h1>
+            <h1 className="text-center mt-5 title-style"> Ofertas Inscritas</h1>
                 {store.registerCandidates.map((item, id) => {
                     if (`${item.status_influencer}` == 'active') {
                     return (

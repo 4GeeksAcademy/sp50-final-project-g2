@@ -57,9 +57,9 @@ export const UpdateOffersCompany = () =>{
         store.isInfluencer == true ? <Navigate to='/profile' /> :
         <div>
             <div>
-                <h1 className="text-center m-2">MODIFICAR LA OFERTA</h1>
+                <h1 className="text-center m-2 title-style">MODIFICAR LA OFERTA</h1>
                 <div className="d-flex justify-content-center">
-                    <div className="m-5 col-8 background_form p-2 rounded">
+                    <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                         <form onSubmit={handleOnSubmit}>
                         <div className="container d-flex justify-content-center">
                         <div className="mb-3 text-start col-12 mx-2">
