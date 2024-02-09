@@ -30,5 +30,5 @@ export const Inicio = () => {
                     </div>
                 </div>
         </div>
-    )
+    );
 }

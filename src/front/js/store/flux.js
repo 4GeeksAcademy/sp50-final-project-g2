@@ -17,7 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			offersPublic: null,
 			oneOffer: null,
 			registerCandidates: null,
-			profileInfluencer: [],
+			profileInfluencer: {},
 			candidatesOffersAll: null,
 			userExist: false,
 			oneOfferCandidate: null,
@@ -116,7 +116,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         		const response = await fetch(url, options);
         		if (response.ok){
 					const data = await response.json();
-					setStore({ oneOffer: data.results });
+					console.log(data);
+					setStore({ oneOffer: data.results.offer });
         		} else {
 					console.log("Error: ", response.status, response.statusText);
 				}
@@ -372,13 +373,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json()
 				console.log(data)
 			},
-			getInfluencerProfile: async(influencer_id) =>{
-				const url = process.removeListener.BACKEND_URL + `/api/influencer/profile/${influencer_id}`
+			getInfluencerProfile: async(id_influencer) =>{
+				const url = process.env.BACKEND_URL + `/api/influencer/profile/${id_influencer}`
 				console.log('URL', url)
 				const token = localStorage.getItem("token")
 				const options = {
 					method: 'GET',
 					headers:{
+						
 						'Authorization': `Bearer ${token}`
 					},
 				};
@@ -389,7 +391,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json()
 				console.log(data)
 				setStore({profileInfluencer: data.results});
-      		},				       
+      },				      
 			allOffersCandidatesbyCompany: async() =>{
 				const url = process.env.BACKEND_URL + "/api/company/offers/candidates-influencers" ;
         		const options = {

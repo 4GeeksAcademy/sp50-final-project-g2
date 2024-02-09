@@ -47,7 +47,7 @@ export const Home = () => {
 		<div className="text-center mt-5">
 			<div className="container-fluid d-flex col-10 ">
 				<div className="col"> 
-					<h1 className="m-2">¡Te damos la bienvenida a tu comunidad profesional!</h1>
+					<h1 className="m-2 title-style">¡Te damos la bienvenida a tu comunidad profesional!</h1>
 					<form onSubmit={handleOnSubmit}>
   					<div className="mb-3 text-start">
     					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>

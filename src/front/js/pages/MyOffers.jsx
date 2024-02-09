@@ -31,7 +31,7 @@ export const MyOffers = () => {
     return(!store.offersCompany ? <Spinner /> :
         <div className="container-fluid my-4">
             <div className="container">
-                <h1 className="text-center">Mis ofertas</h1>
+                <h1 className="text-center title-style">Mis ofertas</h1>
                 <div className="row">
                     {store.offersCompany.filter(item => item.status != "closed").map((item,index) => (
                         <div key={index} className="card mb-3 p-0">
