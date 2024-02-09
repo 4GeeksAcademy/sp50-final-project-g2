@@ -41,10 +41,9 @@ export const Navbar = () => {
                             </div>
                             :
                             <div className="dropdown me-3 d-sm-none d-md-block">
-                                <button className="btn btn-primary dropdown-toggle me-3" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Menu
-                                </button>
-                                <BtnNotifications />
+                                <div className="row">
+                                    <div className="col-5"><BtnNotifications /></div>
+                                    <div className="col-2"><button className="btn btn-primary dropdown-toggle me-3 mt-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">Menu</button>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li>
                                         <Link to="/profile" className="dropdown-item">Perfil</Link>
@@ -62,7 +61,10 @@ export const Navbar = () => {
                                     <li>
                                         <span className="dropdown-item text-danger" onClick={handleOnClick}>Log out</span>
                                     </li>
-                                </ul>
+                                </ul></div>
+                                    
+                                    </div> 
+                             
                             </div>
                         }
                     </div>

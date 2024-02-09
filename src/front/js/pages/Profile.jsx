@@ -41,7 +41,7 @@ export const Profile = () => {
                 <Spinner />
                 :
                 <div>
-                <h2 className="title-style text-center">Influencer</h2>
+                <h2 className="title-style text-center"></h2>
                 <Link to="/update-profile" className="text-secondary">
                     <p className="text-end m-1 me-5"><i className="fa-regular fa-pen-to-square fa-xl"></i></p>
                 </Link>
@@ -105,7 +105,7 @@ export const Profile = () => {
                 <Spinner />
                 :
                 <div>
-                <h2 className="text-center title-style">Empresa</h2>
+                <h2 className="text-center title-style"></h2>
                 <Link to="/update-profile" className="text-secondary">
                     <p className="text-end m-1 me-5"><i className="fa-regular fa-pen-to-square fa-xl"></i></p>
                 </Link>
