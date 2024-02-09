@@ -104,16 +104,16 @@ export const UpdateProfile = () => {
     return (
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
-            <h1 className="text-center">EDITAR MI PERFIL</h1>
+            <h1 className="text-center title-style">EDITAR MI PERFIL</h1>
             { store.isInfluencer == true ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
                 <Spinner />
                 :
                 <div>
-                <h2>Influencer</h2>
+                <h2 className="title-style">Influencer</h2>
                 <div className="d-flex justify-content-center">
-                    <div className="m-5 col-8 background_form p-2 rounded">
+                    <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                         <UploadImage />
                         <form onSubmit={handleOnSubmit}>
                         <div className="container d-flex justify-content-center">
@@ -174,7 +174,7 @@ export const UpdateProfile = () => {
                         </div>
                         <button type="submit" className="btn btn-success btn-lg">Submit</button>
                         </form>
-                        <Link to="/profile">
+                        <Link to="/profile" className="text-secondary">
                             <p className="text-end m-1 me-3">O vuelve al perfil.</p>
                         </Link>
                     </div>
@@ -199,9 +199,9 @@ export const UpdateProfile = () => {
                 <Spinner />
                 :
                 <div>
-                <h2>Empresa</h2>
+                <h2 className="title-style">Empresa</h2>
                 <div className="d-flex justify-content-center">
-                    <div className="m-5 col-8 background_form p-2 rounded">
+                    <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                         <UploadImage />
                         <form onSubmit={handleOnSubmit}>
                         <div className="container d-flex justify-content-center">
@@ -255,7 +255,7 @@ export const UpdateProfile = () => {
                         </div>
                         <button type="submit" className="btn btn-success btn-lg">Submit</button>
                         </form>
-                        <Link to="/profile">
+                        <Link to="/profile" className="text-secondary">
                             <p className="text-end m-1 me-3">O vuelve al perfil.</p>
                         </Link>
                     </div>

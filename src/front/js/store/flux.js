@@ -116,7 +116,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         		const response = await fetch(url, options);
         		if (response.ok){
 					const data = await response.json();
-					setStore({ oneOffer: data.results });
+					console.log(data);
+					setStore({ oneOffer: data.results.offer });
         		} else {
 					console.log("Error: ", response.status, response.statusText);
 				}

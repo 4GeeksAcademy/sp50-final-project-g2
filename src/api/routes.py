@@ -299,10 +299,13 @@ def private_offer_singular(offers_id):
             response_body['results: '] = results
             return response_body,200
         if current_user[0]['is_influencer'] == True:
-            offer = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"], Offers.id == offers_id)).scalar()
+            offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id)).scalar()
             if not offer:
                 return jsonify({"message": "No se encontro la oferta"}), 404
-            results['offer'] = offer.serialize()
+            company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id == offer.id_company)).scalar()
+            data = offer.serialize()
+            data['company'] = company.serialize()
+            results['offer'] = data
             response_body['message'] = 'Oferta'
             response_body['results'] = results
             return response_body, 200 

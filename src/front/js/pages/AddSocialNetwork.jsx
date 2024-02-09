@@ -43,9 +43,9 @@ export const AddSocialNetwork = () =>{
 
     return(
         <div>
-            <h1 className="text-center">AGREGAR RED SOCIAL</h1>
+            <h1 className="text-center title-style">AGREGAR RED SOCIAL</h1>
             <div className="d-flex justify-content-center">
-                    <div className="m-5 col-8 background_form p-2 rounded">
+                    <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                     <form onSubmit={handleOnSubmit}>
                     <div className="container d-flex justify-content-center">
                         <div className="mb-3 text-start col-6 mx-2">

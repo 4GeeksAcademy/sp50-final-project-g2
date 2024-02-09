@@ -44,7 +44,7 @@ export const UploadImage = () => {
         {previewImage && (
           <div>
             <h4>Imagen Seleccionada:</h4>
-            <img className="img-thumbnail" src={previewImage} alt="Imagen Seleccionada" />
+            <img className="img-thumbnail" style={{objectFit: "cover", aspectRatio: "1/1", maxHeight: "30%", maxWidth: "30%"}} src={previewImage} alt="Imagen Seleccionada" />
           </div>
         )}
       </div>
