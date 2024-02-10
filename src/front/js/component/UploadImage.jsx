@@ -32,7 +32,7 @@ export const UploadImage = () => {
 
   return (
     <div className="container">
-      <h3><small>Subir Imagen</small></h3>
+      <h3><small>Subir imagen</small></h3>
       <div className="mb-3">
         <input type="file" className="form-control" onChange={handleFileChange} />
       </div>
@@ -40,6 +40,13 @@ export const UploadImage = () => {
         Subir
       </button>
       <button onClick={handleReset} className="btn btn-primary mx-3" type="reset">Cancelar</button>
+      {!store.imageProfile ?
+      <div></div>
+      :
+      <div className="alert alert-success m-5" role="alert">
+          Imagen subida satisfactoriamente!
+      </div>
+      }
       <div className="mt-3">
         {previewImage && (
           <div>
