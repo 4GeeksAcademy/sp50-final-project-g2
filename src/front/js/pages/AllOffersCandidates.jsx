@@ -8,7 +8,9 @@ export const AllOffersCandidates = () =>{
     return(
         <div>
             <h1 className="text-center mt-5 title-style">Listado de candidaturas</h1>
-            <h3 className="text-center mt-1 title-style">Selecciona una oferta para ver los candidatos de la misma</h3>
+            <div className="d-flex justify-content-center">
+            <h3 className="text-center mt-1 title-style col-8" style={{fontSize: "30px"}}>Selecciona una oferta para ver los candidatos de la misma</h3>
+            </div>
             <div className="container-fluid mt-5">
               {!store.candidatesOffersAll ?
                 <div className="alert alert-warning m-2" role="alert">
@@ -16,7 +18,8 @@ export const AllOffersCandidates = () =>{
                 </div>
               :(store.offersCompany.map((item, id) =>{
                 return(
-                    <div className="p-4 m-2 mb-3 border rounded text-start d-flex justify-content-between ">
+                    <div key={id} className="d-flex justify-content-center">
+                    <div className="p-4 col-8 m-2 mb-3 border rounded text-start d-flex justify-content-between " style={{background: "#FFC66B"}}>
                             <div>
                                 <h4 className="m-1 ps-3">Título: {item.title}</h4>
                                 <p className="m-1 ps-3">Descripción: {item.post}</p>
@@ -24,9 +27,10 @@ export const AllOffersCandidates = () =>{
                             </div>
                             <div>
                                 <Link to={`/company/my-offers/${item.id}/influencers`} className="bg-secondary text-secondary">
-                                    <p className="text-end m-1 me-3 text-secondary me-1"><i className="fa-regular fa-eye fa-lg text-secondary"></i> Ver candidatos de esta oferta</p>
+                                    <p className="text-end m-1 me-3 text-secondary me-1 ms-2"><i className="fa-regular fa-eye fa-lg text-secondary me-2"></i>Ver candidatos de esta oferta</p>
                                 </Link>
                             </div>
+                    </div>
                     </div>
                 )
               })

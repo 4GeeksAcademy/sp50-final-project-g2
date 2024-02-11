@@ -17,7 +17,7 @@ export const Offer = () => {
                         <div className="card mb-3" >
                             <div className="row g-0">
                                 <div className="col-md-1 m-5">
-                                <img src= {store.oneOffer.company.profile_img ? store.oneOffer.company.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid rounded-start" />
+                                <img src= {store.oneOffer.company.profile_img ? store.oneOffer.company.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid avatar-img rounded-circle" style={{objectFit: "cover", aspectRatio: "1/1", maxHeight: "100%", maxWidth: "100%"}} />
                                 </div>
                                 <div className="col-md-8 mt-4">
                                     <div className="card-body">
@@ -27,8 +27,8 @@ export const Offer = () => {
                                             <div className="col-4 mt-2">
                                                 <small className="card-subtitle mb-2 mt-1 text-body-secondary">
                                                     <ul>
-                                                        <li> Ubicacion: {store.oneOffer.location}</li>
-                                                        <li> Duracion: {store.oneOffer.duration} Semanas</li>
+                                                        <li> {store.oneOffer.location}</li>
+                                                        <li> {store.oneOffer.duration} Semanas</li>
                                                         <li> Publicada el {new Date(store.oneOffer.date_post).toLocaleDateString()} </li>
                                                     </ul>
                                                 </small>

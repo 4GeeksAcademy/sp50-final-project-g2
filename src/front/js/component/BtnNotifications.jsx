@@ -20,7 +20,7 @@ export const BtnNotifications = () =>{
         </span>
         </button>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li className="d-flex m-1"><span class="dropdown-item-text">Candidaturas:</span></li>
+            <li className="d-flex m-1"><span className="dropdown-item-text">Candidaturas:</span></li>
             {!store.registerCandidates ? (
                 <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
             ) : (
@@ -33,7 +33,7 @@ export const BtnNotifications = () =>{
                     </li>
                 )}
             }))}
-            <li className="d-flex text-center bg-secondary "><Link className="dropdown-item text-light" to="/offer-candidates">Ver todas</Link></li> 
+            <li className="d-flex text-center btn btn-warning justify-content-center btn-sm m-1"><Link className="text-light" to="/offer-candidates">Ver todas</Link></li> 
           </ul>
     </div>
     :
@@ -45,19 +45,19 @@ export const BtnNotifications = () =>{
         </span>
         </button>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li className="d-flex m-1"><span class="dropdown-item-text">Candidatos:</span></li>
+            <li className="d-flex m-1"><span className="dropdown-item-text">Candidatos:</span></li>
             {!store.candidatesOffersAll ? (
                 <li><a className="dropdown-item" href="#">No tienes candidatos en tus ofertas.</a></li>
             ) : (
             store.candidatesOffersAll.map((item, id)=>{
              return ( 
                 <li key={item.id} className="d-flex">
-                    <Link to={`/update-offer/${item.id}`} className="dropdown-item" >{item.influencer.first_name} {item.influencer.last_name}</Link>
-                    <p>Seguidores: {item.followers}</p>
+                    <Link to={`/company/my-offers/${item.id_offer}/influencers/influencer/${item.id_influencer}/profile`} className="dropdown-item" >{item.influencer.first_name} {item.influencer.last_name}</Link>
+                    <p className="dropdown-item border rounded me-1">Seguidores: {item.followers}</p>
                 </li>
                 )
             }))}
-            <li className="d-flex text-center bg-secondary "><Link className="dropdown-item text-light" to="/company/my-offers/all-candidates">Ver todos</Link></li> 
+            <li className="d-flex text-center btn btn-warning justify-content-center btn-sm m-1"><Link className="text-light" to="/company/my-offers/all-candidates">Ver todos</Link></li> 
           </ul>
     </div>
     )

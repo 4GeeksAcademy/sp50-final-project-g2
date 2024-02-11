@@ -39,17 +39,17 @@ export const Login = () =>{
     return(
         store.isLoggedIn ? <Navigate to={"/profile"} /> :
         <div>
-            <h1 className="m-2 text-center mt-3 title-style">Inicia sesión para descubrir InfluJobs</h1>
-            <div className="d-flex justify-content-center">
+            <h1 className="m-2 text-center mt-5 title-style">¡Inicia sesión para descubrir InfluJobs!</h1>
+            <div className="d-flex mb-5 justify-content-center">
             <div className="m-5 col-5 background_form p-2 rounded" style={{background: "#FFC66B"}}>
   			    <div className="mb-3 text-start mx-3">
-    			    <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
+    			    <label htmlFor="exampleInputEmail1" className="form-label mt-3">Email</label>
     			    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
 				    value={email} onChange={(e) => setEmail(e.target.value)} required></input>
     			    <div id="emailHelp" className="form-text">Nunca compartiremos tu email con alguien más.</div>
   			    </div>
   			    <div className="mb-3 text-start mx-3">
-  			      <label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
+  			      <label htmlFor="exampleInputPassword1" className="form-label mt-2">Contraseña</label>
   			      <input type="password" className="form-control" id="exampleInputPassword1"
 			      value={password} onChange={(e) => setPassword(e.target.value)} required></input>
   			    </div>

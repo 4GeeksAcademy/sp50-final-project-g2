@@ -81,10 +81,10 @@ export const Home = () => {
 					<div class="alert alert-warning m-2" role="alert">
   						Usuario existente. Por favor, intente registrarse con otro mail.
 					</div>}
-					<div className="mt-2 text-center d-flex justify-content-center border-top border-secondary">
+					<div className="mt-3 mb-3 text-center d-flex justify-content-center border-top border-secondary">
                     <p className="m-1">¿Ya tienes una cuenta?</p>
                     <Link className="text-dark m-1" to="/login"> Inicia sesión aquí.</Link>
-                </div>
+                	</div>
 				</div>
 				<div className="container col">
 					<img src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4"></img>
