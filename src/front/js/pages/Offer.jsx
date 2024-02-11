@@ -27,8 +27,8 @@ export const Offer = () => {
                                             <div className="col-4 mt-2">
                                                 <small className="card-subtitle mb-2 mt-1 text-body-secondary">
                                                     <ul>
-                                                        <li> {store.oneOffer.location}</li>
-                                                        <li> {store.oneOffer.duration} Semanas</li>
+                                                        <li> Ubicacion: {store.oneOffer.location}</li>
+                                                        <li> Duracion: {store.oneOffer.duration} Semanas</li>
                                                         <li> Publicada el {new Date(store.oneOffer.date_post).toLocaleDateString()} </li>
                                                     </ul>
                                                 </small>
