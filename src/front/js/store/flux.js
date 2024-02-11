@@ -382,7 +382,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const options = {
 					method: 'GET',
 					headers:{
-						
+						"Content-Type": "application/json",
 						'Authorization': `Bearer ${token}`
 					},
 				};

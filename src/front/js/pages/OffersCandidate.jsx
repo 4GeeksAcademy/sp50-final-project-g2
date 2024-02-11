@@ -24,7 +24,7 @@ export const OffersCandidate = () => {
                 {store.registerCandidates.map((item, id) => {
                     if (`${item.status_influencer}` == 'active') {
                     return (
-                        <div key={id} className="container-fluid mt-5">
+                        <div key={id} className="container-fluid mt-5 mb-5">
                             <div  className="container-fluid" >
                                 <div className="row">
                                     <div className="col-sm-1 col-md-2"></div>
@@ -32,7 +32,7 @@ export const OffersCandidate = () => {
                                         <div className="card xs-mb-3 mt-3" >
                                             <div className="row g-0">
                                                 <div className="col-md-1 m-5">
-                                                    <img src={item.company.profile_img ? item.company.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid rounded-start" />
+                                                    <img src={item.company.profile_img ? item.company.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid avatar-img rounded-circle" style={{objectFit: "cover", aspectRatio: "1/1", maxHeight: "100%", maxWidth: "100%"}} />
                                                 </div>
                                                 <div className="col-md-8 mt-4">
                                                     <div className="card-body">
