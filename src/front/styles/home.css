@@ -2,12 +2,9 @@
     background-color: rgb(245, 241, 203);
 }
 .ColorNavbar {
-    background-color: #f8de6c;
+    background-color: #FFDE59;
 }
-.imagenfondo {
-    width:100%;
-    height:auto;
-}
+
 .logo {
     position: absolute;
     width: 350px;
@@ -45,8 +42,7 @@
     left: 30%;
 }
 .unete {
-    top: 60%;
-    width: 200px;
+    top: 63%;
     left: 7%;
     position: absolute;
 }
