@@ -40,7 +40,7 @@ export const Login = () =>{
         store.isLoggedIn ? <Navigate to={"/profile"} /> :
         <div>
             <h1 className="m-2 text-center mt-3 title-style">Inicia sesión para descubrir InfluJobs</h1>
-            <div className="d-flex justify-content-center">
+            <div className="d-flex mb-5 justify-content-center">
             <div className="m-5 col-5 background_form p-2 rounded" style={{background: "#FFC66B"}}>
   			    <div className="mb-3 text-start mx-3">
     			    <label htmlFor="exampleInputEmail1" className="form-label">Email</label>

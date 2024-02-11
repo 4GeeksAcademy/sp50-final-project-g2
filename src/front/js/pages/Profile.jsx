@@ -34,7 +34,7 @@ export const Profile = () => {
     return (
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
-            <h1 className="text-center title-style">MI PERFIL</h1>
+            <h1 className="text-center title-style mt-2">MI PERFIL</h1>
             { store.isInfluencer == true ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
@@ -49,10 +49,10 @@ export const Profile = () => {
                     <div className="col-3 me-2">
                         <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
-                        <h4 className="m-2">Principal red social:  <a href={store.profile.social_networks} target="_blank">{store.profile.social_networks}</a> </h4>
+                        <h4 className="m-2">Principal red social: {store.profile.social_networks}</h4>
                     </div>
-                    <div className="col-8 d-grid background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
-                        <h4 className="m-2">Datos personales</h4>
+                    <div className="col-6 d-grid background_form rounded justify-content-start text-start ps-5 ms-1" style={{background: "#FFC66B"}}>
+                        <h4 className="m-2 mt-3">Datos personales</h4>
                         <p className="m-2">Nombre: <strong> {store.profile.first_name} </strong></p>
                         <p className="m-2">Apellido/s: <strong> {store.profile.last_name} </strong></p>
                         <p className="m-2">Email: <strong> {store.user.email} </strong></p>
@@ -62,12 +62,15 @@ export const Profile = () => {
                         <p className="m-2">País y código postal: <strong> {store.profile.country} - {store.profile.zip_code} </strong></p>
                     </div>
                 </div>
-                <div className="d-grid m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
-                    <h4 className="m-2">Descripción</h4>
+                <div className="d-flex justify-content-center">
+                <div className="d-grid col-9 m-2 mt-4 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
+                    <h4 className="m-2 mt-3">Descripción</h4>
                     <p className="m-2"><strong> {store.profile.description} </strong></p>
                 </div>
-                <div className="d-block py-1 m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
-                    <h4 className="m-2">Redes sociales:</h4>
+                </div>
+                <div className="d-flex justify-content-center">
+                <div className="d-block col-9 py-1 m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
+                    <h4 className="m-2 mt-3">Redes sociales:</h4>
                     <Link to="/add-socialnetwork" className="text-secondary text-end">
                         <p className="text-end m-2 me-5" ><i className="fa-solid fa-plus fa-xl" ></i></p>
                     </Link>
@@ -81,23 +84,27 @@ export const Profile = () => {
                                 <h4 className="m-1 ps-3">{item.social_network}</h4>
                                 <ul>
                                     <li className="list-group-item">Cantidad de seguidores: {item.followers}</li>
-                                    <li className="list-group-item">Url o nickname: {item.social_network_url}</li>
+                                    <li className="list-group-item">Url o nickname:  
+                                    <a href={`https://${item.social_network_url}`} target="_blank" className="text-dark ms-1" rel="noopener noreferrer">{item.social_network_url}</a></li>
                                 </ul>
                                 </div>
                                 <div className="me-4 mt-2">
-                                <Link to={`/update-socialnetwork/${item.id}`} onClick={() => actions.handleCurrentSocialNetwork(item)} className="bg-secondary mt-2">
+                                <Link to={`/update-socialnetwork/${item.id}`} onClick={() => actions.handleCurrentSocialNetwork(item)} className="bg-secondary mt-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar red social">
                                     <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-xl text-secondary"></i></p>
                                 </Link>
-                                <button type="button" className="btn-close btn-outline-secondary mt-2" aria-label="Close" onClick={() => handleDeleteSocialNetwork(item.id)} data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar red social"></button>
+                                <button type="button" className="mt-2 border-0" aria-label="Close" onClick={() => handleDeleteSocialNetwork(item.id)} data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar red social" style={{background: "#FFC66B"}}>
+                                    <p className="text-end m-1 me-3"><i class="fa-solid fa-xmark fa-xl text-secondary"></i></p>
+                                </button>
                                 </div>
                             </div>
                     )
                     })}
+                </div>       
                 </div>
                 <button href="#" className="btn btn-danger m-3" onClick={handleOnClick}>Log out</button>
     
                 </div>
-                }        
+                } 
             </div>
             : 
             <div className="text-center">
@@ -114,23 +121,26 @@ export const Profile = () => {
                         <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
                     </div>
-                    <div className="col-8 d-grid background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
-                        <h4 className="m-2">Datos </h4>
+                    <div className="col-6 d-grid background_form rounded justify-content-start text-start ps-5 ms-1" style={{background: "#FFC66B"}}>
+                        <h4 className="m-2 mt-3">Datos </h4>
                         <p className="m-2">Nombre: <strong> {store.profile.name} </strong></p>
                         <p className="m-2">Email: <strong> {store.user.email} </strong></p>
                         <p className="m-2">CIF: <strong> {store.profile.cif} </strong></p>
                         <p className="m-2">Industria: <strong> {store.profile.industry} </strong></p>
-                        <p className="m-2">Página web: <strong> {store.profile.website} </strong></p>
+                        <p className="m-2">Página web: <strong><a href={`https://${store.profile.website}`} target="_blank" className="text-dark ms-1" rel="noopener noreferrer">{store.profile.website}</a></strong></p>
                         <p className="m-2">Teléfono: <strong> {store.profile.telephone} </strong></p>
                         <p className="m-2">País y código postal: <strong> {store.profile.country} - {store.profile.zip_code} </strong></p>
                     </div>
                 </div>
-                <div className="d-grid m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
-                    <h4 className="m-2">Descripción</h4>
+                <div className="d-flex justify-content-center">
+                <div className="d-grid col-9 m-2 mt-4 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
+                    <h4 className="m-2 mt-3">Descripción</h4>
                     <p className="m-2"><strong> {store.profile.description} </strong></p>
                 </div>
-                <div className="d-block py-1 m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
-                    <h4 className="m-2">Ofertas publicadas:</h4>
+                </div>
+                <div className="d-flex justify-content-center">
+                <div className="d-block col-9 py-1 m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
+                    <h4 className="m-2 mt-3">Ofertas publicadas</h4>
                     <div className="d-flex justify-content-end me-2">
                         <Link to="/create-offer" className="text-dark text-end">
                             <p className="text-end m-2 me-5"><i className="fa-solid fa-plus fa-xl"></i></p>
@@ -147,13 +157,14 @@ export const Profile = () => {
                                 <p className="m-1 ps-3">{item.post}</p>
                             </div>
                             <div className="me-4 mt-2">
-                                <Link to={`/update-offer/${item.id}`} onClick={() => actions.handleCurrentOffer(item)} className="bg-secondary">
+                                <Link to={`/update-offer/${item.id}`} onClick={() => actions.handleCurrentOffer(item)} className="bg-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar oferta">
                                     <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-xl text-secondary"></i></p>
                                 </Link>
                             </div>
                         </div>
                     )})
                     }
+                </div>
                 </div>
                 <button href="#" className="btn btn-danger m-3" onClick={handleOnClick}>Log out</button>
                 </div>

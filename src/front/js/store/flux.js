@@ -188,7 +188,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({isInfluencer: null});
 				setStore({profile: null});
 				setStore({candidatesOffersAll: null});
-				setStore({userExist: false})
+				setStore({userExist: false});
+				setStore({imageProfile: null})
 			},
 			isLogged: () => {
 				if (localStorage.getItem("token")){
@@ -235,6 +236,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			updateProfile: (profile) => {
 				setStore({profile: profile});
+				setStore({imageProfile: null})
 			},
 			handleSocialNetworks: async () =>{
 				const url = process.env.BACKEND_URL + "/api/social-networks/" + getStore().profile.id;
@@ -380,7 +382,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const options = {
 					method: 'GET',
 					headers:{
-						
+						"Content-Type": "application/json",
 						'Authorization': `Bearer ${token}`
 					},
 				};
