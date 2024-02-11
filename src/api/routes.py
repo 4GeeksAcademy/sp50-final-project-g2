@@ -91,7 +91,7 @@ def login():
     is_influencer =  request.json.get("is_influencer", None)
     user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password, Users.is_active == True)).scalar()
     if not user:
-        return jsonify({"message": "Bad email or password"})
+        return jsonify({"message": "Bad email or password"}), 404
     if user.serialize()["is_influencer"] == True:
         user_influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == user.serialize()["id"])).scalar()
         if not user_influencer:

@@ -31,9 +31,14 @@ export const BtnNotifications = () =>{
                         <Link onClick={() => actions.getOneOffer(item.id_offer)} to="/oneOffer" className="dropdown-item" >{item.offer.title}</Link>
                         <p className="dropdown-item border rounded me-1">{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
                     </li>
-                )}
+                )} else {
+                    return (
+                        <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
+                    )
+                }
             }))}
-            <li className="d-flex text-center btn btn-warning justify-content-center btn-sm m-1"><Link className="text-light" to="/offer-candidates">Ver todas</Link></li> 
+            <hr className="dropdown-divider" />
+            <li><Link className="dropdown-item text-danger" to="/offer-candidates">Ver todas</Link></li> 
           </ul>
     </div>
     :
@@ -57,7 +62,8 @@ export const BtnNotifications = () =>{
                 </li>
                 )
             }))}
-            <li className="d-flex text-center btn btn-warning justify-content-center btn-sm m-1"><Link className="text-light" to="/company/my-offers/all-candidates">Ver todos</Link></li> 
+            <hr className="dropdown-divider" />
+            <li><Link className="dropdown-item text-danger" to="/company/my-offers/all-candidates">Ver todos</Link></li> 
           </ul>
     </div>
     )

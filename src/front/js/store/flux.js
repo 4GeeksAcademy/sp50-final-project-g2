@@ -20,6 +20,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			profileInfluencer: {},
 			candidatesOffersAll: null,
 			userExist: false,
+			userNoExist: false,
 			oneOfferCandidate: null,
 			profileCompany: {}
 
@@ -189,6 +190,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({profile: null});
 				setStore({candidatesOffersAll: null});
 				setStore({userExist: false});
+				setStore({userNoExist: false});
 				setStore({imageProfile: null})
 			},
 			isLogged: () => {
@@ -216,6 +218,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			handleUserExist: () =>{
 				setStore({userExist: true})
+			},
+			handleUserNoExist: () =>{
+				setStore({userNoExist: true})
 			},
 			handleOfferPublic: (obj) => {
 				setStore({oneOffer: obj})
