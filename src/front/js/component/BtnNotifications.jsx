@@ -28,8 +28,8 @@ export const BtnNotifications = () =>{
                 if (`${item.status_candidate}` == "accepted" || `${item.status_candidate}` == "refused"){
                     return ( 
                     <li key={item.id} className="d-flex">
-                        <Link onClick={() => actions.getOneOffer(item.id_offer)} to="/oneOffer" className="dropdown-item" >{item.offer.title}</Link>
-                        <p className="dropdown-item border rounded me-1">{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
+                        <Link onClick={() => actions.getOneOffer(item.id_offer)} to="/oneOffer" className="dropdown-item" style={{color: "black"}} >{item.offer.title}</Link>
+                        <p className="dropdown-item border rounded me-1" style={{color: "black"}}>{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
                     </li>
                 )} else {
                     return (
@@ -52,7 +52,7 @@ export const BtnNotifications = () =>{
         <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
             <li className="d-flex m-1"><span class="dropdown-item-text">Candidatos:</span></li>
             {!store.candidatesOffersAll ? (
-                <li><a className="dropdown-item" href="#">No tienes candidatos en tus ofertas.</a></li>
+                <li><a className="dropdown-item" href="#" style={{color: "black"}}>No tienes candidatos en tus ofertas.</a></li>
             ) : (
             store.candidatesOffersAll.map((item, id)=>{
              return ( 

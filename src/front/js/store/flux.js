@@ -397,7 +397,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log('Error', response.status, response.text)
 				};
 				const data = await response.json()
-				console.log(data)
+				console.log("Resultados getInfluencerProfile", data)
 				setStore({profileInfluencer: data.results});
       },				      
 			allOffersCandidatesbyCompany: async() =>{

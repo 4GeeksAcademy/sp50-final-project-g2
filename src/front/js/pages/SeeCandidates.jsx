@@ -46,12 +46,12 @@ export const SeeCandidates = () => {
                 :
                 <div className="row">
                     {store.candidates.filter(item => item.status_candidate == 'pending').map((item,index) => (
-                        <div key={index} className="card mb-3 p-0">
+                        <div key={index} className="card mb-3 p-0" style={{border: "solid", borderColor: "#FFC66B"}}>
                             <div className="row g-0">
                                 <div className="col-md-2">
                                     <img
                                         src={item.influencer.profile_img}
-                                        className="img-fluid" style={{ maxHeight: "100%" }}
+                                        className="img-fluid" style={{ maxHeight: "100%", borderRadius: "0.3rem" }}
                                         alt="..."
                                     />
                                 </div>
@@ -68,7 +68,7 @@ export const SeeCandidates = () => {
                                             </a>
                                         </button>
                                         <button className="btn btn-primary ms-4">
-                                            <Link to={`influencer/${item.influencer.id_user}/profile`} rel="noopener noreferrer">
+                                            <Link to={`/influencer/${item.influencer.id_user}/profile`} rel="noopener noreferrer">
                                                 Perfil
                                             </Link>
                                         </button>
