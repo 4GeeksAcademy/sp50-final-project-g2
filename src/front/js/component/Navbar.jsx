@@ -45,7 +45,7 @@ export const Navbar = () => {
                                     <div className="col-5"><BtnNotifications /></div>
                                     <div className="col-2">
                                         <button className="btn btn-primary dropdown-toggle ms-5 mt-2"  type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">Menu</button>
-                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style={{background: "rgb(245, 241, 203)"}}>
+                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" >
                                     <li>
                                         <Link to="/profile" className="dropdown-item" style={{color: "black"}} >Perfil</Link>
                                     </li>

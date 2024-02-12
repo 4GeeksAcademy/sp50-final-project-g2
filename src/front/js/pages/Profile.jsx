@@ -34,9 +34,8 @@ export const Profile = () => {
     return (
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
-            <div className="row">
-            <h1 className="container title-style mt-5 me-5 text-center">Mi Perfil</h1>
-            </div>
+            <h1 className="container title-style mt-5 text-center">Mi Perfil</h1>
+            
             { store.isInfluencer == true ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
@@ -49,12 +48,12 @@ export const Profile = () => {
                 </Link>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
-                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
-                        <h3 className="mt-4">{store.profile.headline}</h3>
-                        <h4 className="mt-3">Principal red social: {store.profile.social_networks}</h4>
+                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1", width: "100%"}} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
+                        <h3 className="mt-4"><strong>{store.profile.headline}</strong></h3>
+                        <h4 className="mt-3">Principal red social: <strong>{store.profile.social_networks}</strong></h4>
                     </div>
                     <div className="col-6 d-grid background_form rounded justify-content-start text-start ps-5 ms-1" style={{border: "solid", borderColor: "#FFC66B"}}>
-                        <h4 className="m-2 mt-3">Datos personales</h4>
+                        <h4 className="m-2 mt-3"><strong> Datos personales </strong></h4>
                         <p className="m-2">Nombre: <strong> {store.profile.first_name} </strong></p>
                         <p className="m-2">Apellido/s: <strong> {store.profile.last_name} </strong></p>
                         <p className="m-2">Email: <strong> {store.user.email} </strong></p>
@@ -120,11 +119,11 @@ export const Profile = () => {
                 </Link>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
-                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
+                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1", width:"100%"}} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
                     </div>
                     <div className="col-6 d-grid background_form rounded justify-content-start text-start ps-5 ms-1" style={{border: "solid", borderColor: "#FFC66B"}}>
-                        <h4 className="m-2 mt-3">Datos </h4>
+                        <h4 className="m-2 mt-3"><strong>Datos</strong></h4>
                         <p className="m-2">Nombre: <strong> {store.profile.name} </strong></p>
                         <p className="m-2">Email: <strong> {store.user.email} </strong></p>
                         <p className="m-2">CIF: <strong> {store.profile.cif} </strong></p>

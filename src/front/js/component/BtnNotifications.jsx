@@ -14,12 +14,12 @@ export const BtnNotifications = () =>{
     return(
     store.isInfluencer == true ? 
     <div className="dropdown dropdown-menu-end">
-        <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>Notificaciones
+        <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
         <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger rounded-circle">
             <span className="visually-hidden">New alerts</span>
         </span>
         </button>
-        <ul className="dropdown-menu " aria-labelledby="dropdownMenuButton1" style={{background: "rgb(245, 241, 203)"}}>
+        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1" >
             <li className="d-flex m-1"><span className="dropdown-item-text" style={{color: "black"}}>Candidaturas:</span></li>
             {!store.registerCandidates ? (
                 <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
@@ -38,13 +38,13 @@ export const BtnNotifications = () =>{
     </div>
     :
     <div className="dropdown dropdown-menu-end " >
-        <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>Notificaciones
+        <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {!store.candidatesOffersAll ? "0" : store.candidatesOffersAll.length}
             <span className="visually-hidden">New alerts</span>
         </span>
         </button>
-        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" style={{background: "rgb(245, 241, 203)"}}>
+        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1" >
             <li className="d-flex m-1"><span className="dropdown-item-text" style={{color: "black"}}> Candidatos:</span></li>
             {!store.candidatesOffersAll ? (
                 <li><a className="dropdown-item" href="#" style={{color: "black"}}>No tienes candidatos en tus ofertas.</a></li>
