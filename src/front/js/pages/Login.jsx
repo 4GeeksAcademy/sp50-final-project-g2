@@ -57,7 +57,7 @@ export const Login = () =>{
   			      <input type="checkbox" className="form-check-input" id="exampleCheck1"></input>
   			      <label className="form-check-label" htmlFor="exampleCheck1">Recordar contraseña</label>
   			    </div> */}
-  			    <button type="submit" className="btn btn-success btn-lg mx-3 mt-4 mb-3" onClick={handleOnSubmit}>Iniciar sesión</button>
+  			    <button type="submit" className="btn btn-info btn-lg mx-3 mt-4 mb-3" onClick={handleOnSubmit}>Iniciar sesión</button>
                 <div className="mt-2 text-center d-flex justify-content-center border-top border-secondary">
                     <p className="m-1">¿No tienes una cuenta?</p>
                     <Link className="text-dark m-1" to="/signup"> Registrate aquí.</Link>

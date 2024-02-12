@@ -151,21 +151,30 @@ def private():
             return response_body, 400
         if current_user[0]['is_influencer'] == True:
             user_profile = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == current_user[0]["id"])).scalar()
-            offer_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == current_user[1]["id"])).scalar()
-            social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == current_user[1]["id"])).scalar()
+            offer_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == current_user[1]["id"])).scalars()
+            social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == current_user[1]["id"])).scalars()
+            if offer_candidates: 
+                for row in offer_candidates:
+                    db.session.delete(row)
+            if social_networks: 
+                for row in social_networks:
+                    db.session.delete(row)
             db.session.delete(user)
             db.session.delete(user_profile)
-            if offer_candidates: db.session.delete(offer_candidates)
-            if social_networks: db.session.delete(social_networks)
             db.session.commit()
             response_body['message'] = 'Usuario eliminado'
             return response_body, 200
         if current_user[0]['is_influencer'] == False:
             user_profile = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == current_user[0]["id"])).scalar()
-            offers = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"])).scalar()
+            offers = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"])).scalars()
+            if offers:
+                for row in offers:
+                    offers_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_offer == row.id)).scalars()
+                    for row in offers_candidates:
+                        db.session.delete(row)
+                    db.session.delete(row)
             db.session.delete(user)
             db.session.delete(user_profile)
-            if offers: db.session.delete(offers)
             db.session.commit()
             response_body['message'] = 'Usuario eliminado'
             return response_body, 200

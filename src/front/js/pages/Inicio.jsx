@@ -22,13 +22,15 @@ export const Inicio = () => {
                         <img className="wifi d-sm-none d-md-block" src={Wifi}/>
                         <h1 className="titulo">InfluJobs</h1>
                         <p className="parrafo">Tu plataforma para conectar influencer y empresas</p>
-                        <button onClick={handleclick} className="btn btn-warning unete "> Únete ahora!</button>
                         <img className="logo d-sm-none d-md-block" src={Logo}/>
+                    <div className="row">
+                        <button onClick={handleclick} className="btn btn-warning unete " style={{width: "200px"}}> Únete ahora!</button>
+                    </div>
+        </div>
                     </div>
                     <div className="col-sm-md-6">
                         <img className="influencerico d-sm-none d-md-block" src={Influencer}/>
                     </div>
                 </div>
-        </div>
     );
 }

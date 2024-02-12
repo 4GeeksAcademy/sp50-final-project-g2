@@ -34,11 +34,7 @@ export const Profile = () => {
     return (
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
-            <div className="row justigy-content-center">
-                <div className="col-4"></div>
-                <h1 className="container title-style mt-5 text-center">Mi Perfil</h1>
-
-            </div>
+            <h1 className="text-center title-style mt-5">Mi Perfil</h1>
             { store.isInfluencer == true ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
