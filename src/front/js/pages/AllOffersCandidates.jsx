@@ -18,7 +18,7 @@ export const AllOffersCandidates = () =>{
                 </div>
               :(store.offersCompany.map((item, id) =>{
                 return(
-                    <div className="d-flex justify-content-center">
+                    <div key={id} className="d-flex justify-content-center">
                     <div className="p-4 col-8 m-2 mb-3 border rounded text-start d-flex justify-content-between " style={{background: "#FFC66B"}}>
                             <div>
                                 <h4 className="m-1 ps-3">Título: {item.title}</h4>

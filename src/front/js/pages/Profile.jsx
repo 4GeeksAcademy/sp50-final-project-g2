@@ -34,7 +34,7 @@ export const Profile = () => {
     return (
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
-            <h1 className="text-center title-style mt-2">MI PERFIL</h1>
+            <h1 className="text-center title-style mt-5">Mi Perfil</h1>
             { store.isInfluencer == true ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
@@ -47,12 +47,12 @@ export const Profile = () => {
                 </Link>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
-                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
-                        <h3 className="m-2">{store.profile.headline}</h3>
-                        <h4 className="m-2">Principal red social: {store.profile.social_networks}</h4>
+                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1", width: "100%"}} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
+                        <h3 className="mt-4"><strong>{store.profile.headline}</strong></h3>
+                        <h4 className="mt-3">Principal red social: <strong>{store.profile.social_networks}</strong></h4>
                     </div>
-                    <div className="col-6 d-grid background_form rounded justify-content-start text-start ps-5 ms-1" style={{background: "#FFC66B"}}>
-                        <h4 className="m-2 mt-3">Datos personales</h4>
+                    <div className="col-6 d-grid background_form rounded justify-content-start text-start ps-5 ms-1" style={{border: "solid", borderColor: "#FFC66B"}}>
+                        <h4 className="m-2 mt-3"><strong> Datos personales </strong></h4>
                         <p className="m-2">Nombre: <strong> {store.profile.first_name} </strong></p>
                         <p className="m-2">Apellido/s: <strong> {store.profile.last_name} </strong></p>
                         <p className="m-2">Email: <strong> {store.user.email} </strong></p>
@@ -63,13 +63,13 @@ export const Profile = () => {
                     </div>
                 </div>
                 <div className="d-flex justify-content-center">
-                <div className="d-grid col-9 m-2 mt-4 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
-                    <h4 className="m-2 mt-3">Descripción</h4>
-                    <p className="m-2"><strong> {store.profile.description} </strong></p>
+                <div className="d-grid col-9 m-2 mt-4 background_form rounded justify-content-center" style={{border: "solid", borderColor: "#FFC66B"}}>
+                    <h4 className="m-2 mt-3">Presentación</h4>
+                    <p className="m-2 mb-4"><strong> {store.profile.description} </strong></p>
                 </div>
                 </div>
                 <div className="d-flex justify-content-center">
-                <div className="d-block col-9 py-1 m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
+                <div className="d-block col-9 py-1 m-2 mt-3 background_form rounded justify-content-center" style={{border: "solid", borderColor: "#FFC66B"}}>
                     <h4 className="m-2 mt-3">Redes sociales:</h4>
                     <Link to="/add-socialnetwork" className="text-secondary text-end">
                         <p className="text-end m-2 me-5" ><i className="fa-solid fa-plus fa-xl" ></i></p>
@@ -79,7 +79,7 @@ export const Profile = () => {
                     :
                     store.socialNetworks.map((item, id)=>{
                         return (
-                            <div className="m-4 border rounded text-start d-flex justify-content-between">
+                            <div key={id} className="m-4 border rounded text-start d-flex justify-content-between">
                                 <div className="ms-4 mt-2">
                                 <h4 className="m-1 ps-3">{item.social_network}</h4>
                                 <ul>
@@ -118,11 +118,11 @@ export const Profile = () => {
                 </Link>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
-                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
+                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1", width:"100%"}} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
                     </div>
-                    <div className="col-6 d-grid background_form rounded justify-content-start text-start ps-5 ms-1" style={{background: "#FFC66B"}}>
-                        <h4 className="m-2 mt-3">Datos </h4>
+                    <div className="col-6 d-grid background_form rounded justify-content-start text-start ps-5 ms-1" style={{border: "solid", borderColor: "#FFC66B"}}>
+                        <h4 className="m-2 mt-3"><strong>Datos</strong></h4>
                         <p className="m-2">Nombre: <strong> {store.profile.name} </strong></p>
                         <p className="m-2">Email: <strong> {store.user.email} </strong></p>
                         <p className="m-2">CIF: <strong> {store.profile.cif} </strong></p>
@@ -133,13 +133,13 @@ export const Profile = () => {
                     </div>
                 </div>
                 <div className="d-flex justify-content-center">
-                <div className="d-grid col-9 m-2 mt-4 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
+                <div className="d-grid col-9 m-2 mt-4 background_form rounded justify-content-center" style={{border: "solid", borderColor: "#FFC66B"}}>
                     <h4 className="m-2 mt-3">Descripción</h4>
                     <p className="m-2"><strong> {store.profile.description} </strong></p>
                 </div>
                 </div>
                 <div className="d-flex justify-content-center">
-                <div className="d-block col-9 py-1 m-2 mt-3 background_form rounded justify-content-center" style={{background: "#FFC66B"}}>
+                <div className="d-block col-9 py-1 m-2 mt-3 background_form rounded justify-content-center" style={{border: "solid", borderColor: "#FFC66B"}}>
                     <h4 className="m-2 mt-3">Ofertas publicadas</h4>
                     <div className="d-flex justify-content-end me-2">
                         <Link to="/create-offer" className="text-dark text-end">
