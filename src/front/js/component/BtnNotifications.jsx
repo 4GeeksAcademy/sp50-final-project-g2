@@ -13,14 +13,14 @@ export const BtnNotifications = () =>{
 
     return(
     store.isInfluencer == true ? 
-    <div className="dropdown dropdown-menu-end">
+    <div className="dropdown dropdown-menu-end me-3 d-sm-none d-md-block">
         <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
         <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger rounded-circle">
             <span className="visually-hidden">New alerts</span>
         </span>
         </button>
-        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1" >
-            <li className="d-flex m-1"><span className="dropdown-item-text" style={{color: "black"}}>Candidaturas:</span></li>
+        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+            <li className="d-flex m-1"><span class="dropdown-item-text">Candidaturas:</span></li>
             {!store.registerCandidates ? (
                 <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
             ) : (
@@ -31,21 +31,26 @@ export const BtnNotifications = () =>{
                         <Link onClick={() => actions.getOneOffer(item.id_offer)} to="/oneOffer" className="dropdown-item" style={{color: "black"}} >{item.offer.title}</Link>
                         <p className="dropdown-item border rounded me-1" style={{color: "black"}}>{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
                     </li>
-                )}
+                )} else {
+                    return (
+                        <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
+                    )
+                }
             }))}
-            <li className="d-flex text-center btn btn-warning justify-content-center btn-sm m-1"><Link className="text-light" to="/offer-candidates">Ver todas</Link></li> 
+            <hr className="dropdown-divider" />
+            <li><Link className="dropdown-item text-danger" to="/offer-candidates">Ver todas</Link></li> 
           </ul>
     </div>
     :
-    <div className="dropdown dropdown-menu-end " >
+    <div className="dropdown dropdown-menu-end me-3 d-sm-none d-md-block">
         <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {!store.candidatesOffersAll ? "0" : store.candidatesOffersAll.length}
             <span className="visually-hidden">New alerts</span>
         </span>
         </button>
-        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1" >
-            <li className="d-flex m-1"><span className="dropdown-item-text" style={{color: "black"}}> Candidatos:</span></li>
+        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+            <li className="d-flex m-1"><span class="dropdown-item-text">Candidatos:</span></li>
             {!store.candidatesOffersAll ? (
                 <li><a className="dropdown-item" href="#" style={{color: "black"}}>No tienes candidatos en tus ofertas.</a></li>
             ) : (
@@ -57,7 +62,8 @@ export const BtnNotifications = () =>{
                 </li>
                 )
             }))}
-            <li className="d-flex text-center btn btn-warning justify-content-center btn-sm m-1"><Link className="text-light" to="/company/my-offers/all-candidates">Ver todos</Link></li> 
+            {/* <hr className="dropdown-divider" />
+            <li><Link className="dropdown-item text-danger" to="/company/my-offers/all-candidates">Ver todos</Link></li> */} 
           </ul>
     </div>
     )
