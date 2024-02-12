@@ -33,7 +33,7 @@ export const BtnNotifications = () =>{
                     </li>
                 )}
             }))}
-            <li className="d-flex text-center btn btn-warning justify-content-center btn-sm m-1"><Link className="text-light" to="/offer-candidates" style={{color: "black"}}>Ver todas</Link></li> 
+            <li className="d-flex text-center btn btn-warning justify-content-center btn-sm m-1"><Link className="text-light" to="/offer-candidates">Ver todas</Link></li> 
           </ul>
     </div>
     :
@@ -52,12 +52,12 @@ export const BtnNotifications = () =>{
             store.candidatesOffersAll.map((item, id)=>{
              return ( 
                 <li key={item.id} className="d-flex">
-                    <Link to={`/company/my-offers/${item.id_offer}/influencers/influencer/${item.id_influencer}/profile`} className="dropdown-item" style={{color: "black"}} >{item.influencer.first_name} {item.influencer.last_name}</Link>
-                    <p className="dropdown-item border rounded me-1" style={{color: "black"}}>Seguidores: {item.followers}</p>
+                    <Link to={`/company/my-offers/${item.id_offer}/influencers/influencer/${item.id_influencer}/profile`} className="dropdown-item" >{item.influencer.first_name} {item.influencer.last_name}</Link>
+                    <p className="dropdown-item border rounded me-1">Seguidores: {item.followers}</p>
                 </li>
                 )
             }))}
-            <li className="d-flex text-center btn btn-warning justify-content-center btn-sm m-1"><Link className="text-light" to="/company/my-offers/all-candidates" style={{color: "black"}}>Ver todos</Link></li> 
+            <li className="d-flex text-center btn btn-warning justify-content-center btn-sm m-1"><Link className="text-light" to="/company/my-offers/all-candidates">Ver todos</Link></li> 
           </ul>
     </div>
     )

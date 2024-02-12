@@ -34,8 +34,7 @@ export const Profile = () => {
     return (
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
-            <h1 className="container title-style mt-5 text-center">Mi Perfil</h1>
-            
+            <h1 className="text-center title-style mt-5">Mi Perfil</h1>
             { store.isInfluencer == true ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
@@ -93,8 +92,8 @@ export const Profile = () => {
                                 <Link to={`/update-socialnetwork/${item.id}`} onClick={() => actions.handleCurrentSocialNetwork(item)} className="bg-secondary mt-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar red social">
                                     <p className="text-end m-1 me-3"><i className="fa-regular fa-pen-to-square fa-xl text-secondary"></i></p>
                                 </Link>
-                                <button type="button" className="mt-2 border-0" aria-label="Close" onClick={() => handleDeleteSocialNetwork(item.id)} data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar red social" style={{background: "rgb(245, 241, 203)"}}>
-                                    <p className="text-end m-1 me-3"><i className="fa-solid fa-xmark fa-xl text-secondary"></i></p>
+                                <button type="button" className="mt-2 border-0" aria-label="Close" onClick={() => handleDeleteSocialNetwork(item.id)} data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar red social" style={{background: "#FFC66B"}}>
+                                    <p className="text-end m-1 me-3"><i class="fa-solid fa-xmark fa-xl text-secondary"></i></p>
                                 </button>
                                 </div>
                             </div>
