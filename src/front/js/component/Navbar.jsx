@@ -59,7 +59,7 @@ export const Navbar = () => {
                                     }
                                     <hr className="dropdown-divider" />
                                     <li>
-                                        <span className="dropdown-item text-danger" onClick={handleOnClick}>Log out</span>
+                                        <span className="dropdown-item" style={{color: "#F47C3C"}} onClick={handleOnClick}><b>Log out</b></span>
                                     </li>
                                 </ul></div>
                                     
