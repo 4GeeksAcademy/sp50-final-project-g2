@@ -62,8 +62,8 @@ export const BtnNotifications = () =>{
                 </li>
                 )
             }))}
-            <hr className="dropdown-divider" />
-            <li><Link className="dropdown-item text-danger" to="/company/my-offers/all-candidates">Ver todos</Link></li> 
+            {/* <hr className="dropdown-divider" />
+            <li><Link className="dropdown-item text-danger" to="/company/my-offers/all-candidates">Ver todos</Link></li> */} 
           </ul>
     </div>
     )
