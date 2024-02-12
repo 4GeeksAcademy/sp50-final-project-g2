@@ -241,6 +241,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			updateProfile: (profile) => {
 				setStore({profile: profile});
+				localStorage.setItem("profile", JSON.stringify(profile));
 				setStore({imageProfile: null})
 			},
 			handleSocialNetworks: async () =>{

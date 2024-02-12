@@ -47,7 +47,7 @@ export const Profile = () => {
                 </Link>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
-                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid"></img>
+                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="rounded-circle border border-white border-3 img-fluid"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
                         <h4 className="m-2">Principal red social: {store.profile.social_networks}</h4>
                     </div>
@@ -118,7 +118,7 @@ export const Profile = () => {
                 </Link>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
                     <div className="col-3 me-2">
-                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="avatar-img rounded-circle border border-white border-3 img-fluid size-images"></img>
+                        <img src={store.profile.profile_img ? store.profile.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1"}} className="rounded-circle border border-white border-3 img-fluid"></img>
                         <h3 className="m-2">{store.profile.headline}</h3>
                     </div>
                     <div className="col-6 d-grid background_form rounded justify-content-start text-start ps-5 ms-1" style={{background: "#FFC66B"}}>
