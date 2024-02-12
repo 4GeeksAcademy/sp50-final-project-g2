@@ -13,13 +13,13 @@ export const BtnNotifications = () =>{
 
     return(
     store.isInfluencer == true ? 
-    <div className="dropdown dropstart me-3 d-sm-none d-md-block">
+    <div className="dropdown dropdown-menu-end me-3 d-sm-none d-md-block">
         <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
         <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger rounded-circle">
             <span className="visually-hidden">New alerts</span>
         </span>
         </button>
-        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
             <li className="d-flex m-1"><span class="dropdown-item-text">Candidaturas:</span></li>
             {!store.registerCandidates ? (
                 <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
@@ -42,14 +42,14 @@ export const BtnNotifications = () =>{
           </ul>
     </div>
     :
-    <div className="dropdown dropstart me-3 d-sm-none d-md-block">
+    <div className="dropdown dropdown-menu-end me-3 d-sm-none d-md-block">
         <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {!store.candidatesOffersAll ? "0" : store.candidatesOffersAll.length}
             <span className="visually-hidden">New alerts</span>
         </span>
         </button>
-        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
             <li className="d-flex m-1"><span class="dropdown-item-text">Candidatos:</span></li>
             {!store.candidatesOffersAll ? (
                 <li><a className="dropdown-item" href="#">No tienes candidatos en tus ofertas.</a></li>
@@ -57,7 +57,7 @@ export const BtnNotifications = () =>{
             store.candidatesOffersAll.map((item, id)=>{
              return ( 
                 <li key={item.id} className="d-flex">
-                    <Link to={`/company/my-offers/${item.id_offer}/influencers/influencer/${item.id_influencer}/profile`} className="dropdown-item" >{item.influencer.first_name} {item.influencer.last_name}</Link>
+                    <Link to={`/influencer/${item.influencer.id_user}/profile`} className="dropdown-item" >{item.influencer.first_name} {item.influencer.last_name}</Link>
                     <p className="dropdown-item border rounded me-1">Seguidores: {item.followers}</p>
                 </li>
                 )
