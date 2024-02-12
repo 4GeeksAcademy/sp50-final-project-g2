@@ -97,7 +97,7 @@ export const CreateOffer = () =>{
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="4"
                             value={post} onChange={(e) => setPost(e.target.value)} placeholder="Escribe la descripción de la oferta..."></textarea>
                         </div>
-                        <button type="submit" className="btn btn-info btn-lg m-2">Submit</button>
+                        <button type="submit" className="btn btn-primary btn-lg m-2">Submit</button>
                         </form>
                         <Link to="/profile" className="text-dark">
                             <p className="text-end m-1 me-3 text-dark">O vuelve al perfil.</p>

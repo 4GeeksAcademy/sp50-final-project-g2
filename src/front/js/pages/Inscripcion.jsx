@@ -48,7 +48,7 @@ export const Inscripcion = () => {
 
         return(
             <div>
-                <h1 className="text-center title-style m-2">REGISTRATE A LA OFERTA</h1>
+                <h1 className="text-center title-style mt-4 mb-5">Regístrate a la oferta</h1>
                 <div className="d-flex justify-content-center">
                         <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                         <form onSubmit={handleOnSubmit}>
@@ -69,7 +69,7 @@ export const Inscripcion = () => {
                                 <textarea className="form-control" id="exampleFormControlTextarea1" rows="2"
                                 value={coverLetter} onChange={(e) => setCoverLetter(e.target.value)} placeholder="Resume tus aptitudes"></textarea>
                                     </div>
-                            <button  type="submit" className="btn btn-info btn-lg mx-2 my-2">Registrarte</button>
+                            <button  type="submit" className="btn btn-primary btn-lg mx-2 my-2">Registrarte</button>
                         </form>
                         </div>
                 </div>

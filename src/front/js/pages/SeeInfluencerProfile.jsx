@@ -16,27 +16,29 @@ export const SeeInfluencerProfile = () => {
 
     return (
         <div>
-            <h1 className="text-center m-3">Influencer</h1>
+            <h1 className="text-center mt-4 mb-5 title-style">Perfil</h1>
                 <div className="container-fluid d-flex mt-3 justify-content-center">
-                    <div className="col-2 me-2">
+                    <div className="col-3 me-3">
                         <img src= {store.profileInfluencer.profile_img ? store.profileInfluencer.profile_img :"https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} 
                         style={{objectFit: "cover", aspectRatio: "1/1", width: "100%", border: "solid", borderWidth: "4px", borderColor: "#FFC66B"}} className="avatar-img rounded-circle" alt="Profile Image"></img>
-                        <h3 className="m-2">{store.profileInfluencer.headline}</h3>
+                        <h3 className="m-2 text-center"><strong>{store.profileInfluencer.headline}</strong></h3>
                     </div>
-                    <div className="col-8 d-grid background_form justify-content-start text-start ps-5 ms-1" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
-                        <h4 className="m-2">Datos </h4>
+                    <div className="col-6 d-grid background_form justify-content-start text-start ps-5 ms-1" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
+                        <h4 className="m-2"><strong>Datos</strong></h4>
                         <p className="m-2">Nombre: <strong> {store.profileInfluencer.first_name} </strong></p>
                         <p className="m-2">Apellido/s: <strong> {store.profileInfluencer.last_name} </strong></p>
-                        <p className="m-2">Fecha de nacimiento: <strong> {store.profileInfluencer.date_birth} </strong></p>
+                        <p className="m-2">Fecha de nacimiento: <strong> {new Date(store.profileInfluencer.date_birth).toLocaleDateString()} </strong></p>
                         <p className="m-2">Género: <strong> {store.profileInfluencer.gender} </strong></p>
                         <p className="m-2">Teléfono: <strong> {store.profileInfluencer.telephone} </strong></p>
                         <p className="m-2">País y código postal: <strong> {store.profileInfluencer.country} - {store.profileInfluencer.zip_code} </strong></p>
                     </div>
                 </div>
-                <div className="d-grid me-5 ms-5 mb-3 mt-3 background_form justify-content-center" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
-                    <h4 className="m-2">Descripción</h4>
+                <div className="d-flex justify-content-center">
+                <div className="d-grid col-9 me-5 ms-5 mb-3 mt-3 background_form justify-content-center" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
+                    <h4 className="m-2">Presentación</h4>
                     <p className="m-2"><strong> {store.profileInfluencer.description} </strong></p>
-                </div>              
+                </div>  
+                </div>            
                 </div>
     )
 }

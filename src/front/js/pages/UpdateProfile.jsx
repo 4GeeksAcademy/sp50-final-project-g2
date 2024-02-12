@@ -173,7 +173,7 @@ export const UpdateProfile = () => {
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
                             value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
                         </div>
-                        <button type="submit" className="btn btn-info btn-lg">Guardar cambios</button>
+                        <button type="submit" className="btn btn-primary btn-lg">Guardar cambios</button>
                         </form>
                         <Link to="/profile" className="text-secondary">
                             <p className="text-end m-1 me-3">O vuelve al perfil.</p>
@@ -255,7 +255,7 @@ export const UpdateProfile = () => {
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
                             value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
                         </div>
-                        <button type="submit" className="btn btn-info btn-lg">Guardar cambios</button>
+                        <button type="submit" className="btn btn-primary btn-lg">Guardar cambios</button>
                         </form>
                         <Link to="/profile" className="text-secondary">
                             <p className="text-end m-1 me-3">O vuelve al perfil.</p>

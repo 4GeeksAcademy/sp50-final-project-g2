@@ -58,7 +58,7 @@ export const Login = () =>{
   			      <input type="checkbox" className="form-check-input" id="exampleCheck1"></input>
   			      <label className="form-check-label" htmlFor="exampleCheck1">Recordar contraseña</label>
   			    </div> */}
-  			    <button type="submit" className="btn btn-success btn-lg mx-3 mt-4 mb-3" onClick={handleOnSubmit}>Iniciar sesión</button>
+  			    <button type="submit" className="btn btn-primary btn-lg mx-3 mt-4 mb-3" onClick={handleOnSubmit}>Iniciar sesión</button>
                 {store.userNoExist == true ?
                 <div className="d-flex justify-content-center">
                 <div class="alert alert-warning d-flex col-7" role="alert">

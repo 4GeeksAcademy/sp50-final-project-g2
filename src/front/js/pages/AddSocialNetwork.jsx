@@ -64,7 +64,7 @@ export const AddSocialNetwork = () =>{
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="2"
                             value={socialNetworkUrl} onChange={(e) => setSocialNetworkUrl(e.target.value)} placeholder="Copia la URL de tu usuario en la red social"></textarea>
                         </div>
-                        <button type="submit" className="btn btn-info btn-lg">Guardar nueva red social</button>
+                        <button type="submit" className="btn btn-primary btn-lg">Guardar nueva red social</button>
                     </form>
                     <Link to="/profile" className="text-dark">
                             <p className="text-end m-1 me-3 text-dark">O vuelve al perfil.</p>

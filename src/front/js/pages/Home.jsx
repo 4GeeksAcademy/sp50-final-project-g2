@@ -73,7 +73,7 @@ export const Home = () => {
   					  <input type="checkbox" className="form-check-input" id="exampleCheck1" checked={isChecked} onChange={handleOnChange}></input>
   					  <label className="form-check-label" htmlFor="exampleCheck1">Por favor, si eres influencer haz click aquí.</label>
   					</div>
-  					<button type="submit" className={store.mailValidated ? "btn btn-info btn-lg" : "btn btn-info btn-lg disabled" }>Continuar</button>
+  					<button type="submit" className={store.mailValidated ? "btn btn-primary btn-lg" : "btn btn-primary btn-lg disabled" }>Continuar</button>
 					</form>
 					{store.userExist == false ?
 					<div></div>
