@@ -35,7 +35,7 @@ export const SeeInfluencerProfile = () => {
                 </div>
                 <div className="d-flex justify-content-center">
                 <div className="d-grid col-9 me-5 ms-5 mb-3 mt-3 background_form justify-content-center" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
-                    <h4 className="m-2">Presentación</h4>
+                    <h4 className="text-center m-2">Presentación</h4>
                     <p className="m-2"><strong> {store.profileInfluencer.description} </strong></p>
                 </div>  
                 </div>            

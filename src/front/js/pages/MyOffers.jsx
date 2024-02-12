@@ -36,9 +36,9 @@ export const MyOffers = () => {
                     {store.offersCompany.filter(item => item.status != "closed").map((item,index) => (
                         <div className="d-flex justify-content-center">
                         <div key={index} className="card mb-3 p-0 col-8" style={{border: "solid", borderColor: "#FFC66B", backgroundColor: "#ffdfaf1",  borderRadius: "15px"}}>
-                            <div className="row g-0">
-                                <div className="col-md-8">
-                                    <div className="card-body ">
+                            <div className="row justify-content-center g-0">
+                                <div className="">
+                                    <div className="card-body mt-3 mx-3">
                                         <h4 className="card-title">Título: {item.title}</h4>
                                         <p className="card-text"> Descripción: {item.post}</p>
                                         <p>Estado de la oferta: {item.status == "opened" ? "Abierta" : "Cerrada/Cancelada"}</p>
