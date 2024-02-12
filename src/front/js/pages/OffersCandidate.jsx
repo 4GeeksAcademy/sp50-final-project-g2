@@ -29,7 +29,7 @@ export const OffersCandidate = () => {
                                 <div className="row">
                                     <div className="col-sm-1 col-md-2"></div>
                                     <div className="col-sm-9 col-md-8">
-                                        <div className="card xs-mb-3 mt-3" >
+                                        <div className="card xs-mb-3 mt-3" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
                                             <div className="row g-0">
                                                 <div className="col-md-1 m-5">
                                                     <img src={item.company.profile_img ? item.company.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid avatar-img rounded-circle" style={{objectFit: "cover", aspectRatio: "1/1", maxHeight: "100%", maxWidth: "100%"}} />
@@ -37,7 +37,7 @@ export const OffersCandidate = () => {
                                                 <div className="col-md-8 mt-4">
                                                     <div className="card-body">
                                                         <h2 className="card-title">{item.offer.title}</h2>
-                                                        <Link to={`/offer-candidates/company/${item.company.id_user}`}><h5 className="card-title">{item.company.name}</h5></Link>
+                                                        <Link to={`/offer-candidates/company/${item.company.id_user}`} style={{textDecoration: "none"}} className="text-secondary"><h5 className="card-title">{item.company.name}</h5></Link>
                                                         <small className="card-subtitle mb-2 mt-1 text-body-secondary"></small>
                                                         <span><hr className="dropdown-divider mt-2"></hr></span>
                                                         <p className="card-text mt-3"></p>

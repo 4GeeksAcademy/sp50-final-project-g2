@@ -47,15 +47,15 @@ export const Navbar = () => {
                                         <button className="btn btn-primary dropdown-toggle ms-5 mt-2"  type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">Menu</button>
                                 <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" >
                                     <li>
-                                        <Link to="/profile" className="dropdown-item" style={{color: "black"}} >Perfil</Link>
+                                        <Link to="/profile" className="dropdown-item" >Perfil</Link>
                                     </li>
                                     {store.isInfluencer ?
                                         <li>
-                                            <Link to="/offer-candidates" className="dropdown-item" style={{color: "black"}}>Mis Ofertas influencer</Link>
+                                            <Link to="/offer-candidates" className="dropdown-item">Mis Ofertas influencer</Link>
                                         </li>
                                         :
                                         <li>
-                                            <Link to="/company/my-offers" className="dropdown-item" style={{color: "black"}}>Mis ofertas publicadas</Link>
+                                            <Link to="/company/my-offers" className="dropdown-item">Mis ofertas publicadas</Link>
                                         </li>
                                     }
                                     <hr className="dropdown-divider" />

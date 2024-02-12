@@ -31,11 +31,7 @@ export const BtnNotifications = () =>{
                         <Link onClick={() => actions.getOneOffer(item.id_offer)} to="/oneOffer" className="dropdown-item" style={{color: "black"}} >{item.offer.title}</Link>
                         <p className="dropdown-item border rounded me-1" style={{color: "black"}}>{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
                     </li>
-                )} else {
-                    return (
-                        <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
-                    )
-                }
+                )}
             }))}
             <hr className="dropdown-divider" />
             <li><Link className="dropdown-item text-danger" to="/offer-candidates">Ver todas</Link></li> 
@@ -62,8 +58,6 @@ export const BtnNotifications = () =>{
                 </li>
                 )
             }))}
-            {/* <hr className="dropdown-divider" />
-            <li><Link className="dropdown-item text-danger" to="/company/my-offers/all-candidates">Ver todos</Link></li> */} 
           </ul>
     </div>
     )
