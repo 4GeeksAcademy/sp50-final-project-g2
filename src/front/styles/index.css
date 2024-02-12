@@ -4,7 +4,7 @@
 };
 
 .background_form {
-    background: #FFC66B !important;
+    background: #FFC66B;
 };
 .background_inputt {
     background: #FFF0BA !important;
@@ -13,7 +13,8 @@
     max-width: 200px !important;
     max-height: 200px !important;
 };
-
-
+#bs-border-radius{
+    border-radius: 17px !important;
+}
 
 
