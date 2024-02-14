@@ -512,9 +512,12 @@ def edit_social_networks(id_influencer):
     if request.method == 'GET':
         current_user = get_jwt_identity()
         if current_user[0]['is_influencer'] == False:
-            social_network = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()
+            social_network = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalars()
+            social_network_list = []
+            for row in social_network:
+                social_network_list.append(row.serialize())
             response_body['message'] = 'Redes sociales'
-            response_body['results'] = social_network.serialize()
+            response_body['results'] = social_network_list
             return response_body, 200
         if current_user[0]['is_influencer'] == True:
             social_network = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalars()
@@ -694,7 +697,7 @@ def getInfluencerProfile(influencer_id):
         current_user = get_jwt_identity()
         if current_user[0]['is_influencer'] == False:
             response_body = {}
-            influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == influencer_id)).scalar()
+            influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id == influencer_id)).scalar()
             if influencer:
                 serialize_influencer = influencer.serialize()
                 response_body['message'] = "Perfil Influencer"

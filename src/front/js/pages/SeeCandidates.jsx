@@ -63,7 +63,7 @@ export const SeeCandidates = () => {
                                     <div className="mx-3 my-2 position-absolute bottom-0 start-0">
                                         <button className="btn btn-primary me-4">{item.followers.toLocaleString()} seguidores</button>
                                         <button className="btn btn-primary">
-                                            <Link className="text-light" to={`/influencer/${item.influencer.id_user}/profile`} rel="noopener noreferrer" style={{textDecoration: "none"}}>
+                                            <Link className="text-light" to={`/influencer/${item.influencer.id}/profile`} rel="noopener noreferrer" style={{textDecoration: "none"}}>
                                                 Perfil
                                             </Link>
                                         </button>

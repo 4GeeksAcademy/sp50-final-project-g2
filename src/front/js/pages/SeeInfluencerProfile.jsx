@@ -10,7 +10,8 @@ export const SeeInfluencerProfile = () => {
     console.log("Influencer ID:", influencer_id);
 
     useEffect(()=>{
-        actions.getInfluencerProfile(influencer_id)
+        actions.getInfluencerProfile(influencer_id),
+        actions.seeSocialNetwork(influencer_id)
     },[influencer_id])
     
 
@@ -34,11 +35,33 @@ export const SeeInfluencerProfile = () => {
                     </div>
                 </div>
                 <div className="d-flex justify-content-center">
-                <div className="d-grid col-9 me-5 ms-5 mb-3 mt-3 background_form justify-content-center" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
-                    <h4 className="m-2">Presentación</h4>
-                    <p className="m-2"><strong> {store.profileInfluencer.description} </strong></p>
+                <div className="d-block col-9 me-5 ms-5 mb-3 mt-3 background_form justify-content-center" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
+                    <h4 className="mt-2 text-center">Presentación</h4>
+                    <p className="m-2 text-center"><strong> {store.profileInfluencer.description} </strong></p>
                 </div>  
-                </div>            
+                </div>
+                <div className="d-flex justify-content-center">
+                <div className="d-block col-9 me-5 ms-5 mb-3 mt-3 background_form justify-content-center" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
+                    <h4 className="mt-2 text-center">Redes sociales</h4>
+                    {!store.seeSocialNetworkForCompany ? 
+                    <p>Cargando datos.. </p>
+                    :
+                    store.seeSocialNetworkForCompany.map((item, id)=>{
+                        return (
+                            <div key={id} className=" m-4 text-start d-flex justify-content-between" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
+                                <div className="ms-4 mt-2">
+                                <h4 className="m-1 ps-3">{item.social_network}</h4>
+                                <ul>
+                                    <li className="list-group-item">Cantidad de seguidores: {item.followers}</li>
+                                    <li className="list-group-item">Url o nickname:  
+                                    <a href={`https://${item.social_network_url}`} target="_blank" className="text-dark ms-1" rel="noopener noreferrer">{item.social_network_url}</a></li>
+                                </ul>
+                                </div>
+                            </div>
+                    )
+                    })}
+                </div>  
+                </div>          
                 </div>
     )
 }

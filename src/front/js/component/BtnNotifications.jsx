@@ -53,7 +53,7 @@ export const BtnNotifications = () =>{
             store.candidatesOffersAll.map((item, id)=>{
              return ( 
                 <li key={item.id} className="d-flex">
-                    <Link to={`/influencer/${item.influencer.id_user}/profile`} className="dropdown-item" >{item.influencer.first_name} {item.influencer.last_name}</Link>
+                    <Link to={`/influencer/${item.influencer.id}/profile`} className="dropdown-item" >{item.influencer.first_name} {item.influencer.last_name}</Link>
                     <p className="dropdown-item border rounded me-1">Seguidores: {item.followers}</p>
                 </li>
                 )
