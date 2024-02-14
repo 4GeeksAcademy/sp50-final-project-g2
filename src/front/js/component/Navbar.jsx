@@ -15,10 +15,10 @@ export const Navbar = () => {
     }
 
 	return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container">
+        <nav className="navbar navbar-expand-lg navbar-light p-0 ColorNavbar">
+            <div className="container-fluid">
                 <Link to="/" className="navbar-brand">
-                    <img className="imagen" src={Icono} alt="personajes" style={{ width: 150 }} />
+                    <img className="imagenlogo ms-3" src={Icono} alt="icono" style={{ width: 105 }} />
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -26,24 +26,28 @@ export const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link to="/offers" className="nav-link">Offers</Link>
+                            <Link to="/offers" className="nav-link" style={{color: "black"}}>Offers</Link>
                         </li>
                     </ul>
-                    <BtnNotifications />
                     <div className="d-flex">
                         {!store.isLoggedIn ?
                             <div>
-                                <Link to="/login" className="btn btn-warning me-3">Inicio Sesion</Link>
-                                <Link to="/signup" className="btn btn-warning">Registrarse</Link>
+                                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li className="nav-item">
+                                        <Link to="/login" className="nav-link me-3" style={{color: "black"}} >Inicio Sesion</Link>
+                                    </li>
+                                        <Link to="/signup" className="nav-link" style={{color: "black"}} >Registrarse</Link>
+                                </ul>
                             </div>
                             :
                             <div className="dropdown me-3 d-sm-none d-md-block">
-                                <button className="btn btn-primary dropdown-toggle me-3" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Menu
-                                </button>
-                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <div className="row">
+                                    <div className="col-5"><BtnNotifications /></div>
+                                    <div className="col-2">
+                                        <button className="btn btn-primary dropdown-toggle ms-5 mt-2"  type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">Menu</button>
+                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" >
                                     <li>
-                                        <Link to="/profile" className="dropdown-item">Perfil</Link>
+                                        <Link to="/profile" className="dropdown-item" >Perfil</Link>
                                     </li>
                                     {store.isInfluencer ?
                                         <li>
@@ -56,9 +60,12 @@ export const Navbar = () => {
                                     }
                                     <hr className="dropdown-divider" />
                                     <li>
-                                        <span className="dropdown-item text-danger" onClick={handleOnClick}>Log out</span>
+                                        <span className="dropdown-item" style={{color: "#F47C3C"}} onClick={handleOnClick}><b>Log out</b></span>
                                     </li>
-                                </ul>
+                                </ul></div>
+                                    
+                                    </div> 
+                             
                             </div>
                         }
                     </div>

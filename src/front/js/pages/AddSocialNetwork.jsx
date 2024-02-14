@@ -43,9 +43,9 @@ export const AddSocialNetwork = () =>{
 
     return(
         <div>
-            <h1 className="text-center">AGREGAR RED SOCIAL</h1>
+            <h1 className="text-center title-style mt-2">AGREGAR RED SOCIAL</h1>
             <div className="d-flex justify-content-center">
-                    <div className="m-5 col-8 background_form p-2 rounded">
+                    <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                     <form onSubmit={handleOnSubmit}>
                     <div className="container d-flex justify-content-center">
                         <div className="mb-3 text-start col-6 mx-2">
@@ -64,7 +64,7 @@ export const AddSocialNetwork = () =>{
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="2"
                             value={socialNetworkUrl} onChange={(e) => setSocialNetworkUrl(e.target.value)} placeholder="Copia la URL de tu usuario en la red social"></textarea>
                         </div>
-                        <button type="submit" className="btn btn-success btn-lg">Submit</button>
+                        <button type="submit" className="btn btn-primary btn-lg">Guardar nueva red social</button>
                     </form>
                     <Link to="/profile" className="text-dark">
                             <p className="text-end m-1 me-3 text-dark">O vuelve al perfil.</p>

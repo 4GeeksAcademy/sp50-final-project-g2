@@ -91,7 +91,7 @@ def login():
     is_influencer =  request.json.get("is_influencer", None)
     user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password, Users.is_active == True)).scalar()
     if not user:
-        return jsonify({"message": "Bad email or password"})
+        return jsonify({"message": "Bad email or password"}), 404
     if user.serialize()["is_influencer"] == True:
         user_influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == user.serialize()["id"])).scalar()
         if not user_influencer:
@@ -151,21 +151,30 @@ def private():
             return response_body, 400
         if current_user[0]['is_influencer'] == True:
             user_profile = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == current_user[0]["id"])).scalar()
-            offer_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == current_user[1]["id"])).scalar()
-            social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == current_user[1]["id"])).scalar()
+            offer_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_influencer == current_user[1]["id"])).scalars()
+            social_networks = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == current_user[1]["id"])).scalars()
+            if offer_candidates: 
+                for row in offer_candidates:
+                    db.session.delete(row)
+            if social_networks: 
+                for row in social_networks:
+                    db.session.delete(row)
             db.session.delete(user)
             db.session.delete(user_profile)
-            if offer_candidates: db.session.delete(offer_candidates)
-            if social_networks: db.session.delete(social_networks)
             db.session.commit()
             response_body['message'] = 'Usuario eliminado'
             return response_body, 200
         if current_user[0]['is_influencer'] == False:
             user_profile = db.session.execute(db.select(UsersCompany).where(UsersCompany.id_user == current_user[0]["id"])).scalar()
-            offers = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"])).scalar()
+            offers = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"])).scalars()
+            if offers:
+                for row in offers:
+                    offers_candidates = db.session.execute(db.select(OffersCandidates).where(OffersCandidates.id_offer == row.id)).scalars()
+                    for row in offers_candidates:
+                        db.session.delete(row)
+                    db.session.delete(row)
             db.session.delete(user)
             db.session.delete(user_profile)
-            if offers: db.session.delete(offers)
             db.session.commit()
             response_body['message'] = 'Usuario eliminado'
             return response_body, 200
@@ -299,10 +308,13 @@ def private_offer_singular(offers_id):
             response_body['results: '] = results
             return response_body,200
         if current_user[0]['is_influencer'] == True:
-            offer = db.session.execute(db.select(Offers).where(Offers.id_company == current_user[1]["id"], Offers.id == offers_id)).scalar()
+            offer = db.session.execute(db.select(Offers).where(Offers.id == offers_id)).scalar()
             if not offer:
                 return jsonify({"message": "No se encontro la oferta"}), 404
-            results['offer'] = offer.serialize()
+            company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id == offer.id_company)).scalar()
+            data = offer.serialize()
+            data['company'] = company.serialize()
+            results['offer'] = data
             response_body['message'] = 'Oferta'
             response_body['results'] = results
             return response_body, 200 
@@ -500,9 +512,12 @@ def edit_social_networks(id_influencer):
     if request.method == 'GET':
         current_user = get_jwt_identity()
         if current_user[0]['is_influencer'] == False:
-            social_network = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalar()
+            social_network = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalars()
+            social_network_list = []
+            for row in social_network:
+                social_network_list.append(row.serialize())
             response_body['message'] = 'Redes sociales'
-            response_body['results'] = social_network.serialize()
+            response_body['results'] = social_network_list
             return response_body, 200
         if current_user[0]['is_influencer'] == True:
             social_network = db.session.execute(db.select(SocialNetworks).where(SocialNetworks.id_influencer == id_influencer)).scalars()
@@ -675,21 +690,24 @@ def getParticularOffer(id_company,offers_id):
 
 
 
-@api.route('/influencer/profile/<int:id_influencer>', methods=['GET'])
+@api.route('/influencer/profile/<int:influencer_id>', methods=['GET'])
 @jwt_required()
-def getInfluencerProfile(id_influencer):
+def getInfluencerProfile(influencer_id):
     if request.method == 'GET':
         current_user = get_jwt_identity()
-        response_body = {}
         if current_user[0]['is_influencer'] == False:
-            influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id_user == id_influencer)).scalar()
+            response_body = {}
+            influencer = db.session.execute(db.select(UsersInfluencers).where(UsersInfluencers.id == influencer_id)).scalar()
             if influencer:
                 serialize_influencer = influencer.serialize()
-                response_body['message'] = 'Perfil Influencer'
+                response_body['message'] = "Perfil Influencer"
                 response_body['results'] = serialize_influencer
-                return response_body,200
-            else: 
-                 response_body['message'] = 'No se ha encontrado'
+                return jsonify(response_body), 200
+            else:
+                response_body = {
+                    'message': 'No se ha encontrado'
+                }
+                return jsonify(response_body), 404
 
            
 @api.route('/company/profile/<int:id_company>', methods=['GET'])

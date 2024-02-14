@@ -14,15 +14,15 @@ export const Offer = () => {
             <div className="container mt-5">
                 <div className="row">
                     <div className="col-sm-11 col-md-10">
-                        <div className="card mb-3" >
+                        <div className="card mb-3" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
                             <div className="row g-0">
                                 <div className="col-md-1 m-5">
-                                <img src= {store.oneOffer.profile_img ? store.oneOffer.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid rounded-start" />
+                                <img src= {store.oneOffer.company.profile_img ? store.oneOffer.company.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid avatar-img rounded-circle" style={{objectFit: "cover", aspectRatio: "1/1", maxHeight: "100%", maxWidth: "100%"}} />
                                 </div>
                                 <div className="col-md-8 mt-4">
                                     <div className="card-body">
                                         <h2 className="card-title">{store.oneOffer.title}</h2>
-                                        <h5 className="card-title ms-1">{store.oneOffer.company.name}</h5>
+                                        <Link to={`/oneOffer/company/${store.oneOffer.company.id_user}`} style={{textDecoration: "none"}} className="text-secondary"><h5 className="card-title ms-1">{store.oneOffer.company.name}</h5></Link>
                                         <div className="row">
                                             <div className="col-4 mt-2">
                                                 <small className="card-subtitle mb-2 mt-1 text-body-secondary">
@@ -42,9 +42,12 @@ export const Offer = () => {
                                                 </small>
                                             </div>
                                             <div className="col-4">
+                                                { store.isInfluencer == true ?
                                                 <Link to="/register">
-                                               <button className="btn btn-warning "> Inscribirme en esta oferta</button>
+                                                    <button className="btn btn-warning "> Inscribirme en esta oferta</button>
                                                </Link>
+                                               :
+                                               <div></div>}
                                             </div>
                                         </div>
                                         <p className="card-text"></p>
@@ -60,7 +63,7 @@ export const Offer = () => {
                   
                 <div className="row">
                     <div className="col-sm-11 col-md-7">
-                        <div className="card mb-3" >
+                        <div className="card mb-3" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
                                 <div className="col-md-12">
                                     <div className="card-body">
                                         <h4 className="card-title ms-5 mt-2">Descripcion:</h4>

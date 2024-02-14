@@ -104,18 +104,19 @@ export const UpdateProfile = () => {
     return (
         !store.isLoggedIn ? <Navigate to='/' /> :
         <div>
-            <h1 className="text-center">EDITAR MI PERFIL</h1>
+            <h1 className="text-center title-style mt-2">EDITAR MI PERFIL</h1>
             { store.isInfluencer == true ? 
             <div className="text-center">
                 { !store.user || !store.profile ? 
                 <Spinner />
                 :
                 <div>
-                <h2>Influencer</h2>
+                <h2 className="title-style">Influencer</h2>
                 <div className="d-flex justify-content-center">
-                    <div className="m-5 col-8 background_form p-2 rounded">
+                    <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                         <UploadImage />
                         <form onSubmit={handleOnSubmit}>
+                        <h3 className="text-center"><small>Datos personales</small></h3>
                         <div className="container d-flex justify-content-center">
                         <div className="mb-3 text-start col-6 mx-2">
     			            <label htmlFor="exampleInputEmail1" className="form-label">Nombre</label>
@@ -172,14 +173,14 @@ export const UpdateProfile = () => {
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
                             value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
                         </div>
-                        <button type="submit" className="btn btn-success btn-lg">Submit</button>
+                        <button type="submit" className="btn btn-primary btn-lg">Guardar cambios</button>
                         </form>
-                        <Link to="/profile">
+                        <Link to="/profile" className="text-secondary">
                             <p className="text-end m-1 me-3">O vuelve al perfil.</p>
                         </Link>
                     </div>
                 </div>
-                <button className="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Eliminar cuenta.</button>
+                <button className="btn btn-danger mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Eliminar cuenta.</button>
                 <div className="offcanvas offcanvas-bottom bg-secondary" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                     <div className="offcanvas-header text-center">
                     <h5 className="offcanvas-title text-center fs-2" id="offcanvasBottomLabel">¿Está seguro que desea eliminar su cuenta?</h5>
@@ -199,11 +200,12 @@ export const UpdateProfile = () => {
                 <Spinner />
                 :
                 <div>
-                <h2>Empresa</h2>
+                <h2 className="title-style">Empresa</h2>
                 <div className="d-flex justify-content-center">
-                    <div className="m-5 col-8 background_form p-2 rounded">
+                    <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                         <UploadImage />
                         <form onSubmit={handleOnSubmit}>
+                        <h3 className="text-center"><small>Datos de la empresa</small></h3>
                         <div className="container d-flex justify-content-center">
                         <div className="mb-3 text-start col-6 mx-2">
     			            <label htmlFor="exampleInputEmail1" className="form-label">Nombre</label>
@@ -253,14 +255,14 @@ export const UpdateProfile = () => {
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
                             value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
                         </div>
-                        <button type="submit" className="btn btn-success btn-lg">Submit</button>
+                        <button type="submit" className="btn btn-primary btn-lg">Guardar cambios</button>
                         </form>
-                        <Link to="/profile">
+                        <Link to="/profile" className="text-secondary">
                             <p className="text-end m-1 me-3">O vuelve al perfil.</p>
                         </Link>
                     </div>
                 </div>
-                <button className="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Eliminar cuenta.</button>
+                <button className="btn btn-danger mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Eliminar cuenta.</button>
                 <div className="offcanvas offcanvas-bottom bg-secondary" tabIndex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                     <div className="offcanvas-header text-center">
                     <h5 className="offcanvas-title text-center fs-2" id="offcanvasBottomLabel">¿Está seguro que desea eliminar su cuenta?</h5>

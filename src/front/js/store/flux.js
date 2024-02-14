@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			imageProfile: null,
 			socialNetworks: null,
 			currentSocialNetwork: null,
+			seeSocialNetworkForCompany: null,
 			offersCompany: null,
 			currentOffer: null,
 			candidates: [],
@@ -17,31 +18,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 			offersPublic: null,
 			oneOffer: null,
 			registerCandidates: null,
-			profileInfluencer: [],
+			profileInfluencer: {},
 			candidatesOffersAll: null,
 			userExist: false,
+			userNoExist: false,
 			oneOfferCandidate: null,
-			profileCompany: []
+			profileCompany: {}
 
 		},
 		actions: {
-			getProfileCompany: async(id) => {
-				const url = process.env.BACKEND_URL + "/api/company/profile/" + id
+			getProfileCompany: async(id_company) => {
+				const url = process.env.BACKEND_URL + `/api/company/profile/${id_company}`
+				const token = localStorage.getItem('token')
 				const options = {
-            		method: "GET",
+					method: "GET",
             		headers:{
-            		    "Content-Type": "application/json",
-            		    "Authorization" : "Bearer " + localStorage.getItem("token")
-            		},   
+            		    "Authorization" : `Bearer ${token}`
+            		},
         		};
         		const response = await fetch(url, options);
         		if (!response.ok){
-        		    console.log(response.status, response.statusText);
+        		    console.log( 'Error', response.status, response.statusText);
         		    return
-        		}
+        		};
         		const data = await response.json();
-				setStore({profileCompany: data.results})
-				localStorage.setItem("oneOfferCandidate", JSON.stringify(data.results))
+				console.log(data)
+				setStore({ profileCompany: data.results })
 			},
 			cancelOffer: async(id) =>{
                 const url = process.env.BACKEND_URL + "/api/offer-candidates/" + id
@@ -116,7 +118,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         		const response = await fetch(url, options);
         		if (response.ok){
 					const data = await response.json();
-					setStore({ oneOffer: data.results });
+					console.log(data);
+					setStore({ oneOffer: data.results.offer });
         		} else {
 					console.log("Error: ", response.status, response.statusText);
 				}
@@ -187,7 +190,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({isInfluencer: null});
 				setStore({profile: null});
 				setStore({candidatesOffersAll: null});
-				setStore({userExist: false})
+				setStore({userExist: false});
+				setStore({userNoExist: false});
+				setStore({imageProfile: null});
+				setStore({seeSocialNetworkForCompany: null})
 			},
 			isLogged: () => {
 				if (localStorage.getItem("token")){
@@ -215,6 +221,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			handleUserExist: () =>{
 				setStore({userExist: true})
 			},
+			handleUserNoExist: () =>{
+				setStore({userNoExist: true})
+			},
 			handleOfferPublic: (obj) => {
 				setStore({oneOffer: obj})
 			},
@@ -234,6 +243,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			updateProfile: (profile) => {
 				setStore({profile: profile});
+				localStorage.setItem("profile", JSON.stringify(profile));
+				setStore({imageProfile: null})
 			},
 			handleSocialNetworks: async () =>{
 				const url = process.env.BACKEND_URL + "/api/social-networks/" + getStore().profile.id;
@@ -255,6 +266,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			handleCurrentSocialNetwork: (obj) =>{
 				setStore({currentSocialNetwork: obj})
+			},
+			seeSocialNetwork: async (id_influencer) =>{
+				const url = process.env.BACKEND_URL + "/api/social-networks/" + id_influencer;
+        		const options = {
+            		method: "GET",
+            		headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		},   
+        		};
+        		const response = await fetch(url, options);
+        		if (!response.ok){
+        		    console.log(response.status, response.statusText);
+        		    return
+        		}
+        		const data = await response.json();
+        		console.log(data);	
+				setStore({seeSocialNetworkForCompany: data.results})
 			},
 			handleCurrentOffer: (obj) =>{
 				setStore({currentOffer: obj})
@@ -372,14 +401,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json()
 				console.log(data)
 			},
-
-			getInfluencerProfile: async(influencer_id) =>{
-				const url = process.removeListener.BACKEND_URL + `/api/influencer/profile/${influencer_id}`
+			getInfluencerProfile: async(id_influencer) =>{
+				const url = process.env.BACKEND_URL + `/api/influencer/profile/${id_influencer}`
 				console.log('URL', url)
 				const token = localStorage.getItem("token")
 				const options = {
 					method: 'GET',
 					headers:{
+						"Content-Type": "application/json",
 						'Authorization': `Bearer ${token}`
 					},
 				};
@@ -388,10 +417,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log('Error', response.status, response.text)
 				};
 				const data = await response.json()
-				console.log(data)
+				console.log("Resultados getInfluencerProfile", data)
 				setStore({profileInfluencer: data.results});
-      },				
-        
+      },				      
 			allOffersCandidatesbyCompany: async() =>{
 				const url = process.env.BACKEND_URL + "/api/company/offers/candidates-influencers" ;
         		const options = {

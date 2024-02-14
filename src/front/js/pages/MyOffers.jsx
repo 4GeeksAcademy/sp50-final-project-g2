@@ -31,33 +31,28 @@ export const MyOffers = () => {
     return(!store.offersCompany ? <Spinner /> :
         <div className="container-fluid my-4">
             <div className="container">
-                <h1 className="text-center">Mis ofertas</h1>
+                <h1 className="text-center title-style mt-4 mb-5">Mis ofertas</h1>
                 <div className="row">
                     {store.offersCompany.filter(item => item.status != "closed").map((item,index) => (
-                        <div key={index} className="card mb-3 p-0">
-                            <div className="row g-0">
-                                <div className="col-md-2">
-                                    <img
-                                        src={store.profile.profile_img}
-                                        className="img-fluid" style={{ maxHeight: "100%" }}
-                                        alt="..."
-                                    />
-                                </div>
-                                <div className="col-md-8">
-                                    <div className="card-body ">
-                                        <h5 className="card-title">{item.title}</h5>
-                                        <p className="card-text">{item.post}</p>
-                                        {/* <button className="btn btn-primary">{item.followers} seguidores</button> */}
+                        <div className="d-flex justify-content-center">
+                        <div key={index} className="card mb-3 p-0 col-8" style={{border: "solid", borderColor: "#FFC66B", backgroundColor: "#ffdfaf1",  borderRadius: "15px"}}>
+                            <div className="row justify-content-center g-0">
+                                <div className="">
+                                    <div className="card-body mt-3 mx-3">
+                                        <h4 className="card-title">Título: {item.title}</h4>
+                                        <p className="card-text"> Descripción: {item.post}</p>
+                                        <p>Estado de la oferta: {item.status == "opened" ? "Abierta" : "Cerrada/Cancelada"}</p>
                                     </div>
                                     <div className="mx-3 my-2">
-                                        <Link to={`/company/my-offers/${item.id}/influencers`} className="btn btn-primary me-4">Ver inscritos</Link>
+                                        <Link to={`/company/my-offers/${item.id}/influencers`} className="btn btn-primary me-4"><i className="fa-regular fa-eye fa-lg me-2" style={{color: "white"}}></i>Ver inscritos</Link>
+                                        <button type="button" className="btn btn-primary me-2" onClick={() => handleCloseOffer(item.id)}>Finalizar oferta</button>
                                     </div>
-                                </div>
-                                <div className="col-md-2 d-flex align-items-start justify-content-end btn btn-group">
-                                    <button type="button" className="btn btn-outline-primary me-2" onClick={() => handleCloseOffer(item.id)}>Finalizar oferta</button>
+                                    <div className="col-md-2 d-flex align-items-start justify-content-end btn btn-group">
+                                    </div>
                                 </div>
                                 
                             </div>
+                        </div>
                         </div>
                     ))}
                 </div>

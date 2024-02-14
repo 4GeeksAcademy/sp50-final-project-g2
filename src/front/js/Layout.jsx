@@ -16,6 +16,9 @@ import { UpdateSocialNetwork } from "./pages/UpdateSocialNetwork.jsx";
 import { CreateOffer } from "./pages/CreateOffer.jsx";
 import { UpdateOffersCompany } from "./pages/UpdateOffersCompany.jsx";
 import { SeeCandidates } from "./pages/SeeCandidates.jsx";
+import { ProfileCompany } from "./pages/ProfileCompany.jsx";
+import { SeeInfluencerProfile} from "./pages/SeeInfluencerProfile.jsx";
+
 // Import styles
 import 'bootswatch/dist/sandstone/bootstrap.min.css';
 import "../styles/home.css";
@@ -26,8 +29,7 @@ import { Navbar } from "./component/Navbar.jsx";
 import { Footer } from "./component/Footer.jsx";
 import { Inscripcion } from "./pages/Inscripcion.jsx";
 import { AllOffersCandidates } from "./pages/AllOffersCandidates.jsx";
-import { ProfileCompany } from "./pages/ProfileCompany.jsx";
-
+import { CuatroCeroCuatro } from "./pages/CuatroCeroCuatro.jsx";
 
 
 // Create your first component
@@ -38,7 +40,7 @@ const Layout = () => {
     if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
-        <div>
+        <div className="h-100 d-flex flex-column">
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
@@ -59,8 +61,12 @@ const Layout = () => {
                         <Route element={<OffersCandidate/>} path="/offer-candidates"/>
                         <Route element={<MyOffers />} path="/company/my-offers" />
                         <Route element={<AllOffersCandidates />} path="/company/my-offers/all-candidates"/>
-                        <Route element={<ProfileCompany/>} path="/company/profile" />
+                        <Route element={<ProfileCompany/>} path="/offer-candidates/company/:id_company" />
+                        <Route element={<ProfileCompany/>} path="/oneOffer/company/:id_company" />
                         <Route element={<h1 className="text-center">Not found!</h1>} path="*"/>
+                        <Route element={<SeeInfluencerProfile />} path="/influencer/:influencer_id/profile"/>
+                        <Route element={<SeeInfluencerProfile/>} path="/company/my-offers/:offer_id/influencers" />
+                        <Route element={<CuatroCeroCuatro />} path="*"/>
                     </Routes>
                     <Footer />
                 </ScrollToTop>

@@ -47,7 +47,7 @@ export const Home = () => {
 		<div className="text-center mt-5">
 			<div className="container-fluid d-flex col-10 ">
 				<div className="col"> 
-					<h1 className="m-2">¡Te damos la bienvenida a tu comunidad profesional!</h1>
+					<h1 className="m-2 mb-5 title-style">¡Te damos la bienvenida a tu comunidad profesional!</h1>
 					<form onSubmit={handleOnSubmit}>
   					<div className="mb-3 text-start">
     					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
@@ -73,7 +73,7 @@ export const Home = () => {
   					  <input type="checkbox" className="form-check-input" id="exampleCheck1" checked={isChecked} onChange={handleOnChange}></input>
   					  <label className="form-check-label" htmlFor="exampleCheck1">Por favor, si eres influencer haz click aquí.</label>
   					</div>
-  					<button type="submit" className={store.mailValidated ? "btn btn-info btn-lg" : "btn btn-info btn-lg disabled" }>Continuar</button>
+  					<button type="submit" className={store.mailValidated ? "btn btn-primary btn-lg" : "btn btn-primary btn-lg disabled" }>Continuar</button>
 					</form>
 					{store.userExist == false ?
 					<div></div>
@@ -81,10 +81,10 @@ export const Home = () => {
 					<div className="alert alert-warning m-2" role="alert">
   						Usuario existente. Por favor, intente registrarse con otro mail.
 					</div>}
-					<div className="mt-2 text-center d-flex justify-content-center border-top border-secondary">
+					<div className="mt-3 mb-3 text-center d-flex justify-content-center border-top border-secondary">
                     <p className="m-1">¿Ya tienes una cuenta?</p>
                     <Link className="text-dark m-1" to="/login"> Inicia sesión aquí.</Link>
-                </div>
+                	</div>
 				</div>
 				<div className="container col">
 					<img src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4"></img>

@@ -52,9 +52,9 @@ export const CreateOffer = () =>{
         store.isInfluencer == true ? <Navigate to='/profile' /> :
         <div>
             <div>
-                <h1 className="text-center m-2">CREAR UNA OFERTA</h1>
+                <h1 className="text-center m-2 title-style">CREAR UNA OFERTA</h1>
                 <div className="d-flex justify-content-center">
-                    <div className="m-5 col-8 background_form p-2 rounded">
+                    <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                         <form onSubmit={handleOnSubmit}>
                         <div className="container d-flex justify-content-center">
                         <div className="mb-3 text-start col-12 mx-2">
@@ -97,7 +97,7 @@ export const CreateOffer = () =>{
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="4"
                             value={post} onChange={(e) => setPost(e.target.value)} placeholder="Escribe la descripción de la oferta..."></textarea>
                         </div>
-                        <button type="submit" className="btn btn-success btn-lg m-2">Submit</button>
+                        <button type="submit" className="btn btn-primary btn-lg m-2">Submit</button>
                         </form>
                         <Link to="/profile" className="text-dark">
                             <p className="text-end m-1 me-3 text-dark">O vuelve al perfil.</p>

@@ -27,16 +27,16 @@ export const OffersPublic = () => {
                     </div>
                 </nav>
             </div>
-            {results.map((item) => (
-                <div key= {item.id} className="container-fluid mt-4">
+            {results.map((item, id) => (
+                <div key= {id} className="container-fluid mt-4" >
                     <div className="row">
                         <div className="col-sm-2 col-md-3"></div>
                         <div className="col-sm-9 col-md-8">
-                            <div className="container-fluid">
-                                <div className="card mb-3" >
+                            <div className="container-fluid" >
+                                <div className="card mb-3" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
                                     <div className="row g-0">
                                         <div className="col-md-1 m-5">
-                                        <img src={item.company.profile_img ? item.company.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid rounded-start" />
+                                        <img src={item.company.profile_img ? item.company.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid rounded-circle" style={{objectFit: "cover", aspectRatio: "1/1"}}/>
                                         </div>
                                         <div className="col-md-8 mt-4">
                                             <div className="card-body">
