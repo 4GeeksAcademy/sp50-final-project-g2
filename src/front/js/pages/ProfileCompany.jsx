@@ -31,7 +31,7 @@ export const ProfileCompany = () => {
             </div>
             <div className="d-flex justify-content-center">
             <div className="d-grid col-9 m-2 mt-3 mb-3 justify-content-center" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
-                <h4 className="ms-3 mt-2">Descripción</h4>
+                <h4 className="text-center mt-3">Descripción</h4>
                 <p className="ms-3 my-2"><strong>{store.profileCompany.description}</strong></p>
             </div>
             </div>
