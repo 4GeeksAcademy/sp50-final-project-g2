@@ -78,7 +78,7 @@ export const Home = () => {
 					{store.userExist == false ?
 					<div></div>
 					:
-					<div class="alert alert-warning m-2" role="alert">
+					<div className="alert alert-warning m-2" role="alert">
   						Usuario existente. Por favor, intente registrarse con otro mail.
 					</div>}
 					<div className="mt-3 mb-3 text-center d-flex justify-content-center border-top border-secondary">
