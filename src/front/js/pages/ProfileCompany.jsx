@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
 export const ProfileCompany = () => {
@@ -35,6 +35,9 @@ export const ProfileCompany = () => {
                 <p className="ms-3 my-2"><strong>{store.profileCompany.description}</strong></p>
             </div>
             </div>
+            <Link to="/offer-candidates" className="text-secondary m-2">
+                <p className="text-end m-1 me-5">Volver a las candidaturas</p>
+            </Link>
         </div>
     )
 }

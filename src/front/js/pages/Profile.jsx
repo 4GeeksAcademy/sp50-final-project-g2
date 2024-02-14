@@ -101,7 +101,7 @@ export const Profile = () => {
                     })}
                 </div>       
                 </div>
-                <button href="#" className="btn btn-danger m-3" onClick={handleOnClick}>Log out</button>
+                <button href="#" className="btn btn-danger m-3" onClick={handleOnClick}>Cerrar sesión</button>
     
                 </div>
                 } 
@@ -167,7 +167,7 @@ export const Profile = () => {
                     }
                 </div>
                 </div>
-                <button href="#" className="btn btn-danger m-3" onClick={handleOnClick}>Log out</button>
+                <button href="#" className="btn btn-danger m-3" onClick={handleOnClick}>Cerrar sesión</button>
                 </div>
                 }
             </div>

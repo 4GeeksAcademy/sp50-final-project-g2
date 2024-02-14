@@ -61,7 +61,10 @@ export const SeeInfluencerProfile = () => {
                     )
                     })}
                 </div>  
-                </div>          
+                </div> 
+                <Link to="/company/my-offers" className="text-secondary m-2">
+                    <p className="text-end m-1 me-5">Volver a las candidaturas</p>
+                </Link>         
                 </div>
     )
 }

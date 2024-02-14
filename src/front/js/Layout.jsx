@@ -63,7 +63,6 @@ const Layout = () => {
                         <Route element={<AllOffersCandidates />} path="/company/my-offers/all-candidates"/>
                         <Route element={<ProfileCompany/>} path="/offer-candidates/company/:id_company" />
                         <Route element={<ProfileCompany/>} path="/oneOffer/company/:id_company" />
-                        <Route element={<h1 className="text-center">Not found!</h1>} path="*"/>
                         <Route element={<SeeInfluencerProfile />} path="/influencer/:influencer_id/profile"/>
                         <Route element={<SeeInfluencerProfile/>} path="/company/my-offers/:offer_id/influencers" />
                         <Route element={<CuatroCeroCuatro />} path="*"/>

@@ -45,7 +45,7 @@ export const Home = () => {
 	return (
 		store.isLoggedIn ? <Navigate to={"/profile"} /> :
 		<div className="text-center mt-5">
-			<div className="container-fluid d-flex col-10 ">
+			<div className="container-fluid d-flex col-11">
 				<div className="col"> 
 					<h1 className="m-2 mb-5 title-style">¡Te damos la bienvenida a tu comunidad profesional!</h1>
 					<form onSubmit={handleOnSubmit}>
@@ -86,9 +86,10 @@ export const Home = () => {
                     <Link className="text-dark m-1" to="/login"> Inicia sesión aquí.</Link>
                 	</div>
 				</div>
-				<div className="container col">
-					<img src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4"></img>
+				<div className="col">
+					<img src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4" className="w-auto"></img>
 				</div>
+				
 			</div>
 		</div>
 	);

@@ -75,6 +75,9 @@ export const Offer = () => {
                     </div>
             </div>
             }
+            <Link to="/offers" className="text-secondary m-2">
+                <p className="text-end m-1 me-5">O vuelve a las ofertas.</p>
+            </Link>
         </div>              
     )
 }

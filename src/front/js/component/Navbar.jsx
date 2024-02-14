@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
-import Icono from '../../img/Icono.png';
+import Icono from '../../img/Iconodef.png';
 import '../../styles/Navbar.css';
 import { BtnNotifications } from "./BtnNotifications.jsx";
 
@@ -26,7 +26,7 @@ export const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link to="/offers" className="nav-link" style={{color: "black"}}>Offers</Link>
+                            <Link to="/offers" className="nav-link" style={{color: "black"}}>Ofertas</Link>
                         </li>
                     </ul>
                     <div className="d-flex">
@@ -60,7 +60,7 @@ export const Navbar = () => {
                                     }
                                     <hr className="dropdown-divider" />
                                     <li>
-                                        <span className="dropdown-item" style={{color: "#F47C3C"}} onClick={handleOnClick}><b>Log out</b></span>
+                                        <span className="dropdown-item" style={{color: "#F47C3C"}} onClick={handleOnClick}><b>Cerrar sesión</b></span>
                                     </li>
                                 </ul></div>
                                     

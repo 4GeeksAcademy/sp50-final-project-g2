@@ -15,7 +15,7 @@ export const BtnNotifications = () =>{
     store.isInfluencer == true ? 
     <div className="dropdown dropdown-menu-end me-3 d-sm-none d-md-block">
         <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
-        <span className="position-absolute top-0 start-100 translate-middle p-2 bg-danger rounded-circle">
+        <span className={!store.registerCandidates ? "d-none" : "position-absolute top-0 start-100 translate-middle p-2 bg-danger rounded-circle"}>
             <span className="visually-hidden">New alerts</span>
         </span>
         </button>
@@ -28,8 +28,8 @@ export const BtnNotifications = () =>{
                 if (`${item.status_candidate}` == "accepted" || `${item.status_candidate}` == "refused"){
                     return ( 
                     <li key={item.id} className="d-flex">
-                        <Link onClick={() => actions.getOneOffer(item.id_offer)} to="/oneOffer" className="dropdown-item" style={{color: "black"}} >{item.offer.title}</Link>
-                        <p className="dropdown-item border rounded me-1" style={{color: "black"}}>{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
+                        <Link onClick={() => actions.getOneOffer(item.id_offer)} to="/oneOffer" className="dropdown-item" >{item.offer.title}</Link>
+                        <p className="dropdown-item border rounded me-1">{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
                     </li>
                 )}
             }))}
