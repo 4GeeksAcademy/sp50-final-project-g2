@@ -23,7 +23,7 @@ export const BtnNotifications = () =>{
                     <li key={item.id} className="d-flex">
                         <Link to={`/update-offer/${item.id}`} className="dropdown-item" >{item.offer.title}</Link>
                         <p className="dropdown-item border rounded">{item.status_candidate == "accepted" ? "Aceptado" : "Rechazado"}</p>
-                        <button type="button" className="btn btn-ligth"><i class="fa-solid fa-check"></i></button>
+                        <button type="button" className="btn btn-ligth"><i className="fa-solid fa-check"></i></button>
                     </li>
                 )}
             }))}
@@ -47,7 +47,7 @@ export const BtnNotifications = () =>{
                 <li key={item.id} className="d-flex">
                     <Link to={`/update-offer/${item.id}`} className="dropdown-item" >{item.influencer.first_name} {item.influencer.last_name}</Link>
                     <p>Seguidores: {item.followers}</p>
-                    <button type="button" className="btn btn-ligth"><i class="fa-solid fa-check"></i></button>
+                    <button type="button" className="btn btn-ligth"><i className="fa-solid fa-check"></i></button>
                 </li>
                 )
             }))}

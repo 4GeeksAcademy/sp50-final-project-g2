@@ -38,7 +38,7 @@ export const SeeCandidates = () => {
                 <h1 className="text-center">Candidatos</h1>
                 {store.candidates.length == 0 ?
                 <div className="row align-items-center">
-                <div class="alert alert-primary m-5" role="alert">
+                <div className="alert alert-primary m-5" role="alert">
                     No hay candidatos en esta oferta.
                 </div>
                 </div>
