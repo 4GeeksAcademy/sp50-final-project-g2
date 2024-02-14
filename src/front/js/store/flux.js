@@ -10,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			imageProfile: null,
 			socialNetworks: null,
 			currentSocialNetwork: null,
+			seeSocialNetworkForCompany: null,
 			offersCompany: null,
 			currentOffer: null,
 			candidates: [],
@@ -191,7 +192,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({candidatesOffersAll: null});
 				setStore({userExist: false});
 				setStore({userNoExist: false});
-				setStore({imageProfile: null})
+				setStore({imageProfile: null});
+				setStore({seeSocialNetworkForCompany: null})
 			},
 			isLogged: () => {
 				if (localStorage.getItem("token")){
@@ -264,6 +266,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			handleCurrentSocialNetwork: (obj) =>{
 				setStore({currentSocialNetwork: obj})
+			},
+			seeSocialNetwork: async (id_influencer) =>{
+				const url = process.env.BACKEND_URL + "/api/social-networks/" + id_influencer;
+        		const options = {
+            		method: "GET",
+            		headers:{
+            		    "Content-Type": "application/json",
+            		    "Authorization" : "Bearer " + localStorage.getItem("token")
+            		},   
+        		};
+        		const response = await fetch(url, options);
+        		if (!response.ok){
+        		    console.log(response.status, response.statusText);
+        		    return
+        		}
+        		const data = await response.json();
+        		console.log(data);	
+				setStore({seeSocialNetworkForCompany: data.results})
 			},
 			handleCurrentOffer: (obj) =>{
 				setStore({currentOffer: obj})
