@@ -18,6 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			offersPublic: null,
 			oneOffer: null,
 			registerCandidates: null,
+			registerCandidatesUpdates: null,
 			profileInfluencer: {},
 			candidatesOffersAll: null,
 			userExist: false,
@@ -175,7 +176,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem("profile", JSON.stringify(profile));
 					if (localStorage.getItem("is_influencer") == "false"){
 						getActions().allOffersCandidatesbyCompany()
-					}
+					} 
 				}
 			},
 			logout: () =>{
@@ -193,7 +194,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({userExist: false});
 				setStore({userNoExist: false});
 				setStore({imageProfile: null});
-				setStore({seeSocialNetworkForCompany: null})
+				setStore({seeSocialNetworkForCompany: null});
+				setStore({registerCandidatesUpdates: null})
 			},
 			isLogged: () => {
 				if (localStorage.getItem("token")){
@@ -382,6 +384,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json()
 				console.log(data)
 
+			},
+			handleRegisterCandidatedUpdate: () =>{
+				getStore().registerCandidates.map((item, id) => {
+					if (`${item.status_candidate}` == "accepted" || `${item.status_candidate}` == "refused"){
+						const arr = []
+                    	arr.push(item.id)
+						setStore({registerCandidatesUpdates: arr})
+						return 
+				}})
 			},
 			closeOffer: async(offer_id) =>{
 				const url =process.env.BACKEND_URL + `/api/company/${offer_id}`

@@ -15,7 +15,7 @@ export const BtnNotifications = () =>{
     store.isInfluencer == true ? 
     <div className="dropdown dropdown-menu-end me-3 d-sm-none d-md-block">
         <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
-        <span className={!store.registerCandidates ? "d-none" : "position-absolute top-0 start-100 translate-middle p-2 bg-danger rounded-circle"}>
+        <span className={!store.registerCandidatesUpdates ? "d-none" : "position-absolute top-0 start-100 translate-middle p-2 bg-danger rounded-circle"}>
             <span className="visually-hidden">New alerts</span>
         </span>
         </button>
