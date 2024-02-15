@@ -45,51 +45,52 @@ export const Home = () => {
 	return (
 		store.isLoggedIn ? <Navigate to={"/profile"} /> :
 		<div className="text-center mt-5">
-			<div className="container-fluid d-flex col-11">
-				<div className="col"> 
-					<h1 className="m-2 mb-5 title-style">¡Te damos la bienvenida a tu comunidad profesional!</h1>
-					<form onSubmit={handleOnSubmit}>
-  					<div className="mb-3 text-start">
-    					<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
-    					<input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-						value={email} onChange={(e) => setEmail(e.target.value)} required></input>
-    					<div id="emailHelp" className="form-text">Nunca compartiremos tu email con alguien más.</div>
-						<button className="btn btn-primary btn-sm m-1" onClick={handleMail}>Validar mail</button>
-						{store.mailValidated ? 
-						<div>
+			<div className="container-fluid">
+				<div className="row ms-5">
+					<div className="col-sx-10 col-sm-10 col-md-10 col-lg-6 col-xl-6"> 
+						<h1 className="m-2 mb-5 title-style">¡Te damos la bienvenida a tu comunidad profesional!</h1>
+						<form onSubmit={handleOnSubmit}>
+						<div className="mb-3 text-start">
+							<label htmlFor="exampleInputEmail1" className="form-label">Email</label>
+							<input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+							value={email} onChange={(e) => setEmail(e.target.value)} required></input>
+							<div id="emailHelp" className="form-text">Nunca compartiremos tu email con alguien más.</div>
+							<button className="btn btn-primary btn-sm m-1" onClick={handleMail}>Validar mail</button>
+							{store.mailValidated ? 
+							<div>
+							</div>
+							:
+							<div className="alert alert-danger m-1" role="alert">
+								Por favor, valida el mail antes de continuar.
+							</div>
+							}
 						</div>
+						<div className="mb-3 text-start">
+						<label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
+						<input type="password" className="form-control" id="exampleInputPassword1"
+						value={password} onChange={(e) => setPassword(e.target.value)} required></input>
+						</div>
+						<div className="mb-3 form-check text-start">
+						<input type="checkbox" className="form-check-input" id="exampleCheck1" checked={isChecked} onChange={handleOnChange}></input>
+						<label className="form-check-label" htmlFor="exampleCheck1">Por favor, si eres influencer haz click aquí.</label>
+						</div>
+						<button type="submit" className={store.mailValidated ? "btn btn-primary btn-lg" : "btn btn-primary btn-lg disabled" }>Continuar</button>
+						</form>
+						{store.userExist == false ?
+						<div></div>
 						:
-						<div className="alert alert-danger m-1" role="alert">
-  							Por favor, valida el mail antes de continuar.
+						<div className="alert alert-warning m-2" role="alert">
+							Usuario existente. Por favor, intente registrarse con otro mail.
+						</div>}
+						<div className="mt-3 mb-3 text-center d-flex justify-content-center border-top border-secondary">
+						<p className="m-1">¿Ya tienes una cuenta?</p>
+						<Link className="text-dark m-1" to="/login"> Inicia sesión aquí.</Link>
 						</div>
-						}
-  					</div>
-  					<div className="mb-3 text-start">
-  					  <label htmlFor="exampleInputPassword1" className="form-label">Contraseña</label>
-  					  <input type="password" className="form-control" id="exampleInputPassword1"
-					  value={password} onChange={(e) => setPassword(e.target.value)} required></input>
-  					</div>
-  					<div className="mb-3 form-check text-start">
-  					  <input type="checkbox" className="form-check-input" id="exampleCheck1" checked={isChecked} onChange={handleOnChange}></input>
-  					  <label className="form-check-label" htmlFor="exampleCheck1">Por favor, si eres influencer haz click aquí.</label>
-  					</div>
-  					<button type="submit" className={store.mailValidated ? "btn btn-primary btn-lg" : "btn btn-primary btn-lg disabled" }>Continuar</button>
-					</form>
-					{store.userExist == false ?
-					<div></div>
-					:
-					<div className="alert alert-warning m-2" role="alert">
-  						Usuario existente. Por favor, intente registrarse con otro mail.
-					</div>}
-					<div className="mt-3 mb-3 text-center d-flex justify-content-center border-top border-secondary">
-                    <p className="m-1">¿Ya tienes una cuenta?</p>
-                    <Link className="text-dark m-1" to="/login"> Inicia sesión aquí.</Link>
-                	</div>
+					</div>
+					<div className="align-self-center d-none d-lg-block col-sm-5 col-md-5 col-lg-6 col-xl-6">
+						<img src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4" className="img-fluid"></img>
+					</div>
 				</div>
-				<div className="col">
-					<img src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4" className="w-auto"></img>
-				</div>
-				
 			</div>
 		</div>
 	);

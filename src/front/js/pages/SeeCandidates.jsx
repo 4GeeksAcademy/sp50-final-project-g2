@@ -48,20 +48,20 @@ export const SeeCandidates = () => {
                     {store.candidates.filter(item => item.status_candidate == 'pending').map((item,index) => (
                         <div key={index} className="card mb-3 p-0" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
                             <div className="row g-0">
-                                <div className="col-md-2">
+                                <div className="d-none d-lg-block col-sx-3 col-sm-3 col-md-2 col-lg-2 col-xl-2">
                                     <img
                                         src={item.influencer.profile_img ? item.influencer.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"}
                                         className="img-fluid rounded-circle my-3 ms-2" style={{objectFit: "cover", aspectRatio: "1/1", width: "100%"}}
                                         alt="..."
                                     />
                                 </div>
-                                <div className="col-md-8 position-relative my-2">
-                                    <div className="card-body ">
+                                <div className="col-md-8 position-relative">
+                                    <div className="card-body col-sx-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 mt-5 ms-3">
                                         <h5 className="card-title">{item.influencer.first_name} {item.influencer.last_name}</h5>
                                         <p className="card-text">{item.cover_letter}</p>
                                     </div>
-                                    <div className="mx-3 my-2 position-absolute bottom-0 start-0">
-                                        <button className="btn btn-primary me-4" style={{ cursor: 'default', backgroundColor: "#325D88" }}>{item.followers.toLocaleString()} seguidores</button>
+                                    <div className="col-sx-8 col-sm-8 col-md-8 col-lg-8 col-xl-8  mt-4 ms-4 mb-3">
+                                        <button className="btn btn-primary me-3" style={{ cursor: 'default', backgroundColor: "#325D88" }}>{item.followers.toLocaleString()} seguidores</button>
                                         <button className="btn btn-primary">
                                             <Link className="text-light" to={`/influencer/${item.influencer.id}/profile`} rel="noopener noreferrer" style={{textDecoration: "none"}}>
                                                 Perfil

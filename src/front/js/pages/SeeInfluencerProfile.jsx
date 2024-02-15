@@ -24,7 +24,7 @@ export const SeeInfluencerProfile = () => {
                         style={{objectFit: "cover", aspectRatio: "1/1", width: "100%", border: "solid", borderWidth: "4px", borderColor: "#FFC66B"}} className="avatar-img rounded-circle" alt="Profile Image"></img>
                         <h3 className="m-2 text-center"><strong>{store.profileInfluencer.headline}</strong></h3>
                     </div>
-                    <div className="col-6 d-grid background_form justify-content-start text-start ps-5 ms-1" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
+                    <div className="col-sx-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 d-grid background_form justify-content-start text-start ps-5 ms-1" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
                         <h4 className="m-2"><strong>Datos</strong></h4>
                         <p className="m-2">Nombre: <strong> {store.profileInfluencer.first_name} </strong></p>
                         <p className="m-2">Apellido/s: <strong> {store.profileInfluencer.last_name} </strong></p>
@@ -41,7 +41,7 @@ export const SeeInfluencerProfile = () => {
                 </div>  
                 </div>
                 <div className="d-flex justify-content-center">
-                <div className="d-block col-9 me-5 ms-5 mb-3 mt-3 background_form justify-content-center" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
+                <div className="d-block col-sx-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 me-5 ms-5 mb-3 mt-3 background_form justify-content-center" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", background: "#FFFEF8"}}>
                     <h4 className="mt-2 text-center">Redes sociales</h4>
                     {!store.seeSocialNetworkForCompany ? 
                     <p>Cargando datos.. </p>
