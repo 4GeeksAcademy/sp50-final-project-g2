@@ -50,7 +50,7 @@ export const SeeCandidates = () => {
                             <div className="row g-0">
                                 <div className="col-md-2">
                                     <img
-                                        src={item.influencer.profile_img}
+                                        src={item.influencer.profile_img ? item.influencer.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"}
                                         className="img-fluid rounded-circle my-3 ms-2" style={{objectFit: "cover", aspectRatio: "1/1", width: "100%"}}
                                         alt="..."
                                     />

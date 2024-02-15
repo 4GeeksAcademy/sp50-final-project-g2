@@ -255,7 +255,7 @@ def profile():
 def offers():
     response_body = {}
     results = {}
-    offers = db.session.execute(db.select(Offers)).scalars()
+    offers = db.session.execute(db.select(Offers).where(Offers.status == "opened")).scalars()
     list_offers = []
     for row in offers:
         company = db.session.execute(db.select(UsersCompany).where(UsersCompany.id == row.id_company)).scalar()

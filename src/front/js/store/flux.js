@@ -21,6 +21,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			registerCandidatesUpdates: null,
 			profileInfluencer: {},
 			candidatesOffersAll: null,
+			candidatesOffersPending: null,
 			userExist: false,
 			userNoExist: false,
 			oneOfferCandidate: null,
@@ -96,7 +97,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         		    return
         		}
         		const data = await response.json();
-				setStore({registerCandidates: data.offers})
+				setStore({registerCandidates: data.offers});
+				getActions().handleRegisterCandidatedUpdate();
 				localStorage.setItem("registerCandidates", JSON.stringify(data.offers))
 				
 			},
@@ -195,7 +197,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({userNoExist: false});
 				setStore({imageProfile: null});
 				setStore({seeSocialNetworkForCompany: null});
-				setStore({registerCandidatesUpdates: null})
+				setStore({registerCandidatesUpdates: null});
+				setStore({candidatesOffersAll: null});
+				setStore({candidatesOffersPending: null})
 			},
 			isLogged: () => {
 				if (localStorage.getItem("token")){
@@ -394,6 +398,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return 
 				}})
 			},
+			handleCandidatesPending: () =>{
+				const arr = getStore().candidatesOffersAll.filter((item) => (`${item.status_candidate}` == "pending" && `${item.status_influencer}` == "active"))
+				setStore({candidatesOffersPending: arr})
+			},
 			closeOffer: async(offer_id) =>{
 				const url =process.env.BACKEND_URL + `/api/company/${offer_id}`
 				console.log('Url', url)
@@ -447,7 +455,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         		}
         		const data = await response.json();
         		console.log('Response: ',data);
-				setStore({candidatesOffersAll: data.results.offers})
+				setStore({candidatesOffersAll: data.results.offers});
+				getActions().handleCandidatesPending()
 			}
 		}
 	};

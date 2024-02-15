@@ -7,7 +7,11 @@ export const OffersCandidate = () => {
     const { store, actions } = useContext(Context);
 
 
-   
+    const handleStatus = (status) =>{
+        if (status == "pending") return "Pendiente";
+        else if (status == "accepted") return "Aceptado";
+        else return "Rechazado"
+    }
 
     const handleCancelOffer = async (id) => {
         const isConfirmed = window.confirm('¿Seguro que quiere cerrar la oferta?')
@@ -43,7 +47,9 @@ export const OffersCandidate = () => {
                                                         <p className="card-text mt-3"></p>
                                                         <small className="card-subtitle mb-2 mt-1 text-body-secondary">Posteado - {new Date(item.offer.date_post).toLocaleDateString()}</small>
                                                         <p className="card-text">
-                                                            <small className="card-subtitle mb-2 mt-1 text-body-secondary">Estado - {item.status_candidate}</small>
+                                                            <small className="card-subtitle mb-2 mt-1 text-body-secondary">
+                                                                Estado - {handleStatus(item.status_candidate)}
+                                                            </small>
                                                         </p>
                                                         <button onClick={() => handleCancelOffer(item.id_offer)} type="button" className="btn btn-primary my-2"  >Cancelar Inscripcion</button>
                                                     </div>
