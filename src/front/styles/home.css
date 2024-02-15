@@ -1,7 +1,45 @@
-/*
-    home.css: This website contains selectors only used in home.css
+.ColorNavbar {
+    background-color: #FFDE59;
+}
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+.logo {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    top: 60%;
+    left: 2%;
+
+}
+.influencerico {
+    width: 600px;
+    height: 600px;
+    position: absolute;
+    top: 15%;
+    left: 60%;
+    
+}
+.titulo {
+    color:white;
+    position: absolute;
+    font-size: 100px;
+    top: 40%;
+    left: 7%;
+}
+.parrafo {
+    color:white;
+    position: absolute;
+    font-size: 30px;
+    top: 52%;
+    left: 7%;
+
+}
+.wifi {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+}
+.unete {
+    top: 63%;
+    left: 7%;
+    position: absolute;
+}

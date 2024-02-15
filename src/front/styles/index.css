@@ -1,6 +1,20 @@
+.title-style{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 50px;
+};
+
 .background_form {
     background: #FFC66B;
 };
 .background_inputt {
-    background: #FFF0BA;
+    background: #FFF0BA !important;
+};
+.size-images {
+    max-width: 250px !important;
+    max-height: 250px !important;
+};
+#bs-border-radius{
+    border-radius: 17px !important;
 }
+
+
