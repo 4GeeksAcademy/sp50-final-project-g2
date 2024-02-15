@@ -135,8 +135,8 @@ export const Profile = () => {
                 </div>
                 <div className="d-flex justify-content-center">
                 <div className="d-grid col-sx-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 m-2 mt-4 background_form justify-content-center" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
-                    <h4 className="m-2 mt-3">Descripción</h4>
-                    <p className="m-2"><strong> {store.profile.description} </strong></p>
+                    <h4 className="m-2 mt-3 ">Descripción</h4>
+                    <p className="m-2 mb-3"><strong> {store.profile.description} </strong></p>
                 </div>
                 </div>
                 <div className="d-flex justify-content-center">

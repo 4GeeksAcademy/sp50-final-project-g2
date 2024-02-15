@@ -111,7 +111,6 @@ export const UpdateProfile = () => {
                 <Spinner />
                 :
                 <div>
-                <h2 className="title-style">Influencer</h2>
                 <div className="d-flex justify-content-center">
                     <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                         <UploadImage />
@@ -171,7 +170,7 @@ export const UpdateProfile = () => {
                         <div className="mb-3 text-start mx-2">
                             <label htmlFor="exampleFormControlTextarea1" className="form-label">Descripción</label>
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
-                            value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
+                            value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Su descripción puede tener hasta 1.000 caracteres."></textarea>
                         </div>
                         <button type="submit" className="btn btn-primary btn-lg">Guardar cambios</button>
                         </form>
@@ -200,7 +199,6 @@ export const UpdateProfile = () => {
                 <Spinner />
                 :
                 <div>
-                <h2 className="title-style">Empresa</h2>
                 <div className="d-flex justify-content-center">
                     <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                         <UploadImage />
@@ -253,7 +251,7 @@ export const UpdateProfile = () => {
                         <div className="mb-3 text-start mx-2">
                             <label htmlFor="exampleFormControlTextarea1" className="form-label">Descripción</label>
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
-                            value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Escribe tu descripción..."></textarea>
+                            value={description ? description : ""} onChange={(e) => setDescription(e.target.value)} placeholder="Su descripción puede tener hasta 1.000 caracteres."></textarea>
                         </div>
                         <button type="submit" className="btn btn-primary btn-lg">Guardar cambios</button>
                         </form>

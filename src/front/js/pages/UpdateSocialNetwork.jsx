@@ -49,7 +49,7 @@ export const UpdateSocialNetwork = () =>{
     return(
         !store.isLoggedIn || !store.isInfluencer == true ? <Navigate to='/' /> :
         <div>
-            <h1 className="text-center m-2 title-style">MODIFICAR RED SOCIAL</h1>
+            <h1 className="text-center m-2 title-style mt-5">MODIFICAR RED SOCIAL</h1>
             <div className="d-flex justify-content-center">
                     <div className="m-5 col-8 background_form p-2 rounded" style={{background: "#FFC66B"}}>
                     <form onSubmit={handleOnSubmit}>
@@ -66,7 +66,7 @@ export const UpdateSocialNetwork = () =>{
   			            </div>
                         </div>
                         <div className="mb-3 text-start mx-2">
-                            <label htmlFor="exampleFormControlTextarea1" className="form-label">Descripción</label>
+                            <label htmlFor="exampleFormControlTextarea1" className="form-label">URL</label>
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="2"
                             value={socialNetworkUrl ? socialNetworkUrl : ""} onChange={(e) => setSocialNetworkUrl(e.target.value)} placeholder="Copia la URL de tu usuario en la red social"></textarea>
                         </div>
