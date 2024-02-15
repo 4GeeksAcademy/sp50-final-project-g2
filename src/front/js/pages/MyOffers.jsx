@@ -31,7 +31,7 @@ export const MyOffers = () => {
     return(!store.offersCompany ? <Spinner /> :
         <div className="container-fluid my-4">
             <div className="container">
-                <h1 className="text-center title-style mt-4 mb-5">Mis ofertas</h1>
+                <h1 className="text-center title-style mt-4 mb-5">Mis ofertas activas</h1>
                 <div className="row">
                     {store.offersCompany.filter(item => item.status != "closed").map((item,index) => (
                         <div className="d-flex justify-content-center">

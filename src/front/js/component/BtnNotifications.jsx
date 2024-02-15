@@ -41,7 +41,7 @@ export const BtnNotifications = () =>{
     <div className="dropdown dropdown-menu-end me-3 d-sm-none d-md-block">
         <button type="button" className="btn btn-warning m-2 color-button dropdown-toggle position-relative" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa-regular fa-bell fa-lg pe-2"></i>
         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {!store.candidatesOffersAll ? "0" : store.candidatesOffersAll.length}
+            {!store.candidatesOffersPending ? "0" : store.candidatesOffersPending.length}
             <span className="visually-hidden">New alerts</span>
         </span>
         </button>
@@ -51,12 +51,13 @@ export const BtnNotifications = () =>{
                 <li><a className="dropdown-item" href="#" style={{color: "black"}}>No tienes candidatos en tus ofertas.</a></li>
             ) : (
             store.candidatesOffersAll.map((item, id)=>{
-             return ( 
+                if (`${item.status_candidate}` == "pending" && `${item.status_influencer}` == "active"){
+                return ( 
                 <li key={item.id} className="d-flex">
                     <Link to={`/influencer/${item.influencer.id}/profile`} className="dropdown-item" >{item.influencer.first_name} {item.influencer.last_name}</Link>
                     <p className="dropdown-item border rounded me-1">Seguidores: {item.followers}</p>
                 </li>
-                )
+                )}
             }))}
           </ul>
     </div>
