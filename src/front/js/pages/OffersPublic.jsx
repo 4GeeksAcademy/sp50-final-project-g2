@@ -35,10 +35,10 @@ export const OffersPublic = () => {
                             <div className="container-fluid" >
                                 <div className="card mb-3" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
                                     <div className="row g-0">
-                                        <div className="col-md-1 m-5">
+                                        <div className="d-none d-lg-block col-sx-1 col-sm-1 col-md-1 col-lg-1 col-xl-1 m-5">
                                         <img src={item.company.profile_img ? item.company.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} className="img-fluid rounded-circle" style={{objectFit: "cover", aspectRatio: "1/1"}}/>
                                         </div>
-                                        <div className="col-md-8 mt-4">
+                                        <div className="col-sx-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 mt-4">
                                             <div className="card-body">
                                                 <h2 className="card-title">{item.title}</h2>
                                                 <h5 className="card-title">{item.company.name}</h5>

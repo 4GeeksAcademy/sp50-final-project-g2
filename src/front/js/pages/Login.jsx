@@ -61,9 +61,9 @@ export const Login = () =>{
   			    <button type="submit" className="btn btn-primary btn-lg mx-3 mt-4 mb-3" onClick={handleOnSubmit}>Iniciar sesión</button>
                 {store.userNoExist == true ?
                 <div className="d-flex justify-content-center">
-                <div class="alert alert-warning d-flex col-7" role="alert">
+                <div className="alert alert-warning d-flex col-7" role="alert">
                     <p className="mt-1">Usuario o contraseña incorrecta. Por favor inténtelo nuevamente.</p>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 </div>
                 :

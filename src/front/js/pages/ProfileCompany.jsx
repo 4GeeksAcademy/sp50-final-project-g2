@@ -20,7 +20,7 @@ export const ProfileCompany = () => {
                     <img src={store.profileCompany.profile_img ? store.profileCompany.profile_img : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"} style={{objectFit: "cover", aspectRatio: "1/1", width: "100%", border: "solid", borderWidth: "4px", borderColor: "#FFC66B"}} className="avatar-img rounded-circle img-fluid size-images"></img>
                     <h3 className="m-2"></h3>
                 </div>
-                <div className="col-6 d-grid justify-content-start text-start ps-5 ms-1" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
+                <div className="col-sx-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 d-grid background_form justify-content-start text-start ps-5 ms-1" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
                     <h4 className="m-2 mt-3"><strong> Datos </strong></h4>
                     <p className="m-2">Nombre: <strong>{store.profileCompany.name}</strong></p>
                     <p className="m-2">CIF: <strong>{store.profileCompany.cif}</strong></p>
