@@ -41,7 +41,7 @@ export const SeeCandidates = () => {
                 <div className="alert alert-primary m-5" role="alert">
                     No hay candidatos en esta oferta.
                 </div>
-                <Link to="/company/my-offers/all-candidates" className="text-secondary text-end m-2">Volver atrás.</Link>
+                <Link to="/company/my-offers" className="text-secondary text-end m-2">Volver atrás.</Link>
                 </div>
                 :
                 <div className="row">

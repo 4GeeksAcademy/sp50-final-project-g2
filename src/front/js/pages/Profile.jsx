@@ -152,7 +152,7 @@ export const Profile = () => {
                     : 
                     store.offersCompany.map((item, id) =>{
                         return(
-                        <div className="m-2 text-start d-flex justify-content-between" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
+                        <div key={id} className="m-2 text-start d-flex justify-content-between" style={{border: "solid", borderColor: "#FFC66B", borderRadius: "15px", backgroundColor: "#FFFEF8"}}>
                             <div className="ms-4 mt-2 mb-2">
                                 <h4 className="m-1 ps-3">{item.title}</h4>
                                 <p className="m-1 ps-3">{item.post}</p>

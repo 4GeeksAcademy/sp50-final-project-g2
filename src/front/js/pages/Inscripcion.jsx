@@ -73,6 +73,8 @@ export const Inscripcion = () => {
                         </form>
                         </div>
                 </div>
+                <Link to="/OneOffer" className="text-secondary m-2">
+                    <p className="text-end m-1 me-5">O vuelve a la oferta.</p></Link>
             </div>
         )
     }

@@ -400,8 +400,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			handleCandidatesPending: () =>{
 				const arr = getStore().candidatesOffersAll.filter((item) => (`${item.status_candidate}` == "pending" && `${item.status_influencer}` == "active"))
-				setStore({candidatesOffersPending: arr})
+				if (arr.length > 0){setStore({candidatesOffersPending: arr})}
 			},
+
 			closeOffer: async(offer_id) =>{
 				const url =process.env.BACKEND_URL + `/api/company/${offer_id}`
 				console.log('Url', url)

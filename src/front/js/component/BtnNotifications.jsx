@@ -21,7 +21,7 @@ export const BtnNotifications = () =>{
         </button>
         <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
             <li className="d-flex m-1"><span className="dropdown-item-text">Candidaturas:</span></li>
-            {!store.registerCandidates ? (
+            {!store.registerCandidatesUpdates ? (
                 <li><a className="dropdown-item" href="#">No tienes notificaciones.</a></li>
             ) : (
             store.registerCandidates.map((item, id)=>{
@@ -47,7 +47,7 @@ export const BtnNotifications = () =>{
         </button>
         <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
             <li className="d-flex m-1"><span className="dropdown-item-text">Candidatos:</span></li>
-            {!store.candidatesOffersAll ? (
+            {!store.candidatesOffersPending ? (
                 <li><a className="dropdown-item" href="#" style={{color: "black"}}>No tienes candidatos en tus ofertas.</a></li>
             ) : (
             store.candidatesOffersAll.map((item, id)=>{
